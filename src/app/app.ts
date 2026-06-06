@@ -1,14 +1,15 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-
+import { Theme } from './core/services/theme';
 import { ButtonModule } from 'primeng/button';
-
 @Component({
-  selector: 'app-root',
-  imports: [RouterOutlet, ButtonModule],
-  templateUrl: './app.html',
-  styleUrl: './app.css'
+    selector: 'app-root',
+    imports: [RouterOutlet, ButtonModule],
+    templateUrl: './app.html',
+    styleUrl: './app.css',
 })
 export class App {
-  protected readonly title = signal('walletfy-web');
+    protected readonly title = signal('walletfy-web');
+
+    theme = inject(Theme);
 }

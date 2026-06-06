@@ -1,5 +1,7 @@
-<h1 class="text-red-500 underline my-5">Teste</h1>
-<p-button label="PrimeNG" />
-<i class="pi pi-wallet"></i>
-<i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
+<p-button
+  [icon]="theme.isDark() ? 'pi pi-sun' : 'pi pi-moon'"
+  (onClick)="theme.toggle()"
+  [rounded]="true"
+  [text]="true"
+/>
 <router-outlet />
