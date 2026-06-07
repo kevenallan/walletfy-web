@@ -1,0 +1,123 @@
+<div class="flex min-h-screen gap-10">
+
+    <div class="hidden lg:grid grid grid-cols-2 grid-rows-2 grid-rows-[auto_1fr] ml-10">
+        <div class="justify-start items-start col-span-1 mt-10">
+            <div class="flex flex-row items-center justify-start ml-10">
+                <div>
+                    <i class="pi pi-wallet text-green-600" style="font-size: 45px"></i>
+                </div>
+                <p class="text-3xl text-green-600 font-bold pl-2">Walletfy</p>
+            </div>
+        </div>
+        <div class="row-start-2 col-span-2 flex items-center justify-center">
+            <div class="w-full grid justify-start ml-10">
+                <p class="font-bold text-md text-start text-4xl">
+                    Organize suas finanças<br> de forma <span class="text-green-600">simples<br> e inteligente.</span>
+                </p>
+                <p class="text-gray-400 text-start text-lg mt-3">
+                    Acompanhe seus gastos, crie categorias<br> e tenha controle total do seu dinheiro<br> de onde estiver.
+                </p>
+
+            </div>
+            <div class="grid justify-start">
+                <img src="images/Imagem_Resumo.png" class="h-200 object-contain" alt="" />
+            </div>
+        </div>
+    </div>
+
+    <div
+        class="flex items-center justify-center w-full lg:w-1/2 lg:justify-center sm:justify-center bg-surface-100"
+    >
+        <div
+            class="bg-white dark:bg-gray-800 flex flex-col justify-center gap-4 rounded-2xl shadow-lg w-full max-w-md p-8"
+        >
+            <div class="flex flex-col items-center justify-center gap-3">
+                <div class="flex justify-center bg-green-100 rounded-full p-4 w-fit">
+                    <div class="text-green-600 bg-green-100">
+                        <svg
+                            width="45" height="45"
+                            fill="currentColor"
+                            viewBox="0 0 32 32"
+                            version="1.1"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g
+                                id="SVGRepo_tracerCarrier"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            ></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <path
+                                    d="M25 12h-1v-3.816c0-4.589-3.32-8.184-8.037-8.184-4.736 0-7.963 3.671-7.963 8.184v3.816h-1c-2.206 0-4 1.794-4 4v12c0 2.206 1.794 4 4 4h18c2.206 0 4-1.794 4-4v-12c0-2.206-1.794-4-4-4zM10 8.184c0-3.409 2.33-6.184 5.963-6.184 3.596 0 6.037 2.716 6.037 6.184v3.816h-12v-3.816zM27 28c0 1.102-0.898 2-2 2h-18c-1.103 0-2-0.898-2-2v-12c0-1.102 0.897-2 2-2h18c1.102 0 2 0.898 2 2v12zM16 18c-1.104 0-2 0.895-2 2 0 0.738 0.405 1.376 1 1.723v3.277c0 0.552 0.448 1 1 1s1-0.448 1-1v-3.277c0.595-0.346 1-0.985 1-1.723 0-1.105-0.895-2-2-2z"
+                                ></path>
+                            </g>
+                        </svg>
+                    </div>
+                </div>
+                <p class="font-bold">Bem-vindo de volta!</p>
+                <p class="text-gray-400">Faça seu login para acessar sua conta</p>
+            </div>
+
+            <div class="flex flex-col gap-1 px-4">
+                <p>E-mail</p>
+                <p-iconfield>
+                    <p-inputicon class="pi pi-envelope" />
+                    <input
+                        class="w-full"
+                        type="text"
+                        pInputText
+                        placeholder="Seu@email.com"
+                        [(ngModel)]="email"
+                    />
+                </p-iconfield>
+            </div>
+
+            <div class="flex flex-col gap-1 px-4">
+                <p>Senha</p>
+                <p-iconfield>
+                    <p-inputicon class="pi pi-lock" />
+                    <p-password
+                        [(ngModel)]="senha"
+                        [toggleMask]="true"
+                        [feedback]="false"
+                        placeholder="************"
+                        class="w-full"
+                        inputStyleClass="w-full"
+                    />
+                </p-iconfield>
+                <p class="text-green-600 text-end pt-2">Esqueci minha senha</p>
+            </div>
+
+            <div class="px-4 pb-4">
+                <p-button label="Entrar" class="w-full" styleClass="w-full" />
+            </div>
+            <div class="flex items-center gap-2 px-4">
+                <div class="flex-1 h-px bg-gray-300"></div>
+                <span class="text-sm text-gray-400">ou continue com</span>
+                <div class="flex-1 h-px bg-gray-300"></div>
+            </div>
+            <div class="px-4">
+                <p-button styleClass="w-full" [outlined]="true" severity="secondary">
+                    <ng-template #content>
+                        <div class="flex items-center justify-center gap-2 w-full">
+                            <img
+                                src="images/google_logo_40x40.png"
+                                alt=""
+                                width="5"
+                                height="5"
+                                class="w-5 h-5"
+                            />
+                            <span class="text-surface font-bold">Entrar com Google</span>
+                        </div>
+                    </ng-template>
+                </p-button>
+            </div>
+            <div>
+                <p class="text-center text-sm text-gray-500">
+                    Ainda não tem uma conta? <a href="#" class="text-green-600">Cadastre-se</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
