@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { Login } from './features/auth/login/login';
-import { Menu } from './shared/components/menu/menu';
+import { Main } from './layout/main/main';
 
 export const routes: Routes = [
     {
@@ -13,8 +13,7 @@ export const routes: Routes = [
         pathMatch: 'full',
     },
     {
-        path: 'menu',
-
-        component: Menu,
+        path: 'inicio',
+        component: Main,
     },
 ];
