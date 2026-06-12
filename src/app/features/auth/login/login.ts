@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
     FormBuilder,
     FormGroup,
@@ -13,6 +13,7 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { PasswordModule } from 'primeng/password';
 import { DividerModule } from 'primeng/divider';
+import { LoginService } from '../services/login';
 
 @Component({
     selector: 'app-login',
@@ -32,6 +33,7 @@ import { DividerModule } from 'primeng/divider';
 export class Login {
     form!: FormGroup;
 
+    private _loginService = inject(LoginService);
     constructor() {
         this.configurarFormulario();
     }
@@ -44,8 +46,12 @@ export class Login {
     }
 
     entrar() {
-        if (this.form.invalid) {
-            window.alert("'-'");
+        console.log(this.form.value.email, this.form.value.senha);
+
+        if (this.form.valid) {
+            console.log('entrou');
+
+            this._loginService.login(this.form.value.email, this.form.value.senha);
         }
     }
 }
