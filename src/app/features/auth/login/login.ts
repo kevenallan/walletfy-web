@@ -45,13 +45,20 @@ export class Login {
         });
     }
 
-    entrar() {
-        console.log(this.form.value.email, this.form.value.senha);
-
+    login() {
         if (this.form.valid) {
-            console.log('entrou');
-
-            this._loginService.login(this.form.value.email, this.form.value.senha);
+            this._loginService.login(this.form.value.email, this.form.value.senha).subscribe({
+                next: (response) => {
+                    console.log('Login bem-sucedido:', response);
+                },
+                error: (httpError) => {
+                    console.error('Erro no login:', httpError);
+                    window.alert(
+                        'Erro no login: ' + httpError.error.mensagem ||
+                            'Ocorreu um erro ao tentar fazer login.',
+                    );
+                },
+            });
         }
     }
 }
