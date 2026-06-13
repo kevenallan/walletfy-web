@@ -1,13 +1,14 @@
-import { Component, HostListener, inject } from '@angular/core';
+import { Component, HostListener, inject, OnInit, signal } from '@angular/core';
+
+import { Tabela } from '../../component/tabela/tabela';
+import { Form } from '../../component/form/form';
+import { CategoriaModel } from '../../models/categoria';
+import { CardInformacoes } from '../../component/card/card';
+import { CategoriaService } from '../../service/categoria';
 
 import { TableModule } from 'primeng/table';
-import { CardInformacoes } from '../../component/card/card';
-import { Tabela } from '../../component/tabela/tabela';
-import { CategoriaModel } from '../../models/categoria';
 import { DialogService } from 'primeng/dynamicdialog';
-import { Form } from '../../component/form/form';
 import { Button } from 'primeng/button';
-
 @Component({
     selector: 'app-categoria',
     imports: [TableModule, CardInformacoes, Tabela, Button],
@@ -15,45 +16,9 @@ import { Button } from 'primeng/button';
     styleUrl: './categoria.css',
     providers: [DialogService],
 })
-export class Categoria {
-    categorias: CategoriaModel[] = [
-        {
-            nome: 'Alimentação',
-            icone: 'pi-apple',
-            cor: '#FF0000',
-            ativo: true,
-        },
-        {
-            nome: 'Transporte',
-            icone: 'pi-car',
-            cor: '#A12345',
-            ativo: true,
-        },
-        {
-            nome: 'Bemais',
-            icone: 'pi-shopping-cart',
-            cor: '#FFC107',
-            ativo: false,
-        },
-        {
-            nome: 'Outro',
-            icone: 'pi-th-large',
-            cor: '#2437f5',
-            ativo: true,
-        },
-        {
-            nome: 'Energia',
-            icone: 'pi-home',
-            cor: '#777777',
-            ativo: false,
-        },
-        {
-            nome: 'Energia',
-            icone: 'pi-bolt',
-            cor: '#FFC107',
-            ativo: true,
-        },
-    ];
+export class Categoria implements OnInit {
+    usuarioId = 1;
+    categorias = signal<CategoriaModel[]>([]);
 
     isMobile = window.innerWidth < 768;
 
@@ -63,6 +28,44 @@ export class Categoria {
     }
 
     private dialogService = inject(DialogService);
+    private categoriaService = inject(CategoriaService);
+
+    ngOnInit(): void {
+        this.listar();
+    }
+
+    listar() {
+        this.categoriaService.listar(this.usuarioId).subscribe({
+            next: (response) => {
+                this.categorias.set(response);
+            },
+            error: (httpError) => {
+                window.alert('RIP: ' + httpError.error.mensagem);
+            },
+        });
+    }
+
+    cadastrar(categoria: CategoriaModel) {
+        this.categoriaService.cadastrar(this.usuarioId, categoria).subscribe({
+            next: () => {
+                this.listar();
+            },
+            error(httpError) {
+                window.alert(httpError.error.mensagem);
+            },
+        });
+    }
+
+    atualizar(categoria: CategoriaModel) {
+        this.categoriaService.atualizar(this.usuarioId, categoria).subscribe({
+            next: () => {
+                this.listar();
+            },
+            error: (httpError) => {
+                window.alert(httpError.error.mensagem);
+            },
+        });
+    }
 
     abrirForm(categoria?: CategoriaModel) {
         const ref = this.dialogService.open(Form, {
@@ -77,9 +80,13 @@ export class Categoria {
         });
 
         if (ref) {
-            ref.onClose.subscribe((resultado: Categoria) => {
+            ref.onClose.subscribe((resultado: CategoriaModel) => {
                 if (resultado) {
-                    // atualiza a lista
+                    if (resultado.id) {
+                        this.atualizar(resultado);
+                    } else {
+                        this.cadastrar(resultado);
+                    }
                 }
             });
         }
