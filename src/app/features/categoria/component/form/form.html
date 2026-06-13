@@ -1,0 +1,66 @@
+<div class="flex flex-col justify-between h-full">
+    <div class="flex flex-col gap-3">
+        <div>
+            <label for="nome">Categoria</label>
+            <input
+                id="nome"
+                class="w-full"
+                type="text"
+                pInputText
+                placeholder="Nome da categoria"
+                [ngModel]="nome()"
+                (ngModelChange)="nome.set($event)"
+            />
+        </div>
+        <div>
+            <label for="icone">Icone</label>
+            <div class="">
+                <p-select
+                    [options]="icons"
+                    optionLabel="label"
+                    [ngModel]="icone()"
+                    (ngModelChange)="icone.set($event)"
+                >
+                    <ng-template let-item pTemplate="selectedItem">
+                        <div class="flex items-center gap-2">
+                            <i [class]="item?.value"></i>
+                            <span>{{ item?.label }}</span>
+                        </div>
+                    </ng-template>
+
+                    <ng-template let-item pTemplate="item">
+                        <div class="flex items-center gap-2">
+                            <i [class]="item.value"></i>
+                            <span>{{ item.label }}</span>
+                        </div>
+                    </ng-template>
+                </p-select>
+            </div>
+        </div>
+        <div>
+            <label for="cor">Cor</label>
+            <div class="">
+                <p-colorpicker [ngModel]="cor()" (ngModelChange)="cor.set($event)" format="hex" />
+            </div>
+        </div>
+        <div class="flex flex-col">
+            <label for="ativo">Ativo</label>
+            <p-toggleswitch [ngModel]="ativo()" (ngModelChange)="ativo.set($event)" />
+        </div>
+    </div>
+
+    <div class="flex justify-end gap-3">
+        <p-button
+            label="Cancelar"
+            icon="pi pi-times"
+            styleClass="bg-red-800! border-red-300! hover:!bg-red-400 dark:bg-red-300! hover:bg-red-400!"
+            (click)="cancelar()"
+        />
+        <p-button
+            [label]="categoria ? 'Atualizar' : 'Cadastrar'"
+            icon="pi pi-save"
+            styleClass="bg-[#013729]! border-[#013729]! hover:!bg-green-600 dark:bg-green-600! hover:bg-green-400!"
+            (click)="salvar()"
+        />
+    </div>
+</div>
