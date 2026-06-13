@@ -1,22 +1,27 @@
 <div class="hidden lg:flex justify-evenly flex-wrap lg:gap-4 md:my-5 md:mb-10">
-    <div
-        class="bg-white dark:bg-gray-800 dark:shadow-black shadow-lg px-3 grid grid-rows-3 items-center grid-cols-[auto_1fr_auto] py-2 w-75 h-24"
-    >
+    @for (card of cards; track card.titulo) {
         <div
-            class="row-span-3 bg-blue-100 rounded-full w-13 h-13 flex justify-center items-center mr-2"
+            class="bg-white dark:bg-gray-800 dark:shadow-black shadow-lg px-3 grid grid-rows-3 items-center grid-cols-[auto_1fr_auto] py-2 w-75 h-24"
         >
-            <i class="pi pi-chart-bar text-blue-600 text-2xl!"></i>
+            <div
+                class="row-span-3 bg-blue-100 rounded-full w-13 h-13 flex justify-center items-center mr-2"
+            >
+                <i class="pi pi-chart-bar text-blue-600 text-2xl!"></i>
+            </div>
+            <h2 class="row-start-1 col-start-2 text-sm font-semibold">{{ card.titulo }}</h2>
+            <p class="row-start-2 col-start-2 text-2xl font-bold">
+                {{ card.valor | currency: 'BRL' }}
+            </p>
+            <p
+                class="row-start-3 col-start-2 text-sm text-blue-600 flex items-center justify-start mt-1"
+            >
+                <i class="pi pi-chevron-up text-blue-600 text-lg! mr-2"></i
+                >{{ card.valorPorcentagemDescricao }}% mais que o mês anterior
+            </p>
         </div>
-        <h2 class="row-start-1 col-start-2 text-sm font-semibold">Receitas</h2>
-        <p class="row-start-2 col-start-2 text-2xl font-bold">{{ 5000 | currency: 'BRL' }}</p>
-        <p
-            class="row-start-3 col-start-2 text-sm text-blue-600 flex items-center justify-start mt-1"
-        >
-            <i class="pi pi-chevron-up text-blue-600 text-lg! mr-2"></i>8% mais que o mês anterior
-        </p>
-    </div>
+    }
 
-    <div
+    <!-- <div
         class="bg-white dark:bg-gray-800 dark:shadow-black shadow-lg px-3 grid grid-rows-3 items-center grid-cols-[auto_1fr_auto] py-2 w-75 h-24"
     >
         <div
@@ -66,5 +71,5 @@
         >
             3 contas a vencer
         </p>
-    </div>
+    </div> -->
 </div>
