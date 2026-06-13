@@ -84,10 +84,11 @@ export class Form {
         { label: 'Apple', value: 'pi pi-apple' },
         { label: 'Circulo', value: 'pi pi-circle' },
     ];
+
     private ref = inject(DynamicDialogRef);
     private config = inject(DynamicDialogConfig);
 
-    private readonly categoria = (this.config.data?.categoria as CategoriaModel | null) ?? null;
+    readonly categoria = (this.config.data?.categoria as CategoriaModel | null) ?? null;
 
     nome = signal(this.categoria?.nome ?? '');
     icone = signal(
@@ -96,8 +97,12 @@ export class Form {
     cor = signal(this.categoria?.cor ?? '#16a34a');
     ativo = signal(this.categoria?.ativo ?? true);
 
+    constructor() {
+        console.log(this.categoria);
+    }
     salvar() {
         const resultado: CategoriaModel = {
+            id: this.categoria?.id,
             nome: this.nome(),
             icone: this.icone().value.replace('pi ', ''),
             cor: this.cor(),

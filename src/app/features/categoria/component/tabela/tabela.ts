@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, input, Output } from '@angular/core';
 
 import { TableModule } from 'primeng/table';
 import { CategoriaModel } from '../../models/categoria';
@@ -25,7 +25,7 @@ import { InputTextModule } from 'primeng/inputtext';
     styleUrl: './tabela.css',
 })
 export class Tabela {
-    @Input() categorias!: CategoriaModel[];
+    categorias = input<CategoriaModel[]>([]);
     @Output() editar = new EventEmitter<CategoriaModel>();
 
     isMobile = window.innerWidth < 768;
