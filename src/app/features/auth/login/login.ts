@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
     FormBuilder,
     FormGroup,
@@ -13,6 +13,7 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { PasswordModule } from 'primeng/password';
 import { DividerModule } from 'primeng/divider';
+import { LoginService } from '../services/login';
 
 @Component({
     selector: 'app-login',
@@ -32,6 +33,7 @@ import { DividerModule } from 'primeng/divider';
 export class Login {
     form!: FormGroup;
 
+    private _loginService = inject(LoginService);
     constructor() {
         this.configurarFormulario();
     }
@@ -43,9 +45,20 @@ export class Login {
         });
     }
 
-    entrar() {
-        if (this.form.invalid) {
-            window.alert("'-'");
+    login() {
+        if (this.form.valid) {
+            this._loginService.login(this.form.value.email, this.form.value.senha).subscribe({
+                next: (response) => {
+                    console.log('Login bem-sucedido:', response);
+                },
+                error: (httpError) => {
+                    console.error('Erro no login:', httpError);
+                    window.alert(
+                        'Erro no login: ' + httpError.error.mensagem ||
+                            'Ocorreu um erro ao tentar fazer login.',
+                    );
+                },
+            });
         }
     }
 }
