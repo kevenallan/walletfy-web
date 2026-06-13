@@ -17,10 +17,16 @@
             <li class="hover:bg-[#164F3C] cursor-pointer rounded p-2">
                 <a class="text-white"><i class="pi pi-chart-bar text-white mr-3"></i>Dashboard</a>
             </li>
-            <li class="hover:bg-[#164F3C] cursor-pointer rounded p-2">
+            <li
+                class="hover:bg-[#164F3C] cursor-pointer rounded p-2"
+                (click)="redirecionarParaGastos()"
+            >
                 <a class="text-white"><i class="pi pi-wallet text-white mr-3"></i> Gastos</a>
             </li>
-            <li class="hover:bg-[#164F3C] cursor-pointer rounded p-2">
+            <li
+                class="hover:bg-[#164F3C] cursor-pointer rounded p-2"
+                (click)="redirecionarParaCategorias()"
+            >
                 <a class="text-white"><i class="pi pi-tag text-white mr-3"></i>Categorias</a>
             </li>
 

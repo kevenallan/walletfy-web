@@ -1,0 +1,70 @@
+<div class="hidden lg:flex justify-evenly flex-wrap lg:gap-4 md:my-5 md:mb-10">
+    <div
+        class="bg-white dark:bg-gray-800 dark:shadow-black shadow-lg px-3 grid grid-rows-3 items-center grid-cols-[auto_1fr_auto] py-2 w-75 h-24"
+    >
+        <div
+            class="row-span-3 bg-blue-100 rounded-full w-13 h-13 flex justify-center items-center mr-2"
+        >
+            <i class="pi pi-chart-bar text-blue-600 text-2xl!"></i>
+        </div>
+        <h2 class="row-start-1 col-start-2 text-sm font-semibold">Receitas</h2>
+        <p class="row-start-2 col-start-2 text-2xl font-bold">{{ 5000 | currency: 'BRL' }}</p>
+        <p
+            class="row-start-3 col-start-2 text-sm text-blue-600 flex items-center justify-start mt-1"
+        >
+            <i class="pi pi-chevron-up text-blue-600 text-lg! mr-2"></i>8% mais que o mês anterior
+        </p>
+    </div>
+
+    <div
+        class="bg-white dark:bg-gray-800 dark:shadow-black shadow-lg px-3 grid grid-rows-3 items-center grid-cols-[auto_1fr_auto] py-2 w-75 h-24"
+    >
+        <div
+            class="row-span-3 bg-red-100 rounded-full w-13 h-13 flex justify-center items-center mr-2"
+        >
+            <i class="pi pi-arrow-down text-red-600 text-2xl!"></i>
+        </div>
+        <h2 class="row-start-1 col-start-2 text-sm font-semibold">Despesas</h2>
+        <p class="row-start-2 col-start-2 text-2xl font-bold">{{ 2150.12 | currency: 'BRL' }}</p>
+        <p
+            class="row-start-3 col-start-2 text-sm text-red-600 flex items-center justify-start mt-1"
+        >
+            <i class="pi pi-chevron-down text-red-600 text-lg! mr-2"></i>5% menos que o mês anterior
+        </p>
+    </div>
+
+    <div
+        class="bg-white dark:bg-gray-800 dark:shadow-black shadow-lg px-3 grid grid-rows-3 items-center grid-cols-[auto_1fr_auto] py-2 w-75 h-24"
+    >
+        <div
+            class="row-span-3 bg-green-100 rounded-full w-13 h-13 flex justify-center items-center mr-2"
+        >
+            <i class="pi pi-wallet text-green-600 text-2xl!"></i>
+        </div>
+        <h2 class="row-start-1 col-start-2 text-sm font-semibold">Saldo atual</h2>
+        <p class="row-start-2 col-start-2 text-2xl font-bold">{{ 2850 | currency: 'BRL' }}</p>
+        <p
+            class="row-start-3 col-start-2 text-sm text-green-600 flex items-center justify-start mt-1"
+        >
+            <i class="pi pi-chevron-down text-green-600 text-lg! mr-2"></i>5% mais que o mês
+            anterior
+        </p>
+    </div>
+
+    <div
+        class="bg-white dark:bg-gray-800 dark:shadow-black shadow-lg px-3 grid grid-rows-3 items-center grid-cols-[auto_1fr_auto] py-2 w-75 h-24"
+    >
+        <div
+            class="row-span-3 bg-yellow-100 rounded-full w-13 h-13 flex justify-center items-center mr-2"
+        >
+            <i class="pi pi-wallet text-yellow-400 text-2xl!"></i>
+        </div>
+        <h2 class="row-start-1 col-start-2 text-sm font-semibold">Pendentes</h2>
+        <p class="row-start-2 col-start-2 text-2xl font-bold">{{ 650.5 | currency: 'BRL' }}</p>
+        <p
+            class="row-start-3 col-start-2 text-sm text-yellow-500 flex items-center justify-start mt-1"
+        >
+            3 contas a vencer
+        </p>
+    </div>
+</div>

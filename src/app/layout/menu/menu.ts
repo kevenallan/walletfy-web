@@ -15,6 +15,14 @@ export class Menu {
     private _authService = inject(AuthService);
     private _router = inject(Router);
 
+    redirecionarParaGastos() {
+        this._router.navigate(['gasto']);
+    }
+
+    redirecionarParaCategorias() {
+        this._router.navigate(['categoria']);
+    }
+
     sair() {
         this._authService.logout();
         this._router.navigate(['']);
