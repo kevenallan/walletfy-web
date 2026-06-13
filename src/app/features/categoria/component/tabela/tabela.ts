@@ -1,7 +1,7 @@
 import { Component, EventEmitter, HostListener, input, Output } from '@angular/core';
 
 import { TableModule } from 'primeng/table';
-import { CategoriaModel } from '../../models/categoria';
+import { CategoriaDTO } from '../../models/categoria';
 import { ColorPickerModule } from 'primeng/colorpicker';
 
 import { NgClass } from '@angular/common';
@@ -25,8 +25,8 @@ import { InputTextModule } from 'primeng/inputtext';
     styleUrl: './tabela.css',
 })
 export class Tabela {
-    categorias = input<CategoriaModel[]>([]);
-    @Output() editar = new EventEmitter<CategoriaModel>();
+    categorias = input<CategoriaDTO[]>([]);
+    @Output() editar = new EventEmitter<CategoriaDTO>();
 
     isMobile = window.innerWidth < 768;
     tableSize: 'small' | 'large' | undefined = this.isMobile ? 'small' : undefined;

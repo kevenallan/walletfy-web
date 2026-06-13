@@ -1,4 +1,4 @@
-export interface CategoriaModel {
+export interface CategoriaDTO {
     id?: number;
     nome: string;
     icone: string;

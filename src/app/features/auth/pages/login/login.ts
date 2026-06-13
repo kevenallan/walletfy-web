@@ -13,7 +13,10 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { PasswordModule } from 'primeng/password';
 import { DividerModule } from 'primeng/divider';
-import { LoginService } from '../services/login';
+import { LoginService } from '../../services/login';
+import { LoginRequestDTO } from '../../models/login-request';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth';
 
 @Component({
     selector: 'app-login',
@@ -34,6 +37,9 @@ export class Login {
     form!: FormGroup;
 
     private _loginService = inject(LoginService);
+    private _router = inject(Router);
+    private _authService = inject(AuthService);
+
     constructor() {
         this.configurarFormulario();
     }
@@ -47,12 +53,14 @@ export class Login {
 
     login() {
         if (this.form.valid) {
-            this._loginService.login(this.form.value.email, this.form.value.senha).subscribe({
+            const loginRequest = this._montarRequisicaoLogin();
+
+            this._loginService.login(loginRequest).subscribe({
                 next: (response) => {
-                    console.log('Login bem-sucedido:', response);
+                    this._authService.salvar(response);
+                    this._router.navigate(['/categoria']);
                 },
                 error: (httpError) => {
-                    console.error('Erro no login:', httpError);
                     window.alert(
                         'Erro no login: ' + httpError.error.mensagem ||
                             'Ocorreu um erro ao tentar fazer login.',
@@ -60,5 +68,12 @@ export class Login {
                 },
             });
         }
+    }
+
+    private _montarRequisicaoLogin() {
+        const email = this.form.value.email;
+        const senha = this.form.value.senha;
+
+        return { email, senha } as LoginRequestDTO;
     }
 }

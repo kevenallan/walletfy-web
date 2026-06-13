@@ -2,7 +2,7 @@ import { Component, HostListener, inject, OnInit, signal } from '@angular/core';
 
 import { Tabela } from '../../component/tabela/tabela';
 import { Form } from '../../component/form/form';
-import { CategoriaModel } from '../../models/categoria';
+import { CategoriaDTO } from '../../models/categoria';
 import { CardInformacoes } from '../../component/card/card';
 import { CategoriaService } from '../../service/categoria';
 
@@ -18,7 +18,7 @@ import { Button } from 'primeng/button';
 })
 export class Categoria implements OnInit {
     usuarioId = 1;
-    categorias = signal<CategoriaModel[]>([]);
+    categorias = signal<CategoriaDTO[]>([]);
 
     isMobile = window.innerWidth < 768;
 
@@ -45,7 +45,7 @@ export class Categoria implements OnInit {
         });
     }
 
-    cadastrar(categoria: CategoriaModel) {
+    cadastrar(categoria: CategoriaDTO) {
         this.categoriaService.cadastrar(this.usuarioId, categoria).subscribe({
             next: () => {
                 this.listar();
@@ -56,7 +56,7 @@ export class Categoria implements OnInit {
         });
     }
 
-    atualizar(categoria: CategoriaModel) {
+    atualizar(categoria: CategoriaDTO) {
         this.categoriaService.atualizar(this.usuarioId, categoria).subscribe({
             next: () => {
                 this.listar();
@@ -67,7 +67,7 @@ export class Categoria implements OnInit {
         });
     }
 
-    abrirForm(categoria?: CategoriaModel) {
+    abrirForm(categoria?: CategoriaDTO) {
         const ref = this.dialogService.open(Form, {
             header: categoria ? 'Editar Categoria' : 'Nova Categoria',
             width: '480px',
@@ -80,7 +80,7 @@ export class Categoria implements OnInit {
         });
 
         if (ref) {
-            ref.onClose.subscribe((resultado: CategoriaModel) => {
+            ref.onClose.subscribe((resultado: CategoriaDTO) => {
                 if (resultado) {
                     if (resultado.id) {
                         this.atualizar(resultado);
