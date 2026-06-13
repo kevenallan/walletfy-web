@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 
-import { CategoriaModel } from '../../models/categoria';
+import { CategoriaDTO } from '../../models/categoria';
 
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Button } from 'primeng/button';
@@ -88,7 +88,7 @@ export class Form {
     private ref = inject(DynamicDialogRef);
     private config = inject(DynamicDialogConfig);
 
-    readonly categoria = (this.config.data?.categoria as CategoriaModel | null) ?? null;
+    readonly categoria = (this.config.data?.categoria as CategoriaDTO | null) ?? null;
 
     nome = signal(this.categoria?.nome ?? '');
     icone = signal(
@@ -101,7 +101,7 @@ export class Form {
         console.log(this.categoria);
     }
     salvar() {
-        const resultado: CategoriaModel = {
+        const resultado: CategoriaDTO = {
             id: this.categoria?.id,
             nome: this.nome(),
             icone: this.icone().value.replace('pi ', ''),

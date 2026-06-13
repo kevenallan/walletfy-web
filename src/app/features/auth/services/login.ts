@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { Observable } from 'rxjs';
+import { LoginRequestDTO } from '../models/login-request';
+import { LoginResponseDTO } from '../models/login-response';
 
 @Injectable({
     providedIn: 'root',
@@ -11,8 +13,7 @@ export class LoginService {
 
     private _http = inject(HttpClient);
 
-    // TODO: criar interfaces
-    login(email: string, senha: string): Observable<any> {
-        return this._http.post(`${this._apiLogin}`, { email, senha });
+    login(loginRequest: LoginRequestDTO): Observable<LoginResponseDTO> {
+        return this._http.post<LoginResponseDTO>(`${this._apiLogin}`, loginRequest);
     }
 }

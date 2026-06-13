@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { AuthService } from '../../features/auth/services/auth';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-menu-mobile',
@@ -6,4 +8,12 @@ import { Component } from '@angular/core';
     templateUrl: './menu-mobile.html',
     styleUrl: './menu-mobile.css',
 })
-export class MenuMobile {}
+export class MenuMobile {
+    private _authService = inject(AuthService);
+    private _router = inject(Router);
+
+    sair() {
+        this._authService.logout();
+        this._router.navigate(['']);
+    }
+}
