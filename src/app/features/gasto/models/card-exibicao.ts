@@ -1,4 +1,4 @@
-export interface CardExibicaoModel {
+export interface CardExibicaoDTO {
     titulo: string;
     valor: number;
     icone?: string;

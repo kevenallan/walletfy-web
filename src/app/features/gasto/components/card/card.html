@@ -1,7 +1,7 @@
 <div class="hidden lg:flex justify-evenly flex-wrap lg:gap-4 md:my-5 md:mb-10">
-    @for (card of cardsParaExibicao; track card.titulo) {
+    @for (card of cardsParaExibicao(); track card.titulo) {
         <div
-            class="bg-white dark:bg-gray-800 dark:shadow-black shadow-lg px-3 grid grid-rows-3 items-center grid-cols-[auto_1fr_auto] py-2 w-75 h-24"
+            class="bg-white dark:bg-gray-800 dark:shadow-black shadow-lg px-3 grid grid-rows-3 items-center grid-cols-[auto_1fr_auto] py-2 w-70 h-24"
         >
             <div
                 [ngClass]="card.backgroundIcone"

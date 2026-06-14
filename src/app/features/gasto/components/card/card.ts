@@ -1,7 +1,7 @@
 import { CurrencyPipe, NgClass } from '@angular/common';
-import { Component } from '@angular/core';
-import { CardModel } from '../../models/card';
-import { CardExibicaoModel } from '../../models/card-exibicao';
+import { Component, computed, input } from '@angular/core';
+import { CardDTO } from '../../models/card';
+import { CardExibicaoDTO } from '../../models/card-exibicao';
 
 @Component({
     selector: 'app-card',
@@ -10,51 +10,18 @@ import { CardExibicaoModel } from '../../models/card-exibicao';
     styleUrl: './card.css',
 })
 export class Card {
-    cards: CardModel[] = [
-        {
-            titulo: 'Receita',
-            valor: 1000,
-            valorPorcentagemDescricao: -5,
-        },
-        {
-            titulo: 'Despesas',
-            valor: 1500,
-            valorPorcentagemDescricao: 15,
-        },
-        {
-            titulo: 'Saldo Atual',
-            valor: 750,
-            valorPorcentagemDescricao: -20,
-        },
-        {
-            titulo: 'Pendentes',
-            valor: 375,
-            valorPorcentagemDescricao: 1,
-        },
-    ];
+    cards = input<CardDTO[]>([]);
 
-    cardsParaExibicao: CardExibicaoModel[] = [];
-
-    constructor() {
-        this.cardsParaExibicao = this.montarCardsParaExibicao();
-    }
-
-    montarCardsParaExibicao() {
-        let cardExibicao: CardExibicaoModel[] = [];
-
-        this.cards.forEach((card) => {
-            cardExibicao.push({
-                titulo: card.titulo,
-                valor: card.valor,
-                icone: this._montarIcone(card.titulo),
-                corIcone: this._montarCorIcone(card.titulo),
-                backgroundIcone: this._montarBackgroundIcone(card.titulo),
-                descricao: this._montarDescricao(card),
-            });
-        });
-
-        return cardExibicao;
-    }
+    cardsParaExibicao = computed<CardExibicaoDTO[]>(() =>
+        this.cards().map((card) => ({
+            titulo: card.titulo,
+            valor: card.valor,
+            icone: this._montarIcone(card.titulo),
+            corIcone: this._montarCorIcone(card.titulo),
+            backgroundIcone: this._montarBackgroundIcone(card.titulo),
+            descricao: this._montarDescricao(card),
+        })),
+    );
 
     private _montarIcone(titulo: string): string {
         switch (titulo) {
@@ -101,9 +68,9 @@ export class Card {
         }
     }
 
-    private _montarDescricao(card: CardModel): string {
+    private _montarDescricao(card: CardDTO): string {
         if (card.titulo !== 'Pendentes') {
-            return `${card.valorPorcentagemDescricao > 0 ? 'Aumento' : 'Redução'} de ${Math.abs(card.valorPorcentagemDescricao)}% em relação ao mês anterior`;
+            return `${Math.abs(card.valorPorcentagemDescricao)}% vs mês anterior`;
         }
 
         return `${card.valorPorcentagemDescricao} conta${card.valorPorcentagemDescricao !== 1 ? 's' : ''} a vencer`;

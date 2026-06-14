@@ -11,6 +11,10 @@
     </div>
 
     <section>
-        <app-card></app-card>
+        <app-card [cards]="cardConteudo()"></app-card>
     </section>
+
+    <main>
+        <app-tabela [gastos]="gastos()"></app-tabela>
+    </main>
 </div>

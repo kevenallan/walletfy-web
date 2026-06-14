@@ -1,18 +1,65 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, inject, signal } from '@angular/core';
+
 import { Button } from 'primeng/button';
 import { Card } from '../../components/card/card';
+import { Tabela } from '../../components/tabela/tabela';
+import { CardDTO } from '../../models/card';
+import { GastoService } from '../../services/gasto';
+import { GastoDTO } from '../../models/gasto';
+import { AuthService } from '../../../auth/services/auth';
 
 @Component({
     selector: 'app-gasto',
-    imports: [Button, Card],
+    imports: [Button, Card, Tabela],
     templateUrl: './gasto.html',
     styleUrl: './gasto.css',
 })
 export class Gasto {
+    cardConteudo = signal<CardDTO[]>([
+        {
+            titulo: 'Receita',
+            valor: 1000,
+            valorPorcentagemDescricao: -5,
+        },
+        {
+            titulo: 'Despesas',
+            valor: 1500,
+            valorPorcentagemDescricao: 15,
+        },
+        {
+            titulo: 'Saldo Atual',
+            valor: 750,
+            valorPorcentagemDescricao: -20,
+        },
+        {
+            titulo: 'Pendentes',
+            valor: 375,
+            valorPorcentagemDescricao: 1,
+        },
+    ]);
     isMobile = window.innerWidth < 768;
 
     @HostListener('window:resize')
     onResize() {
         this.isMobile = window.innerWidth < 768;
+    }
+
+    gastos = signal<GastoDTO[]>([]);
+
+    private _gastoService = inject(GastoService);
+    private _authService = inject(AuthService);
+
+    constructor() {
+        this.listar();
+    }
+
+    listar() {
+        this._gastoService.listar(this._authService.usuarioId()!).subscribe({
+            next: (reseponse) => {
+                console.log(reseponse);
+
+                this.gastos.set(reseponse);
+            },
+        });
     }
 }
