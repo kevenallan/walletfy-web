@@ -7,6 +7,7 @@ import { CardDTO } from '../../models/card';
 import { GastoService } from '../../services/gasto';
 import { GastoDTO } from '../../models/gasto';
 import { AuthService } from '../../../auth/services/auth';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-gasto',
@@ -48,18 +49,29 @@ export class Gasto {
 
     private _gastoService = inject(GastoService);
     private _authService = inject(AuthService);
+    private _router = inject(Router);
 
     constructor() {
         this.listar();
     }
 
     listar() {
-        this._gastoService.listar(this._authService.usuarioId()!).subscribe({
-            next: (reseponse) => {
-                console.log(reseponse);
+        this._gastoService.listar(this._authService.usuarioId() || 0).subscribe({
+            next: (response) => {
+                console.log(response);
 
-                this.gastos.set(reseponse);
+                this.gastos.set(response);
             },
         });
+    }
+
+    cadastrarAtualizarGasto(idGasto?: number) {
+        console.log('cadastrarAtualizarGasto page', idGasto);
+
+        if (idGasto) {
+            this._router.navigate([`/gasto/${idGasto}/atualizar`]);
+        } else {
+            this._router.navigate(['/gasto/cadastrar']);
+        }
     }
 }

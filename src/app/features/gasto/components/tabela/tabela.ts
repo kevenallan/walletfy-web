@@ -1,4 +1,12 @@
-import { Component, computed, HostListener, input } from '@angular/core';
+import {
+    Component,
+    computed,
+    EventEmitter,
+    HostListener,
+    input,
+    output,
+    Output,
+} from '@angular/core';
 
 import { CurrencyPipe, DatePipe, TitleCasePipe } from '@angular/common';
 
@@ -28,6 +36,8 @@ import { TagModule } from 'primeng/tag';
 })
 export class Tabela {
     gastos = input<GastoDTO[]>([]);
+
+    gastoEditarOutput = output<number>();
 
     gastosComCor = computed(() =>
         this.gastos().map((g) => ({
@@ -79,5 +89,9 @@ export class Tabela {
 
     private getCorIconeStatus(status: string): string {
         return this.CORES_ICONE_STATUS[status] ?? 'text-cinza!';
+    }
+
+    emitirGastoEditar(idGasto: number) {
+        this.gastoEditarOutput.emit(idGasto);
     }
 }

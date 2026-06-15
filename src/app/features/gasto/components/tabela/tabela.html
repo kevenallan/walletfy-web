@@ -118,7 +118,7 @@
                 <td class="text-center!">{{ gasto.dataVencimento | date: 'dd/MM/yyyy' }}</td>
                 <td class="text-center!">{{ gasto.valor | currency: 'BRL' }}</td>
                 <td class="text-center!">
-                    <button class="cursor-pointer">
+                    <button class="cursor-pointer" (click)="emitirGastoEditar(gasto.id)">
                         <i class="pi pi-pen-to-square"></i>
                     </button>
                 </td>

@@ -7,6 +7,7 @@
             icon="pi pi-plus"
             [label]="isMobile ? '' : 'Novo Gasto'"
             styleClass="bg-[#013729]! border-[#013729]! hover:!bg-green-600 dark:bg-green-600! hover:bg-green-400!"
+            (click)="cadastrarAtualizarGasto()"
         />
     </div>
 
@@ -15,6 +16,9 @@
     </section>
 
     <main>
-        <app-tabela [gastos]="gastos()"></app-tabela>
+        <app-tabela
+            [gastos]="gastos()"
+            (gastoEditarOutput)="cadastrarAtualizarGasto($event)"
+        ></app-tabela>
     </main>
 </div>
