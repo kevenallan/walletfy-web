@@ -3,15 +3,22 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { GastoService } from '../../services/gasto';
 import { GastoDTO } from '../../models/gasto';
 import { AuthService } from '../../../auth/services/auth';
+import { Select } from 'primeng/select';
+import { InputTextModule } from 'primeng/inputtext';
+import { DatePickerModule } from 'primeng/datepicker';
+import { FormsModule } from '@angular/forms';
+import { Button } from 'primeng/button';
 
 @Component({
     selector: 'app-form',
-    imports: [],
+    imports: [Select, InputTextModule, DatePickerModule, FormsModule, Button],
     templateUrl: './form.html',
     styleUrl: './form.css',
 })
 export class Form implements OnInit {
     gasto!: GastoDTO;
+
+    date2: Date | undefined;
 
     private _activatedRoute = inject(ActivatedRoute);
     private _gastoService = inject(GastoService);
@@ -23,8 +30,6 @@ export class Form implements OnInit {
 
         if (id) {
             this.buscarGastoPorId(Number(id));
-        } else {
-            this._router.navigate(['/gasto']);
         }
     }
 
