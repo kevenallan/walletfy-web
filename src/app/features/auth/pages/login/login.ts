@@ -58,7 +58,7 @@ export class Login {
             this._loginService.login(loginRequest).subscribe({
                 next: (response) => {
                     this._authService.salvar(response);
-                    this._router.navigate(['/categoria']);
+                    this._router.navigate(['/gasto']);
                 },
                 error: (httpError) => {
                     window.alert(

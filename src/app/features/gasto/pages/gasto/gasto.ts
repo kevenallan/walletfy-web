@@ -66,8 +66,6 @@ export class Gasto {
     }
 
     cadastrarAtualizarGasto(idGasto?: number) {
-        console.log('cadastrarAtualizarGasto page', idGasto);
-
         if (idGasto) {
             this._router.navigate([`/gasto/${idGasto}/atualizar`]);
         } else {

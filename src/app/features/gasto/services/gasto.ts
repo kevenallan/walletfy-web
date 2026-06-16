@@ -1,8 +1,9 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { GastoDTO } from '../models/gasto';
+import { GastoRequestDTO } from '../models/gasto-request';
 
 @Injectable({
     providedIn: 'root',
@@ -24,11 +25,11 @@ export class GastoService {
         return this._http.get<GastoDTO>(`${this._apiGasto}`, { params });
     }
 
-    cadastrar(gasto: GastoDTO): Observable<GastoDTO> {
-        return this._http.post<GastoDTO>(this._apiGasto, gasto);
+    cadastrar(gasto: GastoRequestDTO, usuarioId: number): Observable<GastoDTO> {
+        return this._http.post<GastoDTO>(`${this._apiGasto}/${usuarioId}`, gasto);
     }
 
-    atualizar(id: number, gasto: GastoDTO): Observable<GastoDTO> {
+    atualizar(id: number, gasto: GastoRequestDTO): Observable<GastoDTO> {
         return this._http.put<GastoDTO>(`${this._apiGasto}/${id}`, gasto);
     }
 }
