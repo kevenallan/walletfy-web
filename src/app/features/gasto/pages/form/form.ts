@@ -6,7 +6,7 @@ import { AuthService } from '../../../auth/services/auth';
 import { Select } from 'primeng/select';
 import { InputTextModule } from 'primeng/inputtext';
 import { DatePickerModule } from 'primeng/datepicker';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Button } from 'primeng/button';
 import { CategoriaDTO } from '../../../categoria/models/categoria';
 import { CategoriaService } from '../../../categoria/service/categoria';
@@ -18,34 +18,30 @@ import { TitleCasePipe } from '@angular/common';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { forkJoin, Observable, switchMap, tap } from 'rxjs';
 import { GastoRequestDTO } from '../../models/gasto-request';
-
 @Component({
     selector: 'app-form',
     imports: [
         Select,
         InputTextModule,
         DatePickerModule,
-        FormsModule,
         Button,
         TitleCasePipe,
         InputNumberModule,
+        ReactiveFormsModule,
     ],
     templateUrl: './form.html',
     styleUrl: './form.css',
 })
 export class Form implements OnInit {
     gasto!: GastoDTO;
+    isEdit = false;
 
-    descricao = signal<string>('');
-    valor = signal<number | null>(null);
     categorias = signal<CategoriaDTO[]>([]);
-    categoriaSelecionada = signal<CategoriaDTO | null>(null);
     formaPagamento = signal<FormaPagamentoDTO[]>([]);
-    formaPagamentoSelecionada = signal<FormaPagamentoDTO | null>(null);
     statusGasto = signal<StatusGastoDTO[]>([]);
     statusGastoSelecionado = signal<StatusGastoDTO | null>(null);
-    dataGasto = signal<Date | null>(null);
-    dataVencimento = signal<Date | null>(null);
+
+    form!: FormGroup;
 
     private _router = inject(Router);
     private _activatedRoute = inject(ActivatedRoute);
@@ -55,12 +51,33 @@ export class Form implements OnInit {
     private _statusGastoService = inject(StatusGastoService);
     private _gastoService = inject(GastoService);
 
+    constructor() {
+        this.configurarFormulario();
+    }
+
+    configurarFormulario() {
+        this.form = new FormBuilder().group({
+            descricao: [null, [Validators.required]],
+            valor: [null, [Validators.required]],
+            categoria: [null, [Validators.required]],
+            formaPagamento: [null, [Validators.required]],
+            status: [null, [Validators.required]],
+            dataGasto: [null, [Validators.required]],
+            dataVencimento: [null],
+        });
+    }
+
     ngOnInit() {
         const id = this._activatedRoute.snapshot.paramMap.get('id');
 
         if (id) {
+            this.isEdit = true;
+
             this.buscarGastoPorId(Number(id))
                 .pipe(
+                    tap((gasto) => {
+                        this.setarCamposGasto(gasto);
+                    }),
                     switchMap(() =>
                         forkJoin({
                             categorias: this.getCategorias(),
@@ -83,6 +100,28 @@ export class Form implements OnInit {
                 this.gasto = response;
             }),
         );
+    }
+
+    setarCamposGasto(gasto: GastoDTO) {
+        this.form.reset({
+            descricao: gasto.descricao,
+            valor: gasto.valor,
+            categoria: gasto.categoria.id,
+            formaPagamento: gasto.formaPagamento.id,
+            status: gasto.status.id,
+            dataGasto: this.stringParaDate(gasto.dataGasto),
+            dataVencimento: this.stringParaDate(gasto.dataVencimento),
+        });
+    }
+
+    private stringParaDate(data: string): Date | null {
+        if (!data) {
+            return null;
+        }
+
+        const [ano, mes, dia] = data.split('-').map(Number);
+
+        return new Date(ano, mes - 1, dia);
     }
 
     getCategorias(): Observable<CategoriaDTO[]> {
@@ -115,21 +154,46 @@ export class Form implements OnInit {
         }
     }
 
-    cadastrar() {
+    salvar() {
+        this.form.markAllAsTouched();
+        this.form.markAllAsDirty();
+        this.form.updateValueAndValidity();
+
+        if (this.form.invalid) {
+            return;
+        }
+
+        const form = this.form.value;
+
         const gastoRequest: GastoRequestDTO = {
-            categoriaId: this.categoriaSelecionada()?.id ?? 0,
-            formaPagamentoId: this.formaPagamentoSelecionada()?.id ?? 0,
-            statusId: this.statusGastoSelecionado()?.id ?? 0,
-            descricao: this.descricao(),
-            valor: this.valor() ?? 0,
-            dataGasto: this.dataGasto() ?? new Date(),
-            dataVencimento: this.dataVencimento() ?? null,
+            categoriaId: form.categoria,
+            formaPagamentoId: form.formaPagamento,
+            statusId: form.status,
+            descricao: form.descricao,
+            valor: form.valor,
+            dataGasto: form.dataGasto,
+            dataVencimento: form.dataVencimento,
         };
-        this._gastoService.cadastrar(gastoRequest, this._authService.usuarioId() || 0);
-        console.log(gastoRequest);
+
+        if (this.gasto) {
+            gastoRequest.id = this.gasto.id;
+            this.atualizar(gastoRequest);
+        } else {
+            this.cadastrar(gastoRequest);
+        }
     }
 
-    // atualizar() {}
+    cadastrar(gastoRequest: GastoRequestDTO) {
+        this._gastoService
+            .cadastrar(gastoRequest, this._authService.usuarioId() || 0)
+            .subscribe(() => {
+                this.form.reset();
+            });
+    }
+
+    atualizar(gastoRequest: GastoRequestDTO) {
+        this._gastoService.atualizar(gastoRequest, this._authService.usuarioId() || 0).subscribe();
+    }
 
     voltar() {
         this._router.navigate(['/gasto']);

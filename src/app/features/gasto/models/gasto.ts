@@ -9,6 +9,6 @@ export interface GastoDTO {
     status: StatusGastoDTO;
     descricao: string;
     valor: number;
-    dataGasto: Date;
-    dataVencimento: Date;
+    dataGasto: string;
+    dataVencimento: string;
 }

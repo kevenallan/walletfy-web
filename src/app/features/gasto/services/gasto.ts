@@ -29,7 +29,7 @@ export class GastoService {
         return this._http.post<GastoDTO>(`${this._apiGasto}/${usuarioId}`, gasto);
     }
 
-    atualizar(id: number, gasto: GastoRequestDTO): Observable<GastoDTO> {
-        return this._http.put<GastoDTO>(`${this._apiGasto}/${id}`, gasto);
+    atualizar(gasto: GastoRequestDTO, usuarioId: number): Observable<GastoDTO> {
+        return this._http.put<GastoDTO>(`${this._apiGasto}/${usuarioId}`, gasto);
     }
 }

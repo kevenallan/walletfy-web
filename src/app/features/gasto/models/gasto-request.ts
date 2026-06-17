@@ -6,4 +6,5 @@ export interface GastoRequestDTO {
     valor: number;
     dataGasto: Date;
     dataVencimento: Date | null;
+    id?: number;
 }
