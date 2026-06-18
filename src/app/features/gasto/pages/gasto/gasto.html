@@ -19,6 +19,7 @@
         <app-tabela
             [gastos]="gastos()"
             (gastoEditarOutput)="cadastrarAtualizarGasto($event)"
+            (gastoDeletarOutput)="deletarGasto($event)"
         ></app-tabela>
     </main>
 </div>

@@ -72,4 +72,15 @@ export class Gasto {
             this._router.navigate(['/gasto/cadastrar']);
         }
     }
+
+    deletarGasto(gastoId: number) {
+        console.log(gastoId);
+
+        this._gastoService.deletar(gastoId, this._authService.usuarioId() || 0).subscribe({
+            next: () => {
+                window.alert('Gasto deletado');
+                this.listar();
+            },
+        });
+    }
 }

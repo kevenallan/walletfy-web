@@ -1,12 +1,4 @@
-import {
-    Component,
-    computed,
-    EventEmitter,
-    HostListener,
-    input,
-    output,
-    Output,
-} from '@angular/core';
+import { Component, computed, HostListener, input, output } from '@angular/core';
 
 import { CurrencyPipe, DatePipe, TitleCasePipe } from '@angular/common';
 
@@ -38,6 +30,7 @@ export class Tabela {
     gastos = input<GastoDTO[]>([]);
 
     gastoEditarOutput = output<number>();
+    gastoDeletarOutput = output<number>();
 
     gastosComCor = computed(() =>
         this.gastos().map((g) => ({
@@ -93,5 +86,9 @@ export class Tabela {
 
     emitirGastoEditar(idGasto: number) {
         this.gastoEditarOutput.emit(idGasto);
+    }
+
+    emitirGastoDeletar(idGasto: number) {
+        this.gastoDeletarOutput.emit(idGasto);
     }
 }

@@ -32,4 +32,8 @@ export class GastoService {
     atualizar(gasto: GastoRequestDTO, usuarioId: number): Observable<GastoDTO> {
         return this._http.put<GastoDTO>(`${this._apiGasto}/${usuarioId}`, gasto);
     }
+
+    deletar(gastoId: number, usuarioId: number): Observable<GastoDTO> {
+        return this._http.delete<GastoDTO>(`${this._apiGasto}/${usuarioId}/${gastoId}`);
+    }
 }
