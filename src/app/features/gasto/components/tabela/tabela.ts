@@ -1,14 +1,36 @@
-import { Component, computed, HostListener, input, output } from '@angular/core';
+import {
+    Component,
+    computed,
+    HostListener,
+    inject,
+    input,
+    OnInit,
+    output,
+    signal,
+    WritableSignal,
+} from '@angular/core';
 
 import { CurrencyPipe, DatePipe, TitleCasePipe } from '@angular/common';
 
-import { TableModule } from 'primeng/table';
+import { TableFilterEvent, TableModule } from 'primeng/table';
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { NgClass } from '@angular/common';
 import { GastoDTO } from '../../models/gasto';
 import { TagModule } from 'primeng/tag';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { StatusGastoDTO } from '../../models/status-gasto';
+import { StatusGastoService } from '../../services/status-gasto';
+import { FormsModule } from '@angular/forms';
+import { CategoriaService } from '../../../categoria/service/categoria';
+import { FormaPagamentoService } from '../../services/forma-pagamento';
+import { CategoriaDTO } from '../../../categoria/models/categoria';
+import { FormaPagamentoDTO } from '../../models/forma-pagamento';
+import { DatePicker } from 'primeng/datepicker';
+import { primeiroDiaMesDate, ultimoDiaMesDate } from '../../../../shared/utils/data';
+import { Button } from 'primeng/button';
+import { DatasEmissao } from '../../models/datas-Emissao';
 
 @Component({
     selector: 'app-tabela',
@@ -22,13 +44,20 @@ import { TagModule } from 'primeng/tag';
         DatePipe,
         TitleCasePipe,
         TagModule,
+        MultiSelectModule,
+        FormsModule,
+        DatePicker,
+        Button,
     ],
     templateUrl: './tabela.html',
     styleUrl: './tabela.css',
 })
-export class Tabela {
+export class Tabela implements OnInit {
     gastos = input<GastoDTO[]>([]);
 
+    datasEmissaoOutput = output<DatasEmissao>({});
+    dataInicio = signal<Date>(primeiroDiaMesDate());
+    dataFim = signal<Date>(ultimoDiaMesDate());
     gastoEditarOutput = output<number>();
     gastoDeletarOutput = output<number>();
 
@@ -72,6 +101,53 @@ export class Tabela {
         CANCELADO: 'text-cinza!',
     };
 
+    private _statusService = inject(StatusGastoService);
+    private _categoriaService = inject(CategoriaService);
+    private _formaPagamentoService = inject(FormaPagamentoService);
+
+    statusFiltro = signal<StatusGastoDTO[]>([]);
+    statusFiltroSelecionado = signal<StatusGastoDTO[]>([]);
+    categoriaFiltro = signal<CategoriaDTO[]>([]);
+    categoriaFiltroSelecionado = signal<CategoriaDTO[]>([]);
+    formaPagamentoFiltro = signal<FormaPagamentoDTO[]>([]);
+    formaPagamentoFiltroSelecionado = signal<FormaPagamentoDTO[]>([]);
+
+    ngOnInit() {
+        this.getStatusGasto();
+        this.getCategoria();
+        this.getFormaPagamento();
+    }
+
+    getStatusGasto() {
+        this._statusService.listar().subscribe({
+            next: (response) => {
+                this.statusFiltro.set(
+                    response.map((s) => ({
+                        ...s,
+                        nomeExibicao:
+                            s.nome.charAt(0).toUpperCase() + s.nome.slice(1).toLowerCase(),
+                    })),
+                );
+            },
+        });
+    }
+
+    getCategoria() {
+        this._categoriaService.listar(1).subscribe({
+            next: (response) => {
+                this.categoriaFiltro.set(response);
+            },
+        });
+    }
+
+    getFormaPagamento() {
+        this._formaPagamentoService.listar().subscribe({
+            next: (response) => {
+                this.formaPagamentoFiltro.set(response);
+            },
+        });
+    }
+
     private getCorFormaPagamento(formaPagamento: string): string {
         return this.CORES_FORMA_PAGAMENTO[formaPagamento] ?? 'bg-cinza! text-white!';
     }
@@ -90,5 +166,32 @@ export class Tabela {
 
     emitirGastoDeletar(idGasto: number) {
         this.gastoDeletarOutput.emit(idGasto);
+    }
+
+    onFiltroTabela(event: TableFilterEvent) {
+        const filtros: Record<string, WritableSignal<unknown[]>> = {
+            'status.nome': this.statusFiltroSelecionado,
+            'categoria.nome': this.categoriaFiltroSelecionado,
+            'formaPagamento.nome': this.formaPagamentoFiltroSelecionado,
+        };
+
+        Object.entries(filtros).forEach(([campo, signal]) => {
+            if (this.filtroFoiLimpo(event.filters?.[campo])) {
+                signal.set([]);
+            }
+        });
+    }
+
+    private filtroFoiLimpo(filtro: unknown): boolean {
+        return !filtro || (Array.isArray(filtro) && filtro[0]?.value === null);
+    }
+
+    emitirBuscar() {
+        const datas: DatasEmissao = {
+            dataInicio: this.dataInicio(),
+            dataFim: this.dataFim(),
+        };
+
+        this.datasEmissaoOutput.emit(datas);
     }
 }

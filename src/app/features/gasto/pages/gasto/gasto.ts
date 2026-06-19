@@ -8,6 +8,8 @@ import { GastoService } from '../../services/gasto';
 import { GastoDTO } from '../../models/gasto';
 import { AuthService } from '../../../auth/services/auth';
 import { Router } from '@angular/router';
+import { formatarData, primeiroDiaMes, ultimoDiaMes } from '../../../../shared/utils/data';
+import { DatasEmissao } from '../../models/datas-Emissao';
 
 @Component({
     selector: 'app-gasto',
@@ -52,17 +54,17 @@ export class Gasto {
     private _router = inject(Router);
 
     constructor() {
-        this.listar();
+        this.listarDatas(primeiroDiaMes(), ultimoDiaMes());
     }
 
-    listar() {
-        this._gastoService.listar(this._authService.usuarioId() || 0).subscribe({
-            next: (response) => {
-                console.log(response);
-
-                this.gastos.set(response);
-            },
-        });
+    listarDatas(dataInicio: string, dataFim: string) {
+        this._gastoService
+            .listar(this._authService.usuarioId() || 0, dataInicio, dataFim)
+            .subscribe({
+                next: (response) => {
+                    this.gastos.set(response);
+                },
+            });
     }
 
     cadastrarAtualizarGasto(idGasto?: number) {
@@ -79,8 +81,12 @@ export class Gasto {
         this._gastoService.deletar(gastoId, this._authService.usuarioId() || 0).subscribe({
             next: () => {
                 window.alert('Gasto deletado');
-                this.listar();
+                this.listarDatas(primeiroDiaMes(), ultimoDiaMes());
             },
         });
+    }
+
+    buscarGastosPorData(event: DatasEmissao) {
+        this.listarDatas(formatarData(event.dataInicio), formatarData(event.dataFim));
     }
 }

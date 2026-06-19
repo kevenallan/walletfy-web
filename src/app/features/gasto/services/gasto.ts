@@ -13,8 +13,10 @@ export class GastoService {
 
     private _http = inject(HttpClient);
 
-    listar(usuarioId: number): Observable<GastoDTO[]> {
-        return this._http.get<GastoDTO[]>(`${this._apiGasto}/${usuarioId}`);
+    listar(usuarioId: number, dataInicio: string, dataFim: string): Observable<GastoDTO[]> {
+        return this._http.get<GastoDTO[]>(`${this._apiGasto}/${usuarioId}`, {
+            params: { dataInicio, dataFim },
+        });
     }
 
     detalhar(gastoId: number, usuarioId: number): Observable<GastoDTO> {
