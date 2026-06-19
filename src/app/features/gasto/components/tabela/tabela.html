@@ -14,8 +14,10 @@
         (onFilter)="onFiltroTabela($event)"
     >
         <ng-template #caption>
-            <div class="flex flex-col md:flex-row md:justify-between gap-5">
-                <div class="flex items-center">
+            <div class="grid grid-col-1 md:grid-cols-2">
+                <div
+                    class="grid grid-cols-[auto_auto_auto_auto] md:grid-cols-[auto_auto_auto_1fr] items-center"
+                >
                     <p-datepicker
                         [ngModel]="dataInicio()"
                         (ngModelChange)="dataInicio.set($event)"
@@ -24,7 +26,8 @@
                         dateFormat="dd/mm/yy"
                         inputId="dataGasto"
                         placeholder="dd/mm/aaaa"
-                        class="w-full md:w-37"
+                        [invalid]="dataInicioInvalida"
+                        class=""
                     />
                     <p class="mx-2">a</p>
                     <p-datepicker
@@ -35,16 +38,19 @@
                         dateFormat="dd/mm/yy"
                         inputId="dataGasto"
                         placeholder="dd/mm/aaaa"
-                        class="w-full md:w-37"
+                        [invalid]="dataFimInvalida"
+                        class=""
                     />
                     <p-button
                         icon="pi pi-search"
                         [label]="isMobile ? '' : 'Filtrar'"
-                        styleClass="bg-[#013729]! border-[#013729]! hover:!bg-green-600 dark:bg-green-600! hover:bg-green-400! ml-2"
+                        styleClass="bg-[#013729]! border-[#013729]! hover:!bg-green-600 dark:bg-green-600! hover:bg-green-400! ml-4"
                         (click)="emitirBuscar()"
+                        class=""
                     />
+                    <p class="row-start-3 col-span-4 text-red-500">{{ msgErroData }}</p>
                 </div>
-                <div class="flex">
+                <div class="w-full my-2 md:my-0 md:w-fit md:ml-auto">
                     <p-iconfield iconPosition="left" class="w-full md:w-auto">
                         <p-inputicon>
                             <i class="pi pi-search"></i>
@@ -265,6 +271,13 @@
                             <i class="pi pi-trash"></i>
                         </button>
                     </div>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template #emptymessage>
+            <tr>
+                <td colspan="8" class="text-center py-4">
+                    <div class="flex md:justify-center">Sem registros</div>
                 </td>
             </tr>
         </ng-template>

@@ -3,13 +3,13 @@ import { Component, HostListener, inject, signal } from '@angular/core';
 import { Button } from 'primeng/button';
 import { Card } from '../../components/card/card';
 import { Tabela } from '../../components/tabela/tabela';
-import { CardDTO } from '../../models/card';
 import { GastoService } from '../../services/gasto';
 import { GastoDTO } from '../../models/gasto';
 import { AuthService } from '../../../auth/services/auth';
 import { Router } from '@angular/router';
 import { formatarData, primeiroDiaMes, ultimoDiaMes } from '../../../../shared/utils/data';
 import { DatasEmissao } from '../../models/datas-Emissao';
+import { ResumoMesDTO } from '../../models/resumo-mes';
 
 @Component({
     selector: 'app-gasto',
@@ -18,28 +18,70 @@ import { DatasEmissao } from '../../models/datas-Emissao';
     styleUrl: './gasto.css',
 })
 export class Gasto {
-    cardConteudo = signal<CardDTO[]>([
+    // gasto.ts
+    resumoMeses = signal<ResumoMesDTO[]>([
         {
-            titulo: 'Receita',
-            valor: 1000,
-            valorPorcentagemDescricao: -5,
+            mes: 'Janeiro 2026',
+            receita: 5000,
+            despesas: 2100,
+            saldo: 2900,
+            pendentes: 3,
+            variacaoReceita: 0,
+            variacaoDespesas: 0,
+            variacaoSaldo: 0,
         },
         {
-            titulo: 'Despesas',
-            valor: 1500,
-            valorPorcentagemDescricao: 15,
+            mes: 'Fevereiro 2026',
+            receita: 5200,
+            despesas: 1950,
+            saldo: 3250,
+            pendentes: 2,
+            variacaoReceita: 4,
+            variacaoDespesas: -7.1,
+            variacaoSaldo: 12.1,
         },
         {
-            titulo: 'Saldo Atual',
-            valor: 750,
-            valorPorcentagemDescricao: -20,
+            mes: 'Março 2026',
+            receita: 4800,
+            despesas: 2400,
+            saldo: 2400,
+            pendentes: 4,
+            variacaoReceita: -7.7,
+            variacaoDespesas: 23.1,
+            variacaoSaldo: -26.2,
         },
         {
-            titulo: 'Pendentes',
-            valor: 375,
-            valorPorcentagemDescricao: 1,
+            mes: 'Abril 2026',
+            receita: 5100,
+            despesas: 1800,
+            saldo: 3300,
+            pendentes: 1,
+            variacaoReceita: 6.3,
+            variacaoDespesas: -25,
+            variacaoSaldo: 37.5,
+        },
+        {
+            mes: 'Maio 2026',
+            receita: 5300,
+            despesas: 2800,
+            saldo: 2500,
+            pendentes: 5,
+            variacaoReceita: 3.9,
+            variacaoDespesas: 55.6,
+            variacaoSaldo: -24.2,
+        },
+        {
+            mes: 'Junho 2026',
+            receita: 5500,
+            despesas: 3200,
+            saldo: 2300,
+            pendentes: 5,
+            variacaoReceita: 3.8,
+            variacaoDespesas: 14.3,
+            variacaoSaldo: -8,
         },
     ]);
+
     isMobile = window.innerWidth < 768;
 
     @HostListener('window:resize')

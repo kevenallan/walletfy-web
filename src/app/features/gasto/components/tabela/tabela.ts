@@ -61,6 +61,10 @@ export class Tabela implements OnInit {
     gastoEditarOutput = output<number>();
     gastoDeletarOutput = output<number>();
 
+    dataInicioInvalida = false;
+    dataFimInvalida = false;
+    msgErroData = '';
+
     gastosComCor = computed(() =>
         this.gastos().map((g) => ({
             ...g,
@@ -187,11 +191,54 @@ export class Tabela implements OnInit {
     }
 
     emitirBuscar() {
-        const datas: DatasEmissao = {
-            dataInicio: this.dataInicio(),
-            dataFim: this.dataFim(),
-        };
+        if (this.validarDatas()) {
+            const datas: DatasEmissao = {
+                dataInicio: this.dataInicio(),
+                dataFim: this.dataFim(),
+            };
 
-        this.datasEmissaoOutput.emit(datas);
+            this.datasEmissaoOutput.emit(datas);
+        }
+    }
+
+    validarDatas(): boolean {
+        this.msgErroData = '';
+        this.dataInicioInvalida = false;
+        this.dataFimInvalida = false;
+
+        if (this.dataInicio() == null && this.dataFim() == null) {
+            this.msgErroData = 'As datas devem ser preenchidas';
+            this.dataInicioInvalida = true;
+            this.dataFimInvalida = true;
+            return false;
+        }
+        if (this.dataInicio() == null) {
+            this.msgErroData = 'A data inicio deve ser preenchida';
+            this.dataInicioInvalida = true;
+            return false;
+        }
+        if (this.dataFim() == null) {
+            this.msgErroData = 'A data fim deve ser preenchida';
+            this.dataFimInvalida = true;
+            return false;
+        }
+        if (!(this.dataInicio() instanceof Date) || isNaN(this.dataInicio().getTime())) {
+            this.msgErroData = 'A data inicial é inválida';
+            this.dataInicioInvalida = true;
+            return false;
+        }
+
+        if (!(this.dataFim() instanceof Date) || isNaN(this.dataFim().getTime())) {
+            this.msgErroData = 'A data final é inválida';
+            this.dataFimInvalida = true;
+            return false;
+        }
+        if (this.dataInicio() > this.dataFim()) {
+            this.dataInicioInvalida = true;
+            this.dataFimInvalida = true;
+            this.msgErroData = 'A data fim não pode ser menor que a data inicial';
+            return false;
+        }
+        return true;
     }
 }

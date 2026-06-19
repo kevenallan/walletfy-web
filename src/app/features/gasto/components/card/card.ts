@@ -1,78 +1,94 @@
-import { CurrencyPipe, NgClass } from '@angular/common';
-import { Component, computed, input } from '@angular/core';
-import { CardDTO } from '../../models/card';
+import { Component, input } from '@angular/core';
+import { NgClass, CurrencyPipe } from '@angular/common';
+import { CarouselModule } from 'primeng/carousel';
+import { ResumoMesDTO } from '../../models/resumo-mes';
 import { CardExibicaoDTO } from '../../models/card-exibicao';
 
 @Component({
     selector: 'app-card',
-    imports: [CurrencyPipe, NgClass],
+    imports: [CarouselModule, CurrencyPipe, NgClass],
     templateUrl: './card.html',
-    styleUrl: './card.css',
 })
 export class Card {
-    cards = input<CardDTO[]>([]);
+    resumoMeses = input<ResumoMesDTO[]>([]);
 
-    cardsParaExibicao = computed<CardExibicaoDTO[]>(() =>
-        this.cards().map((card) => ({
-            titulo: card.titulo,
-            valor: card.valor,
-            icone: this._montarIcone(card.titulo),
-            corIcone: this._montarCorIcone(card.titulo),
-            backgroundIcone: this._montarBackgroundIcone(card.titulo),
-            descricao: this._montarDescricao(card),
-        })),
-    );
+    responsiveOptions = [
+        { breakpoint: '1024px', numVisible: 1, numScroll: 1 },
+        { breakpoint: '768px', numVisible: 1, numScroll: 1 },
+        { breakpoint: '560px', numVisible: 1, numScroll: 1 },
+    ];
 
-    private _montarIcone(titulo: string): string {
-        switch (titulo) {
-            case 'Receita':
-                return 'pi pi-chart-bar';
-            case 'Despesas':
-                return 'pi pi-arrow-down';
-            case 'Saldo Atual':
-                return 'pi pi-wallet';
-            case 'Pendentes':
-                return 'pi pi-calendar-clock';
-            default:
-                return 'pi pi-info-circle';
-        }
-    }
+    private readonly CARDS_CONFIG = [
+        {
+            titulo: 'Receita',
+            campo: 'receita' as keyof ResumoMesDTO,
+            campVariacao: 'variacaoReceita' as keyof ResumoMesDTO,
+            icone: 'pi pi-chart-bar',
+            corIcone: 'text-azul-escuro',
+            background: 'bg-azul-claro',
+            variacaoPositivaEBoa: true, // receita subindo é bom
+        },
+        {
+            titulo: 'Despesas',
+            campo: 'despesas' as keyof ResumoMesDTO,
+            campVariacao: 'variacaoDespesas' as keyof ResumoMesDTO,
+            icone: 'pi pi-arrow-down',
+            corIcone: 'text-vermelho',
+            background: 'bg-vermelho-claro',
+            variacaoPositivaEBoa: false, // despesa subindo é ruim
+        },
+        {
+            titulo: 'Saldo Atual',
+            campo: 'saldo' as keyof ResumoMesDTO,
+            campVariacao: 'variacaoSaldo' as keyof ResumoMesDTO,
+            icone: 'pi pi-wallet',
+            corIcone: 'text-verde-escuro',
+            background: 'bg-verde-claro',
+            variacaoPositivaEBoa: true, // saldo subindo é bom
+        },
+        {
+            titulo: 'Pendentes',
+            campo: 'pendentes' as keyof ResumoMesDTO,
+            campVariacao: null,
+            icone: 'pi pi-calendar-clock',
+            corIcone: 'text-amarelo-escuro',
+            background: 'bg-amarelo-claro',
+            variacaoPositivaEBoa: false,
+        },
+    ];
 
-    private _montarCorIcone(titulo: string): string {
-        switch (titulo) {
-            case 'Receita':
-                return 'text-azul-escuro';
-            case 'Despesas':
-                return 'text-vermelho';
-            case 'Saldo Atual':
-                return 'text-verde-escuro';
-            case 'Pendentes':
-                return 'text-amarelo-escuro';
-            default:
-                return 'text-black';
-        }
-    }
+    getCardsDoMes(resumo: ResumoMesDTO): CardExibicaoDTO[] {
+        return this.CARDS_CONFIG.map((config) => {
+            const valor = resumo[config.campo] as number;
+            const variacao = config.campVariacao ? (resumo[config.campVariacao] as number) : null;
 
-    private _montarBackgroundIcone(titulo: string): string {
-        switch (titulo) {
-            case 'Receita':
-                return 'bg-azul-claro';
-            case 'Despesas':
-                return 'bg-vermelho-claro';
-            case 'Saldo Atual':
-                return 'bg-verde-claro';
-            case 'Pendentes':
-                return 'bg-amarelo-claro';
-            default:
-                return 'bg-cinza-claro';
-        }
-    }
+            // pendentes — sem comparação com mês anterior
+            if (config.titulo === 'Pendentes') {
+                return {
+                    titulo: config.titulo,
+                    valor,
+                    icone: config.icone,
+                    corIcone: config.corIcone,
+                    background: config.background,
+                    corVariacao: valor === 0 ? 'text-verde' : 'text-amarelo-escuro',
+                    iconeVariacao: 'pi pi-calendar-clock',
+                    descricao: `${valor} conta${valor !== 1 ? 's' : ''} a vencer`,
+                };
+            }
 
-    private _montarDescricao(card: CardDTO): string {
-        if (card.titulo !== 'Pendentes') {
-            return `${Math.abs(card.valorPorcentagemDescricao)}% vs mês anterior`;
-        }
+            const variacaoPositiva = (variacao ?? 0) >= 0;
+            const eBoa = config.variacaoPositivaEBoa ? variacaoPositiva : !variacaoPositiva;
 
-        return `${card.valorPorcentagemDescricao} conta${card.valorPorcentagemDescricao !== 1 ? 's' : ''} a vencer`;
+            return {
+                titulo: config.titulo,
+                valor,
+                icone: config.icone,
+                corIcone: config.corIcone,
+                background: config.background,
+                corVariacao: eBoa ? 'text-verde' : 'text-vermelho',
+                iconeVariacao: variacaoPositiva ? 'pi pi-chevron-up' : 'pi pi-chevron-down',
+                descricao: `${Math.abs(variacao ?? 0).toFixed(1)}% vs mês anterior`,
+            };
+        });
     }
 }
