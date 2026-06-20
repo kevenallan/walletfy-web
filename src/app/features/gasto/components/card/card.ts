@@ -1,12 +1,12 @@
 import { Component, input } from '@angular/core';
-import { NgClass, CurrencyPipe } from '@angular/common';
+import { NgClass, CurrencyPipe, DatePipe, TitleCasePipe } from '@angular/common';
 import { CarouselModule } from 'primeng/carousel';
 import { ResumoMesDTO } from '../../models/resumo-mes';
 import { CardExibicaoDTO } from '../../models/card-exibicao';
 
 @Component({
     selector: 'app-card',
-    imports: [CarouselModule, CurrencyPipe, NgClass],
+    imports: [CarouselModule, CurrencyPipe, NgClass, DatePipe, TitleCasePipe],
     templateUrl: './card.html',
 })
 export class Card {
@@ -26,7 +26,7 @@ export class Card {
             icone: 'pi pi-chart-bar',
             corIcone: 'text-azul-escuro',
             background: 'bg-azul-claro',
-            variacaoPositivaEBoa: true, // receita subindo é bom
+            variacaoPositivaEBoa: true,
         },
         {
             titulo: 'Despesas',
@@ -35,7 +35,7 @@ export class Card {
             icone: 'pi pi-arrow-down',
             corIcone: 'text-vermelho',
             background: 'bg-vermelho-claro',
-            variacaoPositivaEBoa: false, // despesa subindo é ruim
+            variacaoPositivaEBoa: false,
         },
         {
             titulo: 'Saldo Atual',
@@ -44,7 +44,7 @@ export class Card {
             icone: 'pi pi-wallet',
             corIcone: 'text-verde-escuro',
             background: 'bg-verde-claro',
-            variacaoPositivaEBoa: true, // saldo subindo é bom
+            variacaoPositivaEBoa: true,
         },
         {
             titulo: 'Pendentes',
@@ -62,7 +62,6 @@ export class Card {
             const valor = resumo[config.campo] as number;
             const variacao = config.campVariacao ? (resumo[config.campVariacao] as number) : null;
 
-            // pendentes — sem comparação com mês anterior
             if (config.titulo === 'Pendentes') {
                 return {
                     titulo: config.titulo,

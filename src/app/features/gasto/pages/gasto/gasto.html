@@ -2,10 +2,19 @@
     <h1 class="font-bold text-2xl mt-20 ml-5 md:mt-5 md:text-4xl">Gastos</h1>
     <p class="text-cinza ml-5 md:mt-2">Gerencie todos os seus gastos registrados.</p>
 
-    <div class="flex justify-end mr-2 my-1 md:my-3">
+    <div class="hidden md:flex md:justify-end md:mr-2 md:my-5">
         <p-button
             icon="pi pi-plus"
             [label]="isMobile ? '' : 'Novo Gasto'"
+            styleClass="bg-[#013729]! border-[#013729]! hover:!bg-green-600 dark:bg-green-600! hover:bg-green-400!"
+            (click)="cadastrarAtualizarGasto()"
+        />
+    </div>
+
+    <div class="fixed bottom-1 right-1 z-100 md:hidden">
+        <p-button
+            icon="pi pi-plus"
+            size="large"
             styleClass="bg-[#013729]! border-[#013729]! hover:!bg-green-600 dark:bg-green-600! hover:bg-green-400!"
             (click)="cadastrarAtualizarGasto()"
         />
