@@ -20,66 +20,66 @@ import { ResumoMesDTO } from '../../models/resumo-mes';
 export class Gasto {
     // gasto.ts
     resumoMeses = signal<ResumoMesDTO[]>([
-        {
-            mes: 'Janeiro 2026',
-            receita: 5000,
-            despesas: 2100,
-            saldo: 2900,
-            pendentes: 3,
-            variacaoReceita: 0,
-            variacaoDespesas: 0,
-            variacaoSaldo: 0,
-        },
-        {
-            mes: 'Fevereiro 2026',
-            receita: 5200,
-            despesas: 1950,
-            saldo: 3250,
-            pendentes: 2,
-            variacaoReceita: 4,
-            variacaoDespesas: -7.1,
-            variacaoSaldo: 12.1,
-        },
-        {
-            mes: 'Março 2026',
-            receita: 4800,
-            despesas: 2400,
-            saldo: 2400,
-            pendentes: 4,
-            variacaoReceita: -7.7,
-            variacaoDespesas: 23.1,
-            variacaoSaldo: -26.2,
-        },
-        {
-            mes: 'Abril 2026',
-            receita: 5100,
-            despesas: 1800,
-            saldo: 3300,
-            pendentes: 1,
-            variacaoReceita: 6.3,
-            variacaoDespesas: -25,
-            variacaoSaldo: 37.5,
-        },
-        {
-            mes: 'Maio 2026',
-            receita: 5300,
-            despesas: 2800,
-            saldo: 2500,
-            pendentes: 5,
-            variacaoReceita: 3.9,
-            variacaoDespesas: 55.6,
-            variacaoSaldo: -24.2,
-        },
-        {
-            mes: 'Junho 2026',
-            receita: 5500,
-            despesas: 3200,
-            saldo: 2300,
-            pendentes: 5,
-            variacaoReceita: 3.8,
-            variacaoDespesas: 14.3,
-            variacaoSaldo: -8,
-        },
+        // {
+        //     mes: 'Janeiro 2026',
+        //     receita: 5000,
+        //     despesas: 2100,
+        //     saldo: 2900,
+        //     pendentes: 3,
+        //     variacaoReceita: 0,
+        //     variacaoDespesas: 0,
+        //     variacaoSaldo: 0,
+        // },
+        // {
+        //     mes: 'Fevereiro 2026',
+        //     receita: 5200,
+        //     despesas: 1950,
+        //     saldo: 3250,
+        //     pendentes: 2,
+        //     variacaoReceita: 4,
+        //     variacaoDespesas: -7.1,
+        //     variacaoSaldo: 12.1,
+        // },
+        // {
+        //     mes: 'Março 2026',
+        //     receita: 4800,
+        //     despesas: 2400,
+        //     saldo: 2400,
+        //     pendentes: 4,
+        //     variacaoReceita: -7.7,
+        //     variacaoDespesas: 23.1,
+        //     variacaoSaldo: -26.2,
+        // },
+        // {
+        //     mes: 'Abril 2026',
+        //     receita: 5100,
+        //     despesas: 1800,
+        //     saldo: 3300,
+        //     pendentes: 1,
+        //     variacaoReceita: 6.3,
+        //     variacaoDespesas: -25,
+        //     variacaoSaldo: 37.5,
+        // },
+        // {
+        //     mes: 'Maio 2026',
+        //     receita: 5300,
+        //     despesas: 2800,
+        //     saldo: 2500,
+        //     pendentes: 5,
+        //     variacaoReceita: 3.9,
+        //     variacaoDespesas: 55.6,
+        //     variacaoSaldo: -24.2,
+        // },
+        // {
+        //     mes: 'Junho 2026',
+        //     receita: 5500,
+        //     despesas: 3200,
+        //     saldo: 2300,
+        //     pendentes: 5,
+        //     variacaoReceita: 3.8,
+        //     variacaoDespesas: 14.3,
+        //     variacaoSaldo: -8,
+        // },
     ]);
 
     isMobile = window.innerWidth < 768;
@@ -97,6 +97,7 @@ export class Gasto {
 
     constructor() {
         this.listarDatas(primeiroDiaMes(), ultimoDiaMes());
+        this.listarCardsResumo();
     }
 
     listarDatas(dataInicio: string, dataFim: string) {
@@ -130,5 +131,13 @@ export class Gasto {
 
     buscarGastosPorData(event: DatasEmissao) {
         this.listarDatas(formatarData(event.dataInicio), formatarData(event.dataFim));
+    }
+
+    listarCardsResumo() {
+        this._gastoService.listarResumo(1).subscribe({
+            next: (response) => {
+                this.resumoMeses.set(response);
+            },
+        });
     }
 }

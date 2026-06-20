@@ -4,6 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { GastoDTO } from '../models/gasto';
 import { GastoRequestDTO } from '../models/gasto-request';
+import { ResumoMesDTO } from '../models/resumo-mes';
 
 @Injectable({
     providedIn: 'root',
@@ -25,6 +26,12 @@ export class GastoService {
             .set('usuarioId', usuarioId.toString());
 
         return this._http.get<GastoDTO>(`${this._apiGasto}`, { params });
+    }
+
+    listarResumo(usuarioId: number): Observable<ResumoMesDTO[]> {
+        const params = new HttpParams().set('usuarioId', usuarioId.toString());
+
+        return this._http.get<ResumoMesDTO[]>(`${this._apiGasto}/resumo`, { params });
     }
 
     cadastrar(gasto: GastoRequestDTO, usuarioId: number): Observable<GastoDTO> {
