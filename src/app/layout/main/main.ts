@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Drawer } from 'primeng/drawer';
-import { MenuMobile } from '../menu-mobile/menu-mobile';
-import { Menu } from '../menu/menu';
+import { Sidebar } from "../sidebar/sidebar";
 
 @Component({
     selector: 'app-main',
-    imports: [RouterOutlet, Menu, Drawer, MenuMobile],
+    imports: [RouterOutlet, Sidebar],
     templateUrl: './main.html',
     styleUrl: './main.css',
 })
