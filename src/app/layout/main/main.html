@@ -1,38 +1,6 @@
 <div class="flex h-screen">
-    <div class="flex md:hidden">
-        <button
-            class="md:hidden fixed top-4 left-4 z-50 w-10 h-10 bg-[#013729] pt-0.5 rounded-lg shadow-lg"
-            (click)="visible = true"
-        >
-            <i class="pi pi-bars text-white"></i>
-        </button>
-
-        <div class="flex flex-row items-center justify-start fixed top-5 left-18 z-50">
-            <figure>
-                <img
-                    src="images/logo_walletfy.png"
-                    alt="Logo"
-                    class="w-8 h-8 md:w-10 md:h-10 object-contain"
-                />
-            </figure>
-            <h1 class="text-lg md:text-3xl text-green-600 font-bold pl-2">Walletfy</h1>
-        </div>
-    </div>
-
-    <div class="hidden md:flex min-h-screen items-center">
-        <app-menu></app-menu>
-    </div>
-
-    <p-drawer
-        [(visible)]="visible"
-        [modal]="true"
-        [closable]="true"
-        position="left"
-        class="md:hidden"
-        styleClass=" !bg-[#013729] !w-64"
-    >
-        <app-menu-mobile></app-menu-mobile>
-    </p-drawer>
+    
+    <app-sidebar></app-sidebar>
 
     <div class="flex-1 flex flex-col overflow-auto">
         <router-outlet></router-outlet>
