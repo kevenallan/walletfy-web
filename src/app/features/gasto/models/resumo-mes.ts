@@ -4,6 +4,7 @@ export interface ResumoMesDTO {
     despesas: number;
     saldo: number;
     pendentes: number;
+    valorPendente: number;
     variacaoReceita: number;
     variacaoDespesas: number;
     variacaoSaldo: number;

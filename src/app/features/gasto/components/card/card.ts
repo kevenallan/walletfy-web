@@ -48,8 +48,8 @@ export class Card {
         },
         {
             titulo: 'Pendentes',
-            campo: 'pendentes' as keyof ResumoMesDTO,
-            campVariacao: null,
+            campo: 'valorPendente' as keyof ResumoMesDTO,
+            campVariacao: 'pendentes' as keyof ResumoMesDTO,
             icone: 'pi pi-calendar-clock',
             corIcone: 'text-amarelo-escuro',
             background: 'bg-amarelo-claro',
@@ -71,7 +71,7 @@ export class Card {
                     background: config.background,
                     corVariacao: valor === 0 ? 'text-verde' : 'text-amarelo-escuro',
                     iconeVariacao: 'pi pi-calendar-clock',
-                    descricao: `${valor} conta${valor !== 1 ? 's' : ''} a vencer`,
+                    descricao: `${variacao} conta${variacao !== 1 ? 's' : ''} a vencer`,
                 };
             }
 
