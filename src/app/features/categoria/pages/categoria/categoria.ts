@@ -1,10 +1,10 @@
 import { Component, HostListener, inject, OnInit, signal } from '@angular/core';
 
-import { Tabela } from '../../component/tabela/tabela';
-import { Form } from '../../component/form/form';
+import { Tabela } from '../../components/tabela/tabela';
+import { Form } from '../../components/form/form';
 import { CategoriaDTO } from '../../models/categoria';
-import { CardInformacoes } from '../../component/card/card';
-import { CategoriaService } from '../../service/categoria';
+import { CardInformacoes } from '../../components/card/card';
+import { CategoriaService } from '../../services/categoria';
 
 import { TableModule } from 'primeng/table';
 import { DialogService } from 'primeng/dynamicdialog';

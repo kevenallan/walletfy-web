@@ -23,7 +23,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { StatusGastoDTO } from '../../models/status-gasto';
 import { StatusGastoService } from '../../services/status-gasto';
 import { FormsModule } from '@angular/forms';
-import { CategoriaService } from '../../../categoria/service/categoria';
+import { CategoriaService } from '../../../categoria/services/categoria';
 import { FormaPagamentoService } from '../../services/forma-pagamento';
 import { CategoriaDTO } from '../../../categoria/models/categoria';
 import { FormaPagamentoDTO } from '../../models/forma-pagamento';

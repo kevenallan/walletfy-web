@@ -9,7 +9,7 @@ import { DatePickerModule } from 'primeng/datepicker';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Button } from 'primeng/button';
 import { CategoriaDTO } from '../../../categoria/models/categoria';
-import { CategoriaService } from '../../../categoria/service/categoria';
+import { CategoriaService } from '../../../categoria/services/categoria';
 import { FormaPagamentoService } from '../../services/forma-pagamento';
 import { FormaPagamentoDTO } from '../../models/forma-pagamento';
 import { StatusGastoService } from '../../services/status-gasto';
