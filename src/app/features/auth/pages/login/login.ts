@@ -60,12 +60,6 @@ export class Login {
                     this._authService.salvar(response);
                     this._router.navigate(['/gasto']);
                 },
-                error: (httpError) => {
-                    window.alert(
-                        'Erro no login: ' + httpError.error.mensagem ||
-                            'Ocorreu um erro ao tentar fazer login.',
-                    );
-                },
             });
         }
     }

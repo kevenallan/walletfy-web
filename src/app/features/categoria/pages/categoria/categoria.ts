@@ -9,6 +9,7 @@ import { CategoriaService } from '../../services/categoria';
 import { TableModule } from 'primeng/table';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Button } from 'primeng/button';
+import { NotificacaoService } from '../../../../core/services/notificacao';
 @Component({
     selector: 'app-categoria',
     imports: [TableModule, CardInformacoes, Tabela, Button],
@@ -27,48 +28,42 @@ export class Categoria implements OnInit {
         this.isMobile = window.innerWidth < 768;
     }
 
-    private dialogService = inject(DialogService);
-    private categoriaService = inject(CategoriaService);
+    private _dialogService = inject(DialogService);
+    private _categoriaService = inject(CategoriaService);
+    private _notificacaoService = inject(NotificacaoService);
 
     ngOnInit(): void {
         this.listar();
     }
 
     listar() {
-        this.categoriaService.listar(this.usuarioId).subscribe({
+        this._categoriaService.listar(this.usuarioId).subscribe({
             next: (response) => {
                 this.categorias.set(response);
-            },
-            error: (httpError) => {
-                window.alert('RIP: ' + httpError.error.mensagem);
             },
         });
     }
 
     cadastrar(categoria: CategoriaDTO) {
-        this.categoriaService.cadastrar(this.usuarioId, categoria).subscribe({
+        this._categoriaService.cadastrar(this.usuarioId, categoria).subscribe({
             next: () => {
                 this.listar();
-            },
-            error(httpError) {
-                window.alert(httpError.error.mensagem);
+                this._notificacaoService.msgSucesso('Categoria cadastrada');
             },
         });
     }
 
     atualizar(categoria: CategoriaDTO) {
-        this.categoriaService.atualizar(this.usuarioId, categoria).subscribe({
+        this._categoriaService.atualizar(this.usuarioId, categoria).subscribe({
             next: () => {
                 this.listar();
-            },
-            error: (httpError) => {
-                window.alert(httpError.error.mensagem);
+                this._notificacaoService.msgSucesso('Categoria atualizada');
             },
         });
     }
 
     abrirForm(categoria?: CategoriaDTO) {
-        const ref = this.dialogService.open(Form, {
+        const ref = this._dialogService.open(Form, {
             header: categoria ? 'Editar Categoria' : 'Nova Categoria',
             width: '480px',
             height: '480px',
