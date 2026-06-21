@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
-import { Main } from './layout/main/main';
-import { Categoria } from './features/categoria/pages/categoria/categoria';
 import { Login } from './features/auth/pages/login/login';
+import { Main } from './layout/main/main';
 
 export const routes: Routes = [
     {
@@ -18,7 +17,38 @@ export const routes: Routes = [
         component: Main,
         children: [
             { path: '', redirectTo: 'categoria', pathMatch: 'full' },
-            { path: 'categoria', component: Categoria },
+            {
+                path: 'categoria',
+                children: [
+                    {
+                        path: '',
+                        loadComponent: () =>
+                            import('./features/categoria/pages/categoria/categoria').then(
+                                (c) => c.Categoria,
+                            ),
+                    },
+                ],
+            },
+            {
+                path: 'gasto',
+                children: [
+                    {
+                        path: '',
+                        loadComponent: () =>
+                            import('./features/gasto/pages/gasto/gasto').then((c) => c.Gasto),
+                    },
+                    {
+                        path: 'cadastrar',
+                        loadComponent: () =>
+                            import('./features/gasto/pages/form/form').then((c) => c.Form),
+                    },
+                    {
+                        path: ':id/atualizar',
+                        loadComponent: () =>
+                            import('./features/gasto/pages/form/form').then((c) => c.Form),
+                    },
+                ],
+            },
         ],
     },
     {
