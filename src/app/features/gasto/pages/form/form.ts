@@ -18,6 +18,8 @@ import { TitleCasePipe } from '@angular/common';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { forkJoin, Observable, switchMap, tap } from 'rxjs';
 import { GastoRequestDTO } from '../../models/gasto-request';
+import { NotificacaoService } from '../../../../core/services/notificacao';
+import { ConfirmacaoService } from '../../../../core/services/confirmacao';
 @Component({
     selector: 'app-form',
     imports: [
@@ -50,6 +52,8 @@ export class Form implements OnInit {
     private _formaPagamentoService = inject(FormaPagamentoService);
     private _statusGastoService = inject(StatusGastoService);
     private _gastoService = inject(GastoService);
+    private _confirmacaoService = inject(ConfirmacaoService);
+    private _notificacaoService = inject(NotificacaoService);
 
     constructor() {
         this.configurarFormulario();
@@ -187,12 +191,33 @@ export class Form implements OnInit {
         this._gastoService
             .cadastrar(gastoRequest, this._authService.usuarioId() || 0)
             .subscribe(() => {
-                this.form.reset();
+                this._notificacaoService.msgSucesso('Gasto cadastrado');
+
+                this._confirmacaoService
+                    .abrirConfirmacao({
+                        mensagem: 'Você deseja continuar a cadastrar mais gastos?',
+                        cabecalho: 'Cadastrar gastos',
+                        severidadeBotaoAceitacao: 'success',
+                    })
+                    .subscribe({
+                        next: (confirmado) => {
+                            if (confirmado) {
+                                this.form.reset();
+                            } else {
+                                this._router.navigate(['/gasto']);
+                            }
+                        },
+                    });
             });
     }
 
     atualizar(gastoRequest: GastoRequestDTO) {
-        this._gastoService.atualizar(gastoRequest, this._authService.usuarioId() || 0).subscribe();
+        this._gastoService.atualizar(gastoRequest, this._authService.usuarioId() || 0).subscribe({
+            next: () => {
+                this._router.navigate(['/gasto']);
+                this._notificacaoService.msgSucesso('Gasto atualizado');
+            },
+        });
     }
 
     voltar() {

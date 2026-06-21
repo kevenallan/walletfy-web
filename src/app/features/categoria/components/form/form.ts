@@ -2,13 +2,13 @@ import { Component, inject, signal } from '@angular/core';
 
 import { CategoriaDTO } from '../../models/categoria';
 
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { Button } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
+import { Button } from 'primeng/button';
 import { ColorPickerModule } from 'primeng/colorpicker';
-import { ToggleSwitchModule } from 'primeng/toggleswitch';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
+import { ToggleSwitchModule } from 'primeng/toggleswitch';
 
 @Component({
     selector: 'app-form',
@@ -85,10 +85,10 @@ export class Form {
         { label: 'Circulo', value: 'pi pi-circle' },
     ];
 
-    private ref = inject(DynamicDialogRef);
-    private config = inject(DynamicDialogConfig);
+    private _ref = inject(DynamicDialogRef);
+    private _config = inject(DynamicDialogConfig);
 
-    readonly categoria = (this.config.data?.categoria as CategoriaDTO | null) ?? null;
+    readonly categoria = (this._config.data?.categoria as CategoriaDTO | null) ?? null;
 
     nome = signal(this.categoria?.nome ?? '');
     icone = signal(
@@ -97,9 +97,6 @@ export class Form {
     cor = signal(this.categoria?.cor ?? '#16a34a');
     ativo = signal(this.categoria?.ativo ?? true);
 
-    constructor() {
-        console.log(this.categoria);
-    }
     salvar() {
         const resultado: CategoriaDTO = {
             id: this.categoria?.id,
@@ -108,12 +105,11 @@ export class Form {
             cor: this.cor(),
             ativo: this.ativo(),
         };
-        console.log(resultado);
 
-        this.ref.close(resultado);
+        this._ref.close(resultado);
     }
 
     cancelar() {
-        this.ref.close();
+        this._ref.close();
     }
 }
