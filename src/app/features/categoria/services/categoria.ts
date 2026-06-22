@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CategoriaDTO } from '../models/categoria';
 
@@ -11,8 +11,9 @@ export class CategoriaService {
     private _apiCategoria = environment.apiUrl + '/categoria';
     private _http = inject(HttpClient);
 
-    listar(usuarioId: number): Observable<CategoriaDTO[]> {
-        return this._http.get<CategoriaDTO[]>(`${this._apiCategoria}/${usuarioId}`);
+    listar(usuarioId: number, tipoCategoria: string): Observable<CategoriaDTO[]> {
+        const params = new HttpParams().set('tipo', tipoCategoria);
+        return this._http.get<CategoriaDTO[]>(`${this._apiCategoria}/${usuarioId}`, { params });
     }
 
     cadastrar(usuarioId: number, categoria: CategoriaDTO): Observable<CategoriaDTO> {

@@ -11,12 +11,12 @@ export const erroInterceptor: HttpInterceptorFn = (req, next) => {
     const router = inject(Router);
 
     return next(req).pipe(
-        tap((event) => {
+        tap(() => {
             // if (event.type === HttpEventType.Response && METHODS_COM_SUCESSO.includes(req.method)) {
             //     const customMessage = req.context.get(SUCCESS_MESSAGE);
             //     notification.success(customMessage ?? 'Operação realizada com sucesso!');
             // }
-            console.log(event);
+            // console.log(event);
         }),
         catchError((error: HttpErrorResponse) => {
             const msg = getErrorMessage(error);

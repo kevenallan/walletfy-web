@@ -137,7 +137,7 @@ export class Tabela implements OnInit {
     }
 
     getCategoria() {
-        this._categoriaService.listar(1).subscribe({
+        this._categoriaService.listar(1, 'DESPESA').subscribe({
             next: (response) => {
                 this.categoriaFiltro.set(response);
             },

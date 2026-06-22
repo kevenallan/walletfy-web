@@ -130,7 +130,7 @@ export class Form implements OnInit {
 
     getCategorias(): Observable<CategoriaDTO[]> {
         return this._categoriaService
-            .listar(this._authService.usuarioId()!)
+            .listar(this._authService.usuarioId()!, 'DESPESA')
             .pipe(tap((response) => this.categorias.set(response)));
     }
 
