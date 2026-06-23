@@ -1,6 +1,6 @@
 import { Component, output } from '@angular/core';
 import { DrawerModule } from 'primeng/drawer';
-import { RouterLink } from "@angular/router";
+import { RouterLink } from '@angular/router';
 
 @Component({
     selector: 'app-menu',
