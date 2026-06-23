@@ -18,13 +18,13 @@ export const routes: Routes = [
         children: [
             { path: '', redirectTo: 'categoria', pathMatch: 'full' },
             {
-                path: 'categoria',
+                path: 'receita',
                 children: [
                     {
                         path: '',
                         loadComponent: () =>
-                            import('./features/categoria/pages/categoria/categoria').then(
-                                (c) => c.Categoria,
+                            import('./features/receita/pages/receita/receita').then(
+                                (c) => c.Receita,
                             ),
                     },
                 ],
@@ -46,6 +46,18 @@ export const routes: Routes = [
                         path: ':id/atualizar',
                         loadComponent: () =>
                             import('./features/gasto/pages/form/form').then((c) => c.Form),
+                    },
+                ],
+            },
+            {
+                path: 'categoria',
+                children: [
+                    {
+                        path: '',
+                        loadComponent: () =>
+                            import('./features/categoria/pages/categoria/categoria').then(
+                                (c) => c.Categoria,
+                            ),
                     },
                 ],
             },

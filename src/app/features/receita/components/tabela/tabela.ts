@@ -9,72 +9,50 @@ import {
     signal,
     WritableSignal,
 } from '@angular/core';
-
-import { CurrencyPipe, DatePipe, TitleCasePipe } from '@angular/common';
-
+import { ReceitaResponseDTO } from '../../models/receita-response';
 import { TableFilterEvent, TableModule } from 'primeng/table';
+import { Tag } from 'primeng/tag';
+import { CurrencyPipe, DatePipe, NgClass, TitleCasePipe } from '@angular/common';
+import { CoresBadgeService } from '../../../../core/services/cores-badge';
+import { StatusReceitaDTO } from '../../models/status-receita';
+import { CategoriaDTO } from '../../../categoria/models/categoria';
+import { FormaPagamentoDTO } from '../../../gasto/models/forma-pagamento';
+import { StatusGastoService } from '../../../gasto/services/status-gasto';
+import { FormaPagamentoService } from '../../../gasto/services/forma-pagamento';
+import { CategoriaService } from '../../../categoria/services/categoria';
+import { TipoCategoria } from '../../../../core/enum/tipo-categoria';
+import { MultiSelect } from 'primeng/multiselect';
+import { FormsModule } from '@angular/forms';
+import { DatasEmissao } from '../../../gasto/models/datas-Emissao';
+import { primeiroDiaMesDate, ultimoDiaMesDate } from '../../../../shared/utils/data';
+import { DatePicker } from 'primeng/datepicker';
+import { Button } from 'primeng/button';
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
-import { NgClass } from '@angular/common';
-import { GastoDTO } from '../../models/gasto';
-import { TagModule } from 'primeng/tag';
-import { MultiSelectModule } from 'primeng/multiselect';
-import { StatusGastoDTO } from '../../models/status-gasto';
-import { StatusGastoService } from '../../services/status-gasto';
-import { FormsModule } from '@angular/forms';
-import { CategoriaService } from '../../../categoria/services/categoria';
-import { FormaPagamentoService } from '../../services/forma-pagamento';
-import { CategoriaDTO } from '../../../categoria/models/categoria';
-import { FormaPagamentoDTO } from '../../models/forma-pagamento';
-import { DatePicker } from 'primeng/datepicker';
-import { primeiroDiaMesDate, ultimoDiaMesDate } from '../../../../shared/utils/data';
-import { Button } from 'primeng/button';
-import { DatasEmissao } from '../../models/datas-Emissao';
-import { TipoCategoria } from '../../../../core/enum/tipo-categoria';
 
 @Component({
     selector: 'app-tabela',
     imports: [
         TableModule,
-        IconField,
-        InputIcon,
-        InputTextModule,
         NgClass,
-        CurrencyPipe,
         DatePipe,
         TitleCasePipe,
-        TagModule,
-        MultiSelectModule,
+        CurrencyPipe,
+        Tag,
+        MultiSelect,
         FormsModule,
         DatePicker,
         Button,
+        IconField,
+        InputIcon,
+        InputTextModule,
     ],
     templateUrl: './tabela.html',
     styleUrl: './tabela.css',
 })
 export class Tabela implements OnInit {
-    gastos = input<GastoDTO[]>([]);
-
-    datasEmissaoOutput = output<DatasEmissao>({});
-    dataInicio = signal<Date>(primeiroDiaMesDate());
-    dataFim = signal<Date>(ultimoDiaMesDate());
-    gastoEditarOutput = output<number>();
-    gastoDeletarOutput = output<number>();
-
-    dataInicioInvalida = false;
-    dataFimInvalida = false;
-    msgErroData = '';
-
-    gastosComCor = computed(() =>
-        this.gastos().map((g) => ({
-            ...g,
-            corFormaPagamento: this.getCorFormaPagamento(g.formaPagamento.nome),
-            corStatus: this.getCorStatus(g.status.nome),
-            corIconeStatus: this.getCorIconeStatus(g.status.nome),
-        })),
-    );
-
+    receitaResponseDTO = input<ReceitaResponseDTO[]>([]);
     isMobile = window.innerWidth < 768;
     tableSize: 'small' | 'large' | undefined = this.isMobile ? 'small' : undefined;
     @HostListener('window:resize')
@@ -83,39 +61,33 @@ export class Tabela implements OnInit {
         this.tableSize = this.isMobile ? 'small' : undefined;
     }
 
-    private readonly CORES_FORMA_PAGAMENTO: Record<string, string> = {
-        PIX: 'bg-verde! text-white!',
-        Débito: 'bg-azul! text-white!',
-        Crédito: 'bg-roxo! text-white!',
-        Dinheiro: 'bg-amarelo! text-white!',
-        Boleto: 'bg-laranja! text-white!',
-        Transferência: 'bg-cinza! text-white!',
-    };
+    datasEmissaoOutput = output<DatasEmissao>({});
+    dataInicio = signal<Date>(primeiroDiaMesDate());
+    dataFim = signal<Date>(ultimoDiaMesDate());
+    receitaEditarOutput = output<number>();
+    receitaDeletarOutput = output<number>();
 
-    private readonly CORES_STATUS: Record<string, string> = {
-        PAGO: 'bg-verde-claro! text-verde!',
-        PENDENTE: 'bg-amarelo-claro! text-amarelo!',
-        ATRASADO: 'bg-vermelho-claro! text-vermelho!',
-        CANCELADO: 'bg-cinza-claro! text-cinza!',
-    };
-
-    private readonly CORES_ICONE_STATUS: Record<string, string> = {
-        PAGO: 'text-verde!',
-        PENDENTE: 'text-amarelo!',
-        ATRASADO: 'text-vermelho!',
-        CANCELADO: 'text-cinza!',
-    };
-
-    private _statusService = inject(StatusGastoService);
-    private _categoriaService = inject(CategoriaService);
-    private _formaPagamentoService = inject(FormaPagamentoService);
-
-    statusFiltro = signal<StatusGastoDTO[]>([]);
-    statusFiltroSelecionado = signal<StatusGastoDTO[]>([]);
+    dataInicioInvalida = false;
+    dataFimInvalida = false;
+    msgErroData = '';
+    statusFiltro = signal<StatusReceitaDTO[]>([]);
+    statusFiltroSelecionado = signal<StatusReceitaDTO[]>([]);
     categoriaFiltro = signal<CategoriaDTO[]>([]);
     categoriaFiltroSelecionado = signal<CategoriaDTO[]>([]);
     formaPagamentoFiltro = signal<FormaPagamentoDTO[]>([]);
     formaPagamentoFiltroSelecionado = signal<FormaPagamentoDTO[]>([]);
+
+    receitas = computed(() =>
+        this.receitaResponseDTO().map((r) => ({
+            ...r,
+            corFormaPagamento: this._coresBadgeService.getCorFormaPagamento(r.formaPagamento.nome),
+            corStatus: this._coresBadgeService.getCorStatusReceita(r.status.nome),
+        })),
+    );
+    private _coresBadgeService = inject(CoresBadgeService);
+    private _statusService = inject(StatusGastoService);
+    private _categoriaService = inject(CategoriaService);
+    private _formaPagamentoService = inject(FormaPagamentoService);
 
     ngOnInit() {
         this.getStatusGasto();
@@ -138,7 +110,7 @@ export class Tabela implements OnInit {
     }
 
     getCategoria() {
-        this._categoriaService.listar(1, TipoCategoria.DESPESA).subscribe({
+        this._categoriaService.listar(1, TipoCategoria.RECEITA).subscribe({
             next: (response) => {
                 this.categoriaFiltro.set(response);
             },
@@ -151,26 +123,6 @@ export class Tabela implements OnInit {
                 this.formaPagamentoFiltro.set(response);
             },
         });
-    }
-
-    private getCorFormaPagamento(formaPagamento: string): string {
-        return this.CORES_FORMA_PAGAMENTO[formaPagamento] ?? 'bg-cinza! text-white!';
-    }
-
-    private getCorStatus(status: string): string {
-        return this.CORES_STATUS[status] ?? 'bg-cinza-claro! text-cinza!';
-    }
-
-    private getCorIconeStatus(status: string): string {
-        return this.CORES_ICONE_STATUS[status] ?? 'text-cinza!';
-    }
-
-    emitirGastoEditar(idGasto: number) {
-        this.gastoEditarOutput.emit(idGasto);
-    }
-
-    emitirGastoDeletar(idGasto: number) {
-        this.gastoDeletarOutput.emit(idGasto);
     }
 
     onFiltroTabela(event: TableFilterEvent) {
@@ -201,7 +153,9 @@ export class Tabela implements OnInit {
             this.datasEmissaoOutput.emit(datas);
         }
     }
-
+    emitirReceitaDeletar(idGasto: number) {
+        this.receitaDeletarOutput.emit(idGasto);
+    }
     validarDatas(): boolean {
         this.msgErroData = '';
         this.dataInicioInvalida = false;

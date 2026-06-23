@@ -3,6 +3,7 @@ import { environment } from '../../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CategoriaDTO } from '../models/categoria';
+import { TipoCategoria } from '../../../core/enum/tipo-categoria';
 
 @Injectable({
     providedIn: 'root',
@@ -11,7 +12,7 @@ export class CategoriaService {
     private _apiCategoria = environment.apiUrl + '/categoria';
     private _http = inject(HttpClient);
 
-    listar(usuarioId: number, tipoCategoria: string): Observable<CategoriaDTO[]> {
+    listar(usuarioId: number, tipoCategoria: TipoCategoria): Observable<CategoriaDTO[]> {
         const params = new HttpParams().set('tipo', tipoCategoria);
         return this._http.get<CategoriaDTO[]>(`${this._apiCategoria}/${usuarioId}`, { params });
     }

@@ -20,7 +20,7 @@
     <main>
         <p-tabs [(value)]="abaSelecionada" (valueChange)="listar()" class="mr-3">
             <p-tablist>
-                <p-tab value="DESPESA">Despesa</p-tab>
+                <p-tab [value]="abaDespesa">Despesa</p-tab>
                 <p-tab value="RECEITA">Receita</p-tab>
             </p-tablist>
             <p-tabpanels>
@@ -30,7 +30,7 @@
                         (editar)="abrirForm($event)"
                     ></app-tabela>
                 </p-tabpanel>
-                <p-tabpanel value="RECEITA">
+                <p-tabpanel [value]="abaReceita">
                     <app-tabela
                         [categorias]="categorias()"
                         (editar)="abrirForm($event)"

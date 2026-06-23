@@ -20,6 +20,7 @@ import { forkJoin, Observable, switchMap, tap } from 'rxjs';
 import { GastoRequestDTO } from '../../models/gasto-request';
 import { NotificacaoService } from '../../../../core/services/notificacao';
 import { ConfirmacaoService } from '../../../../core/services/confirmacao';
+import { TipoCategoria } from '../../../../core/enum/tipo-categoria';
 @Component({
     selector: 'app-form',
     imports: [
@@ -130,7 +131,7 @@ export class Form implements OnInit {
 
     getCategorias(): Observable<CategoriaDTO[]> {
         return this._categoriaService
-            .listar(this._authService.usuarioId()!, 'DESPESA')
+            .listar(this._authService.usuarioId()!, TipoCategoria.DESPESA)
             .pipe(tap((response) => this.categorias.set(response)));
     }
 

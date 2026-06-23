@@ -11,6 +11,7 @@ import { TableModule } from 'primeng/table';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Button } from 'primeng/button';
 import { TabsModule } from 'primeng/tabs';
+import { TipoCategoria } from '../../../../core/enum/tipo-categoria';
 @Component({
     selector: 'app-categoria',
     imports: [TableModule, CardInformacoes, Tabela, Button, TabsModule],
@@ -21,7 +22,9 @@ import { TabsModule } from 'primeng/tabs';
 export class Categoria implements OnInit {
     usuarioId = 1;
     categorias = signal<CategoriaDTO[]>([]);
-    abaSelecionada = 'DESPESA';
+    abaDespesa = TipoCategoria.DESPESA;
+    abaReceita = TipoCategoria.RECEITA;
+    abaSelecionada: TipoCategoria = TipoCategoria.DESPESA;
     isMobile = window.innerWidth < 768;
 
     @HostListener('window:resize')
