@@ -1,4 +1,4 @@
-<main class="shadow-lg mt-5 md:mt-0 md:mr-3">
+<main class="shadow-lg md:mr-3">
     <p-table
         #dt2
         [value]="receitas()"
@@ -259,8 +259,7 @@
                 <td class="text-center!">{{ receita.valor | currency: 'BRL' }}</td>
                 <td>
                     <div class="flex gap-3">
-                        <!-- (click)="emitirReceitaEditar(receita.id)" -->
-                        <button class="cursor-pointer">
+                        <button class="cursor-pointer" (click)="emitirReceitaEditar(receita.id)">
                             <i class="pi pi-pen-to-square text-azul"></i>
                         </button>
                         <button

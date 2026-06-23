@@ -9,7 +9,7 @@ export interface ReceitaResponseDTO {
     status: StatusReceitaDTO;
     descricao: string;
     valor: number;
-    dataReceita: Date;
+    dataReceita: string;
     // recorrente:boolean,
     ativo: boolean;
 }

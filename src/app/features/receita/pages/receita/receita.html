@@ -1,13 +1,22 @@
 <div class="flex flex-col h-full">
     <h1 class="font-bold text-2xl mt-20 ml-5 md:mt-5 md:text-4xl">Receitas</h1>
     <p class="text-cinza ml-5 md:mt-2">Gerencie todas as suas receitas registradas.</p>
+
+    <div class="flex justify-end mr-2 my-1 md:my-3">
+        <p-button
+            icon="pi pi-plus"
+            [label]="isMobile ? '' : 'Nova Receita'"
+            (click)="abrirForm()"
+            styleClass="bg-[#013729]! border-[#013729]! hover:!bg-green-600 dark:bg-green-600! hover:bg-green-400!"
+        />
+    </div>
+
+    <app-card></app-card>
+
+    <app-tabela
+        [receitaResponseDTO]="receitas()"
+        (receitaEditarOutput)="abrirForm($event)"
+        (receitaDeletarOutput)="deletarReceita($event)"
+        (datasEmissaoOutput)="buscarReceitaPorData($event)"
+    ></app-tabela>
 </div>
-
-<app-card></app-card>
-
-<app-tabela
-    [receitaResponseDTO]="receitas()"
-    (receitaEditarOutput)="cadastrarAtualizarReceita($event)"
-    (receitaDeletarOutput)="deletarReceita($event)"
-    (datasEmissaoOutput)="buscarReceitaPorData($event)"
-></app-tabela>

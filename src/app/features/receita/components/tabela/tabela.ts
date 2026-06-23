@@ -17,7 +17,6 @@ import { CoresBadgeService } from '../../../../core/services/cores-badge';
 import { StatusReceitaDTO } from '../../models/status-receita';
 import { CategoriaDTO } from '../../../categoria/models/categoria';
 import { FormaPagamentoDTO } from '../../../gasto/models/forma-pagamento';
-import { StatusGastoService } from '../../../gasto/services/status-gasto';
 import { FormaPagamentoService } from '../../../gasto/services/forma-pagamento';
 import { CategoriaService } from '../../../categoria/services/categoria';
 import { TipoCategoria } from '../../../../core/enum/tipo-categoria';
@@ -30,6 +29,7 @@ import { Button } from 'primeng/button';
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
+import { StatusReceitaService } from '../../services/status-receita';
 
 @Component({
     selector: 'app-tabela',
@@ -85,17 +85,17 @@ export class Tabela implements OnInit {
         })),
     );
     private _coresBadgeService = inject(CoresBadgeService);
-    private _statusService = inject(StatusGastoService);
+    private _statusService = inject(StatusReceitaService);
     private _categoriaService = inject(CategoriaService);
     private _formaPagamentoService = inject(FormaPagamentoService);
 
     ngOnInit() {
-        this.getStatusGasto();
+        this.getStatusReceita();
         this.getCategoria();
         this.getFormaPagamento();
     }
 
-    getStatusGasto() {
+    getStatusReceita() {
         this._statusService.listar().subscribe({
             next: (response) => {
                 this.statusFiltro.set(
@@ -195,5 +195,9 @@ export class Tabela implements OnInit {
             return false;
         }
         return true;
+    }
+
+    emitirReceitaEditar(receitaId: number) {
+        this.receitaEditarOutput.emit(receitaId);
     }
 }
