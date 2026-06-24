@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { IconFieldModule } from 'primeng/iconfield';
@@ -6,8 +6,6 @@ import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 
-import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth';
 import { LoginRequestDTO } from '../../models/login-request';
 
 @Component({
@@ -25,9 +23,7 @@ import { LoginRequestDTO } from '../../models/login-request';
 })
 export class FormLogin {
     form!: FormGroup;
-
-    private _authService = inject(AuthService);
-    private _router = inject(Router);
+    formOutput = output<LoginRequestDTO>();
 
     constructor() {
         this.configurarFormulario();
@@ -44,12 +40,7 @@ export class FormLogin {
         if (this.form.valid) {
             const loginRequest = this._montarRequisicaoLogin();
 
-            this._authService.login(loginRequest).subscribe({
-                next: (response) => {
-                    this._authService.salvar(response);
-                    this._router.navigate(['/gasto']);
-                },
-            });
+            this.formOutput.emit(loginRequest);
         }
     }
 

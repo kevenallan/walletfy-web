@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, output, ViewChild } from '@angular/core';
 import {
     AbstractControl,
     FormBuilder,
@@ -8,7 +8,6 @@ import {
     ValidatorFn,
     Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
 import { Button } from 'primeng/button';
 import { Checkbox } from 'primeng/checkbox';
 import { IconField } from 'primeng/iconfield';
@@ -17,7 +16,6 @@ import { InputTextModule } from 'primeng/inputtext';
 import { Password } from 'primeng/password';
 import { Popover, PopoverModule } from 'primeng/popover';
 import { CadastroEdicaoRequestDTO } from '../../models/cadastro-edicao-request';
-import { AuthService } from '../../services/auth';
 
 @Component({
     selector: 'app-form-cadastro',
@@ -36,12 +34,10 @@ import { AuthService } from '../../services/auth';
 })
 export class FormCadastro implements OnInit {
     form!: FormGroup;
+    formOutput = output<CadastroEdicaoRequestDTO>();
 
     @ViewChild('op') op!: Popover;
     @ViewChild('targetEl') targetEl!: ElementRef;
-
-    private _authService = inject(AuthService);
-    private _router = inject(Router);
 
     constructor() {
         this.configurarFormulario();
@@ -103,12 +99,7 @@ export class FormCadastro implements OnInit {
 
         const requisicao = this._montarRequisicao();
 
-        this._authService.cadastrar(requisicao).subscribe({
-            next: (response) => {
-                this._authService.salvar(response);
-                this._router.navigate(['/gasto']);
-            },
-        });
+        this.formOutput.emit(requisicao);
     }
 
     private _validarCampos(): boolean {
