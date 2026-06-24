@@ -110,7 +110,7 @@
                             xmlns:xlink="http://www.w3.org/1999/xlink"
                             aria-hidden="true"
                             role="img"
-                            class="iconify iconify--emojione w-4 h-4"
+                            class="iconify iconify--emojione w-5 h-5 md:w-4 md:h-4"
                             preserveAspectRatio="xMidYMid meet"
                             fill="#000000"
                         >
@@ -127,8 +127,8 @@
                                 </g>
                             </g>
                         </svg>
-                        <span class="font-medium block ml-2"
-                            >Você precisa aceitar os Termos de Uso e a Política de Privacidade para
+                        <span class="text-sm md:text-base font-semibold block ml-2">
+                            Você precisa aceitar os Termos de Uso e a Política de Privacidade para
                             criar sua conta.</span
                         >
                     </div>
@@ -140,7 +140,7 @@
                     label="Cadastrar"
                     class="w-full"
                     styleClass="w-full"
-                    (click)="cadastrar(); op.show($event, targetEl)"
+                    (click)="onCadastrarClick($event)"
                 />
             </div>
         </form>

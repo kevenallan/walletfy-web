@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import {
     AbstractControl,
     FormBuilder,
@@ -15,7 +15,7 @@ import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { Password } from 'primeng/password';
-import { PopoverModule } from 'primeng/popover';
+import { Popover, PopoverModule } from 'primeng/popover';
 import { CadastroEdicaoRequestDTO } from '../../models/cadastro-edicao-request';
 import { AuthService } from '../../services/auth';
 
@@ -34,14 +34,25 @@ import { AuthService } from '../../services/auth';
     templateUrl: './form-cadastro.html',
     styleUrl: './form-cadastro.css',
 })
-export class FormCadastro {
+export class FormCadastro implements OnInit {
     form!: FormGroup;
+
+    @ViewChild('op') op!: Popover;
+    @ViewChild('targetEl') targetEl!: ElementRef;
 
     private _authService = inject(AuthService);
     private _router = inject(Router);
 
     constructor() {
         this.configurarFormulario();
+    }
+
+    ngOnInit(): void {
+        this.form.get('termosAceitacao')?.valueChanges.subscribe((value) => {
+            if (value) {
+                this.op.hide();
+            }
+        });
     }
 
     configurarFormulario() {
@@ -68,6 +79,17 @@ export class FormCadastro {
         };
     }
 
+    onCadastrarClick(event: Event) {
+        const aceitouTermos = this.form.get('termosAceitacao')?.value;
+
+        if (!aceitouTermos) {
+            this.op.show(event, this.targetEl.nativeElement);
+            return;
+        }
+
+        this.cadastrar();
+    }
+
     cadastrar() {
         this.form.markAllAsTouched();
         this.form.markAllAsDirty();
@@ -82,7 +104,8 @@ export class FormCadastro {
         const requisicao = this._montarRequisicao();
 
         this._authService.cadastrar(requisicao).subscribe({
-            next: () => {
+            next: (response) => {
+                this._authService.salvar(response);
                 this._router.navigate(['/gasto']);
             },
         });

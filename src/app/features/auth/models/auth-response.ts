@@ -1,6 +1,5 @@
-export interface LoginResponseDTO {
+export interface AuthResponseDTO {
     id: number;
     email: string;
-    senha: string;
     nome: string;
 }
