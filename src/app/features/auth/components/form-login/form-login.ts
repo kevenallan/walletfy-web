@@ -5,7 +5,7 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
-import { LoginService } from '../../services/login';
+
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth';
 import { LoginRequestDTO } from '../../models/login-request';
@@ -26,9 +26,8 @@ import { LoginRequestDTO } from '../../models/login-request';
 export class FormLogin {
     form!: FormGroup;
 
-    private _loginService = inject(LoginService);
-    private _router = inject(Router);
     private _authService = inject(AuthService);
+    private _router = inject(Router);
 
     constructor() {
         this.configurarFormulario();
@@ -45,7 +44,7 @@ export class FormLogin {
         if (this.form.valid) {
             const loginRequest = this._montarRequisicaoLogin();
 
-            this._loginService.login(loginRequest).subscribe({
+            this._authService.login(loginRequest).subscribe({
                 next: (response) => {
                     this._authService.salvar(response);
                     this._router.navigate(['/gasto']);

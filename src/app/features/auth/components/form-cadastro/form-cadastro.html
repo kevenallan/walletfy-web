@@ -1,0 +1,177 @@
+<main class="flex items-center justify-center w-full h-full">
+    <div
+        class="bg-white dark:bg-gray-800 flex flex-col justify-center md:gap-4 rounded-2xl shadow-lg w-full max-w-2xl p-2 mx-2"
+    >
+        <div class="flex flex-col items-center justify-center gap-3">
+            <div
+                class="flex justify-center items-center bg-green-100 rounded-full w-12 h-12 md:w-17 md:h-17"
+            >
+                <i class="pi pi-user-plus text-verde text-2xl! md:text-4xl!"></i>
+            </div>
+            <h2 class="hidden md:block font-bold text-base md:text-2xl!">Criar sua conta</h2>
+            <p class="hidden md:block text-gray-400">É rápido, fácil e gratuito!</p>
+        </div>
+
+        <form class="text-sm md:text-base" [formGroup]="form">
+            <div class="flex flex-col md:flex-row mt-1">
+                <div class="flex flex-col gap-1 md:px-2 md:w-full">
+                    <label for="nome">Nome completo</label>
+                    <p-iconfield>
+                        <p-inputicon class="pi pi-user" />
+                        <input
+                            id="nome"
+                            formControlName="nome"
+                            autocomplete="name"
+                            class="w-full"
+                            type="text"
+                            pInputText
+                            placeholder="Digite seu nome completo"
+                        />
+                    </p-iconfield>
+                </div>
+
+                <div class="flex flex-col gap-1 mt-1 md:px-2 md:mt-0 md:w-full">
+                    <label for="email">E-mail</label>
+                    <p-iconfield>
+                        <p-inputicon class="pi pi-envelope" />
+                        <input
+                            id="email"
+                            autocomplete="email"
+                            formControlName="email"
+                            class="w-full"
+                            type="text"
+                            pInputText
+                            placeholder="seu@email.com"
+                        />
+                    </p-iconfield>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row">
+                <div class="flex flex-col gap-1 md:px-2 mt-1 md:w-full">
+                    <label for="senha">Senha</label>
+                    <p-iconfield>
+                        <p-inputicon class="pi pi-lock" />
+                        <p-password
+                            id="senha"
+                            formControlName="senha"
+                            autocomplete="current-password"
+                            [invalid]="form.hasError('senhasDiferentes')"
+                            [toggleMask]="true"
+                            [feedback]="false"
+                            placeholder="Crie uma senha"
+                            class="w-full"
+                            inputStyleClass="w-full"
+                        />
+                    </p-iconfield>
+                </div>
+
+                <div class="flex flex-col gap-1 md:px-2 mt-1 md:w-full">
+                    <label for="senhaConfirmada">Confirmar senha</label>
+                    <p-iconfield>
+                        <p-inputicon class="pi pi-lock" />
+                        <p-password
+                            id="senhaConfirmada"
+                            formControlName="senhaConfirmada"
+                            [invalid]="form.hasError('senhasDiferentes')"
+                            [toggleMask]="true"
+                            [feedback]="false"
+                            placeholder="Confirme sua senha"
+                            class="w-full"
+                            inputStyleClass="w-full"
+                        />
+                    </p-iconfield>
+                </div>
+            </div>
+
+            @if (form.hasError('senhasDiferentes') && form.get('senhaConfirmada')?.touched) {
+                <div class="w-fit px-4 mt-1">
+                    <p class="text-red-500">
+                        A confirmação da senha deve ser igual à senha informada.
+                    </p>
+                </div>
+            }
+
+            <div #targetEl class="flex items-center md:items-start gap-1 px-2 mt-3">
+                <p-checkbox [binary]="true" formControlName="termosAceitacao" />
+                <p class="text-sm md:text-base ml-1">
+                    Eu concordo com os
+                    <a href="#" class="text-verde font-semibold">Termos de Uso</a> e a
+                    <a href="/login" class="text-verde font-semibold">Política de Privacidade</a>
+                </p>
+            </div>
+
+            <p-popover #op styleClass="ml-2">
+                <div class="flex flex-col gap-4">
+                    <div class="flex items-center">
+                        <svg
+                            viewBox="0 0 64 64"
+                            xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink"
+                            aria-hidden="true"
+                            role="img"
+                            class="iconify iconify--emojione w-5 h-5 md:w-4 md:h-4"
+                            preserveAspectRatio="xMidYMid meet"
+                            fill="#000000"
+                        >
+                            <g id="SVGRepo_iconCarrier">
+                                <path
+                                    d="M5.9 62c-3.3 0-4.8-2.4-3.3-5.3L29.3 4.2c1.5-2.9 3.9-2.9 5.4 0l26.7 52.5c1.5 2.9 0 5.3-3.3 5.3H5.9z"
+                                    fill="#ffce31"
+                                ></path>
+                                <g fill="#231f20">
+                                    <path
+                                        d="M27.8 23.6l2.8 18.5c.3 1.8 2.6 1.8 2.9 0l2.7-18.5c.5-7.2-8.9-7.2-8.4 0"
+                                    ></path>
+                                    <circle cx="32" cy="49.6" r="4.2"></circle>
+                                </g>
+                            </g>
+                        </svg>
+                        <span class="text-sm md:text-base font-semibold block ml-2">
+                            Você precisa aceitar os Termos de Uso e a Política de Privacidade para
+                            criar sua conta.</span
+                        >
+                    </div>
+                </div>
+            </p-popover>
+
+            <div class="px-2 py-3">
+                <p-button
+                    label="Cadastrar"
+                    class="w-full"
+                    styleClass="w-full"
+                    (click)="onCadastrarClick($event)"
+                />
+            </div>
+        </form>
+
+        <div class="flex items-center gap-2 px-2">
+            <div class="flex-1 h-px bg-gray-300"></div>
+            <span class="text-sm text-gray-400">ou</span>
+            <div class="flex-1 h-px bg-gray-300"></div>
+        </div>
+
+        <div class="px-2 py-3">
+            <p-button styleClass="w-full" [outlined]="true" severity="secondary">
+                <ng-template #content>
+                    <div class="flex items-center justify-center gap-2 w-full">
+                        <img
+                            src="images/google_logo_40x40.png"
+                            alt="Logo do Google"
+                            width="5"
+                            height="5"
+                            class="w-5 h-5"
+                        />
+                        <span class="text-surface font-bold">Entrar com Google</span>
+                    </div>
+                </ng-template>
+            </p-button>
+        </div>
+
+        <div class="flex items-center justify-center gap-2 px-4">
+            <p class="text-center text-sm md:text-base text-gray-500">
+                Já tem uma conta? <a href="/login" class="text-verde">Fazer login</a>
+            </p>
+        </div>
+    </div>
+</main>

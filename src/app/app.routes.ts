@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { Login } from './features/auth/pages/login/login';
 import { Main } from './layout/main/main';
+import { Cadastro } from './features/auth/pages/cadastro/cadastro';
 
 export const routes: Routes = [
     {
@@ -11,6 +12,10 @@ export const routes: Routes = [
     {
         path: 'login',
         component: Login,
+    },
+    {
+        path: 'cadastro',
+        component: Cadastro,
     },
     {
         path: '',
