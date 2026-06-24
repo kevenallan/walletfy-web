@@ -2,7 +2,6 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { Button } from 'primeng/button';
 import { Select } from 'primeng/select';
 import { DatePicker } from 'primeng/datepicker';
-import { InputNumber } from 'primeng/inputnumber';
 import { ReceitaResponseDTO } from '../../models/receita-response';
 import { CategoriaDTO } from '../../../categoria/models/categoria';
 import { FormaPagamentoDTO } from '../../../gasto/models/forma-pagamento';
@@ -17,10 +16,11 @@ import { NotificacaoService } from '../../../../core/services/notificacao';
 import { forkJoin, Observable, switchMap, tap } from 'rxjs';
 import { TipoCategoria } from '../../../../core/enum/tipo-categoria';
 import { ReceitaRequestDTO } from '../../models/receita-request';
-import { LowerCasePipe, TitleCasePipe } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
 import { StatusReceitaDTO } from '../../models/status-receita';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { TitleCasePipe } from '@angular/common';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 @Component({
     selector: 'app-form',
@@ -28,10 +28,9 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
         Button,
         Select,
         DatePicker,
-        InputNumber,
+        InputNumberModule,
         ReactiveFormsModule,
         TitleCasePipe,
-        LowerCasePipe,
         InputTextModule,
     ],
     templateUrl: './form.html',
@@ -45,8 +44,6 @@ export class Form implements OnInit {
     categorias = signal<CategoriaDTO[]>([]);
     formaPagamento = signal<FormaPagamentoDTO[]>([]);
     statusReceita = signal<StatusReceitaDTO[]>([]);
-    statusReceitaSelecionado = signal<StatusReceitaDTO | null>(null);
-
     form!: FormGroup;
 
     private _authService = inject(AuthService);
@@ -145,20 +142,19 @@ export class Form implements OnInit {
         return this._statusReceitaService.listar().pipe(
             tap((response) => {
                 this.statusReceita.set(response);
-                this.setarStatus();
-                console.log(this.statusReceita());
+                // this.setarStatus();
             }),
         );
     }
 
-    setarStatus() {
-        if (this.receita) {
-            this.form.patchValue({ status: this.receita.status.id });
-        } else {
-            const statusRecebido = this.statusReceita().find((s) => s.nome === 'RECEBIDO') ?? null;
-            this.form.patchValue({ status: statusRecebido?.id });
-        }
-    }
+    // setarStatus() {
+    //     if (this.receita) {
+    //         this.form.patchValue({ status: this.receita.status.id });
+    //     } else {
+    //         const statusRecebido = this.statusReceita().find((s) => s.nome === 'RECEBIDO') ?? null;
+    //         this.form.patchValue({ status: statusRecebido?.id });
+    //     }
+    // }
 
     salvar() {
         this.form.markAllAsTouched();
@@ -181,5 +177,9 @@ export class Form implements OnInit {
         };
 
         this._ref.close(receitaRequest);
+    }
+
+    cancelar() {
+        this._ref.close();
     }
 }

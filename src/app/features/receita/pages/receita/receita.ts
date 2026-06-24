@@ -6,7 +6,7 @@ import { Card } from '../../../receita/components/card/card';
 import { Tabela } from '../../../receita/components/tabela/tabela';
 import { ConfirmacaoService } from '../../../../core/services/confirmacao';
 import { NotificacaoService } from '../../../../core/services/notificacao';
-import { formatarData, primeiroDiaMes, ultimoDiaMes } from '../../../../shared/utils/data';
+import { formatarData, primeiroDiaMesDate, ultimoDiaMesDate } from '../../../../shared/utils/data';
 import { DatasEmissao } from '../../../gasto/models/datas-Emissao';
 import { Button } from 'primeng/button';
 import { DialogService } from 'primeng/dynamicdialog';
@@ -25,6 +25,8 @@ export class Receita implements OnInit {
 
     isMobile = window.innerWidth < 768;
 
+    dataFiltro: DatasEmissao = { dataInicio: primeiroDiaMesDate(), dataFim: ultimoDiaMesDate() };
+
     @HostListener('window:resize')
     onResize() {
         this.isMobile = window.innerWidth < 768;
@@ -36,16 +38,22 @@ export class Receita implements OnInit {
     private _notificacaoService = inject(NotificacaoService);
     private _dialogService = inject(DialogService);
     ngOnInit(): void {
-        this.listarDatas(primeiroDiaMes(), ultimoDiaMes());
+        this.listarDatas();
     }
 
     buscarReceitaPorData(event: DatasEmissao) {
-        this.listarDatas(formatarData(event.dataInicio), formatarData(event.dataFim));
+        this.dataFiltro.dataInicio = event.dataInicio;
+        this.dataFiltro.dataFim = event.dataFim;
+        this.listarDatas();
     }
 
-    listarDatas(dataInicio: string, dataFim: string) {
+    listarDatas() {
         this._receitaService
-            .listar(this._authService.usuarioId() || 0, dataInicio, dataFim)
+            .listar(
+                this._authService.usuarioId() || 0,
+                formatarData(this.dataFiltro.dataInicio),
+                formatarData(this.dataFiltro.dataFim),
+            )
             .subscribe({
                 next: (response) => {
                     this.receitas.set(response);
@@ -57,7 +65,7 @@ export class Receita implements OnInit {
         const ref = this._dialogService.open(Form, {
             header: receitaId ? 'Editar Receita' : 'Nova Receita',
             width: '650px',
-            height: '650px',
+            height: '600px',
             breakpoints: { '768px': '90vw', '480px': '100vw' },
             closable: true,
             closeOnEscape: true,
@@ -67,8 +75,6 @@ export class Receita implements OnInit {
 
         if (ref) {
             ref.onClose.subscribe((resultado: ReceitaRequestDTO) => {
-                console.log(resultado);
-
                 if (resultado) {
                     if (resultado.id) {
                         this.atualizar(resultado);
@@ -84,22 +90,22 @@ export class Receita implements OnInit {
             .cadastrar(receitaRequest, this._authService.usuarioId() || 0)
             .subscribe(() => {
                 this._notificacaoService.msgSucesso('Receita cadastrada');
-
-                this._confirmacaoService
-                    .abrirConfirmacao({
-                        mensagem: 'Você deseja continuar a cadastrar mais gastos?',
-                        cabecalho: 'Cadastrar gastos',
-                        severidadeBotaoAceitacao: 'success',
-                    })
-                    .subscribe({
-                        next: (confirmado) => {
-                            if (confirmado) {
-                                // this.form.reset();
-                            } else {
-                                // this._router.navigate(['/gasto']);
-                            }
-                        },
-                    });
+                this.listarDatas();
+                // this._confirmacaoService
+                //     .abrirConfirmacao({
+                //         mensagem: 'Você deseja continuar a cadastrar mais gastos?',
+                //         cabecalho: 'Cadastrar gastos',
+                //         severidadeBotaoAceitacao: 'success',
+                //     })
+                //     .subscribe({
+                //         next: (confirmado) => {
+                //             if (confirmado) {
+                //                 // this.form.reset();
+                //             } else {
+                //                 // this._router.navigate(['/gasto']);
+                //             }
+                //         },
+                //     });
             });
     }
 
@@ -108,8 +114,8 @@ export class Receita implements OnInit {
             .atualizar(receitaRequest, this._authService.usuarioId() || 0)
             .subscribe({
                 next: () => {
-                    // this._router.navigate(['/gasto']);
-                    this._notificacaoService.msgSucesso('Gasto atualizado');
+                    this._notificacaoService.msgSucesso('Receita atualizada');
+                    this.listarDatas();
                 },
             });
     }
@@ -122,7 +128,7 @@ export class Receita implements OnInit {
                         .subscribe({
                             next: () => {
                                 this._notificacaoService.msgSucesso('Receita deletada');
-                                this.listarDatas(primeiroDiaMes(), ultimoDiaMes());
+                                this.listarDatas();
                             },
                         });
                 }

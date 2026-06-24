@@ -1,17 +1,5 @@
-<!-- <div class="flex flex-col">
-    <h1 class="font-bold text-2xl mt-20 ml-5 md:mt-5 md:text-4xl">
-        <button (click)="voltar()">
-            <i class="pi pi-arrow-left mr-3 md:hidden!"></i></button
-        >{{ isEdit ? 'Editar gasto' : 'Novo Gasto' }}
-    </h1>
-
-    <p class="hidden md:inline text-cinza ml-5 md:mt-2">
-        {{ isEdit ? 'Edite seu' : 'Registre um novo' }} gasto para manter suas finanças organizadas.
-    </p>
-</div> -->
-
-<main class="">
-    <div class="bg-white dark:bg-gray-800 dark:shadow-black p-3 shadow-lg rounded-lg">
+<main class="flex flex-col justify-between h-full">
+    <div class="flex flex-col gap-3">
         <form [formGroup]="form">
             <div class="">
                 <div class="">
@@ -91,10 +79,10 @@
                         class="w-full"
                     >
                         <ng-template pTemplate="selectedItem" let-item>
-                            {{ item?.nome | lowercase | titlecase }}
+                            {{ item.nome | titlecase }}
                         </ng-template>
                         <ng-template pTemplate="item" let-item>
-                            {{ item.nome | lowercase | titlecase }}
+                            {{ item.nome | titlecase }}
                         </ng-template>
                     </p-select>
                 </div>
@@ -118,21 +106,23 @@
             </div>
         </form>
 
-        <hr class="mt-3 text-cinza-claro" />
+        <hr class="my-3 text-cinza-claro" />
 
-        <!-- <div class="flex justify-end gap-3 py-3 px-2">
-            <p-button
-                icon="pi pi-arrow-left"
-                label="Voltar"
-                severity="secondary"
-                (click)="voltar()"
-            />
-        </div> -->
-        <p-button
-            icon="pi pi-save"
-            label="Salvar"
-            (click)="salvar()"
-            styleClass="bg-[#013729]! border-[#013729]! hover:!bg-green-600 dark:bg-green-600! hover:bg-green-400!"
-        />
+        <footer class="">
+            <div class="flex justify-end gap-3">
+                <p-button
+                    label="Cancelar"
+                    icon="pi pi-times"
+                    styleClass="bg-red-800! border-red-300! hover:!bg-red-400 dark:bg-red-300! hover:bg-red-400!"
+                    (click)="cancelar()"
+                />
+                <p-button
+                    [label]="isEdit ? 'Atualizar' : 'Cadastrar'"
+                    icon="pi pi-save"
+                    styleClass="bg-[#013729]! border-[#013729]! hover:!bg-green-600 dark:bg-green-600! hover:bg-green-400!"
+                    (click)="salvar()"
+                />
+            </div>
+        </footer>
     </div>
 </main>
