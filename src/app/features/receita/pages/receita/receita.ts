@@ -12,6 +12,7 @@ import { Button } from 'primeng/button';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ReceitaRequestDTO } from '../../models/receita-request';
 import { Form } from '../../components/form/form';
+import { ReceitaResumoMesDTO } from '../../models/resumo-mes';
 
 @Component({
     selector: 'app-receita',
@@ -27,6 +28,8 @@ export class Receita implements OnInit {
 
     dataFiltro: DatasEmissao = { dataInicio: primeiroDiaMesDate(), dataFim: ultimoDiaMesDate() };
 
+    resumoMeses = signal<ReceitaResumoMesDTO[]>([]);
+
     @HostListener('window:resize')
     onResize() {
         this.isMobile = window.innerWidth < 768;
@@ -39,6 +42,7 @@ export class Receita implements OnInit {
     private _dialogService = inject(DialogService);
     ngOnInit(): void {
         this.listarDatas();
+        this.listarCardsResumo();
     }
 
     buscarReceitaPorData(event: DatasEmissao) {
@@ -91,21 +95,6 @@ export class Receita implements OnInit {
             .subscribe(() => {
                 this._notificacaoService.msgSucesso('Receita cadastrada');
                 this.listarDatas();
-                // this._confirmacaoService
-                //     .abrirConfirmacao({
-                //         mensagem: 'Você deseja continuar a cadastrar mais gastos?',
-                //         cabecalho: 'Cadastrar gastos',
-                //         severidadeBotaoAceitacao: 'success',
-                //     })
-                //     .subscribe({
-                //         next: (confirmado) => {
-                //             if (confirmado) {
-                //                 // this.form.reset();
-                //             } else {
-                //                 // this._router.navigate(['/gasto']);
-                //             }
-                //         },
-                //     });
             });
     }
 
@@ -132,6 +121,14 @@ export class Receita implements OnInit {
                             },
                         });
                 }
+            },
+        });
+    }
+
+    listarCardsResumo() {
+        this._receitaService.listarResumo(1).subscribe({
+            next: (response) => {
+                this.resumoMeses.set(response);
             },
         });
     }

@@ -4,6 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ReceitaResponseDTO } from '../models/receita-response';
 import { ReceitaRequestDTO } from '../models/receita-request';
+import { ReceitaResumoMesDTO } from '../models/resumo-mes';
 
 @Injectable({
     providedIn: 'root',
@@ -40,5 +41,11 @@ export class ReceitaService {
         return this._http.delete<ReceitaResponseDTO>(
             `${this._apiReceita}/${usuarioId}/${receitaId}`,
         );
+    }
+
+    listarResumo(usuarioId: number): Observable<ReceitaResumoMesDTO[]> {
+        const params = new HttpParams().set('usuarioId', usuarioId.toString());
+
+        return this._http.get<ReceitaResumoMesDTO[]>(`${this._apiReceita}/resumo`, { params });
     }
 }
