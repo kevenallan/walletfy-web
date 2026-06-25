@@ -5,14 +5,16 @@ import { Form } from '../../components/form/form';
 import { CategoriaDTO } from '../../models/categoria';
 import { CardInformacoes } from '../../components/card/card';
 import { CategoriaService } from '../../services/categoria';
+import { NotificacaoService } from '../../../../core/services/notificacao';
 
 import { TableModule } from 'primeng/table';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Button } from 'primeng/button';
-import { NotificacaoService } from '../../../../core/services/notificacao';
+import { TabsModule } from 'primeng/tabs';
+import { TipoCategoria } from '../../../../core/enum/tipo-categoria';
 @Component({
     selector: 'app-categoria',
-    imports: [TableModule, CardInformacoes, Tabela, Button],
+    imports: [TableModule, CardInformacoes, Tabela, Button, TabsModule],
     templateUrl: './categoria.html',
     styleUrl: './categoria.css',
     providers: [DialogService],
@@ -20,7 +22,9 @@ import { NotificacaoService } from '../../../../core/services/notificacao';
 export class Categoria implements OnInit {
     usuarioId = 1;
     categorias = signal<CategoriaDTO[]>([]);
-
+    abaDespesa = TipoCategoria.DESPESA;
+    abaReceita = TipoCategoria.RECEITA;
+    abaSelecionada: TipoCategoria = TipoCategoria.DESPESA;
     isMobile = window.innerWidth < 768;
 
     @HostListener('window:resize')
@@ -37,7 +41,7 @@ export class Categoria implements OnInit {
     }
 
     listar() {
-        this._categoriaService.listar(this.usuarioId).subscribe({
+        this._categoriaService.listar(this.usuarioId, this.abaSelecionada).subscribe({
             next: (response) => {
                 this.categorias.set(response);
             },

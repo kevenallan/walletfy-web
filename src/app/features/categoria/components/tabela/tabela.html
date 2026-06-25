@@ -1,4 +1,4 @@
-<div class="shadow-lg md:mr-3">
+<div class="shadow-lg">
     <p-table
         #dt2
         [value]="categorias()"
@@ -61,7 +61,7 @@
                 <td class="text-center!">{{ categoria.ativo ? 'Sim' : 'Não' }}</td>
                 <td class="text-center!">
                     <button class="cursor-pointer" (click)="editar.emit(categoria)">
-                        <i class="pi pi-pen-to-square"></i>
+                        <i class="pi pi-pen-to-square text-azul"></i>
                     </button>
                 </td>
             </tr>

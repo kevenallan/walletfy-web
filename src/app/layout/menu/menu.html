@@ -15,21 +15,25 @@
     <nav class="mt-8">
         <ul>
             <li class="hover:bg-[#164F3C] cursor-pointer rounded p-2">
-                <a class="text-white"><i class="pi pi-chart-bar text-white mr-3"></i>Dashboard</a>
-            </li>
-            <li class="hover:bg-[#164F3C] cursor-pointer rounded p-2">
-                <a class="text-white" routerLink="/gasto"
-                    ><i class="pi pi-wallet text-white mr-3"></i> Gastos</a
+                <span class="text-white"
+                    ><i class="pi pi-chart-bar text-white mr-3"></i>Dashboard</span
                 >
             </li>
-            <li class="hover:bg-[#164F3C] cursor-pointer rounded p-2">
-                <a class="text-white" routerLink="/categoria"
-                    ><i class="pi pi-tag text-white mr-3"></i>Categorias</a
+            <li class="hover:bg-[#164F3C] cursor-pointer rounded p-2" routerLink="/receita">
+                <span class="text-white"
+                    ><i class="pi pi-arrow-circle-down text-white mr-3"></i>Receitas</span
                 >
             </li>
-
+            <li class="hover:bg-[#164F3C] cursor-pointer rounded p-2" routerLink="/gasto">
+                <span class="text-white"><i class="pi pi-wallet text-white mr-3"></i> Gastos</span>
+            </li>
+            <li class="hover:bg-[#164F3C] cursor-pointer rounded p-2" routerLink="/categoria">
+                <span class="text-white"><i class="pi pi-tag text-white mr-3"></i>Categorias</span>
+            </li>
             <li class="hover:bg-[#164F3C] cursor-pointer rounded p-2">
-                <a class="text-white"><i class="pi pi-cog text-white mr-3"></i>Configurações</a>
+                <span class="text-white"
+                    ><i class="pi pi-cog text-white mr-3"></i>Configurações</span
+                >
             </li>
         </ul>
     </nav>

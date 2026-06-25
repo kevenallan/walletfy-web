@@ -1,0 +1,283 @@
+<main class="shadow-lg md:mr-3">
+    <p-table
+        #dt2
+        [value]="receitas()"
+        [paginator]="true"
+        [rows]="5"
+        [rowsPerPageOptions]="[5, 10, 20]"
+        [globalFilterFields]="['descricao', 'categoria.nome', 'formaPagamento.nome', 'status.nome']"
+        showGridlines
+        stripedRows
+        [size]="'small'"
+        [sortField]="'dataReceita'"
+        [sortOrder]="1"
+        [totalRecords]="receitas().length"
+        [showCurrentPageReport]="!isMobile"
+        currentPageReportTemplate="Exibindo {first} a {last} de {totalRecords} registros"
+        (onFilter)="onFiltroTabela($event)"
+    >
+        <ng-template #caption>
+            <div class="grid grid-cols-1 lg:grid-cols-2">
+                <div
+                    class="grid grid-cols-[auto_auto_auto_auto] lg:grid-cols-[auto_auto_auto_1fr] items-center"
+                >
+                    <p-datepicker
+                        [ngModel]="dataInicio()"
+                        (ngModelChange)="dataInicio.set($event)"
+                        [invalid]="dataInicioInvalida"
+                        [iconDisplay]="'input'"
+                        [showIcon]="true"
+                        dateFormat="dd/mm/yy"
+                        inputId="dataInicio"
+                        placeholder="dd/mm/aaaa"
+                        inputStyleClass="min-w-35"
+                    />
+                    <p class="mx-2 text-center">a</p>
+                    <p-datepicker
+                        [ngModel]="dataFim()"
+                        (ngModelChange)="dataFim.set($event)"
+                        [invalid]="dataFimInvalida"
+                        [iconDisplay]="'input'"
+                        [showIcon]="true"
+                        dateFormat="dd/mm/yy"
+                        inputId="dataFim"
+                        placeholder="dd/mm/aaaa"
+                        inputStyleClass="min-w-35"
+                    />
+                    <p-button
+                        (click)="emitirBuscar()"
+                        icon="pi pi-search"
+                        [label]="isMobile ? '' : 'Filtrar'"
+                        styleClass="bg-[#013729]! border-[#013729]! hover:!bg-green-600 dark:bg-green-600! hover:bg-green-400! ml-2"
+                    />
+                    <p class="row-start-3 col-span-4 text-red-500">{{ msgErroData }}</p>
+                </div>
+                <div class="w-full my-2 lg:my-0 lg:w-fit lg:ml-auto">
+                    <p-iconfield iconPosition="left" class="w-full md:w-auto">
+                        <p-inputicon>
+                            <i class="pi pi-search"></i>
+                        </p-inputicon>
+                        <input
+                            pInputText
+                            type="text"
+                            (input)="dt2.filterGlobal($event.target.value, 'contains')"
+                            placeholder="Buscar Receita..."
+                            class="w-full"
+                        />
+                    </p-iconfield>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template #header>
+            <tr>
+                <th class="text-center!" pSortableColumn="dataReceita" style="width: 20%">
+                    <div class="flex items-center justify-center gap-2">
+                        Data
+                        <p-sortIcon field="data" />
+                    </div>
+                </th>
+                <th class="text-center!" pSortableColumn="descricao" style="width: 20%">
+                    <div class="flex items-center justify-center gap-2">
+                        Descrição
+                        <p-sortIcon field="descricao" />
+                    </div>
+                </th>
+                <th style="min-width: 15rem" pSortableColumn="categoria.nome">
+                    <div class="flex justify-center">
+                        <div class="flex items-center gap-2">
+                            <p>Categoria</p>
+                            <p-sortIcon field="categoria" />
+                        </div>
+                        <div>
+                            <p-columnFilter
+                                field="categoria.nome"
+                                matchMode="in"
+                                display="menu"
+                                [showMatchModes]="false"
+                                [showOperator]="false"
+                                [showAddButton]="false"
+                            >
+                                <ng-template #filter let-filter="filterCallback">
+                                    <p-multiselect
+                                        [options]="categoriaFiltro()"
+                                        [ngModel]="categoriaFiltroSelecionado()"
+                                        (ngModelChange)="
+                                            categoriaFiltroSelecionado.set($event);
+                                            filter($event.map((s) => s.nome))
+                                        "
+                                        placeholder="Filtrar categoria"
+                                        optionLabel="nome"
+                                        style="min-width: 14rem"
+                                        [panelStyle]="{ minWidth: '16rem' }"
+                                    >
+                                        <ng-template let-option #item>
+                                            <div class="flex items-center gap-2">
+                                                <span>{{ option.nome | titlecase }}</span>
+                                            </div>
+                                        </ng-template>
+                                    </p-multiselect>
+                                </ng-template>
+                            </p-columnFilter>
+                        </div>
+                    </div>
+                </th>
+                <th style="min-width: 15rem" pSortableColumn="formaPagamento.nome">
+                    <div class="flex justify-center">
+                        <div class="flex items-center gap-2">
+                            <p>Forma de Pagamento</p>
+                            <p-sortIcon field="formaPagamento" />
+                        </div>
+                        <div>
+                            <p-columnFilter
+                                field="formaPagamento.nome"
+                                matchMode="in"
+                                display="menu"
+                                [showMatchModes]="false"
+                                [showOperator]="false"
+                                [showAddButton]="false"
+                            >
+                                <ng-template #filter let-filter="filterCallback">
+                                    <p-multiselect
+                                        [options]="formaPagamentoFiltro()"
+                                        [ngModel]="formaPagamentoFiltroSelecionado()"
+                                        (ngModelChange)="
+                                            formaPagamentoFiltroSelecionado.set($event);
+                                            filter($event.map((s) => s.nome))
+                                        "
+                                        placeholder="Filtrar forma de pagamento"
+                                        optionLabel="nome"
+                                        style="min-width: 14rem"
+                                        [panelStyle]="{ minWidth: '16rem' }"
+                                    >
+                                        <ng-template let-option #item>
+                                            <div class="flex items-center gap-2">
+                                                <span>{{ option.nome | titlecase }}</span>
+                                            </div>
+                                        </ng-template>
+                                    </p-multiselect>
+                                </ng-template>
+                            </p-columnFilter>
+                        </div>
+                    </div>
+                </th>
+                <th style="min-width: 15rem" pSortableColumn="status.nome">
+                    <div class="flex justify-center">
+                        <div class="flex items-center gap-2">
+                            <p>Status</p>
+                            <p-sortIcon field="status" />
+                        </div>
+                        <div>
+                            <p-columnFilter
+                                field="status.nome"
+                                matchMode="in"
+                                display="menu"
+                                [showMatchModes]="false"
+                                [showOperator]="false"
+                                [showAddButton]="false"
+                            >
+                                <ng-template #filter let-filter="filterCallback">
+                                    <p-multiselect
+                                        [options]="statusFiltro()"
+                                        [ngModel]="statusFiltroSelecionado()"
+                                        (ngModelChange)="
+                                            statusFiltroSelecionado.set($event);
+                                            filter($event.map((s) => s.nome))
+                                        "
+                                        placeholder="Filtrar status"
+                                        optionLabel="nomeExibicao"
+                                        style="min-width: 14rem"
+                                        [panelStyle]="{ minWidth: '16rem' }"
+                                    >
+                                        <ng-template let-option #item>
+                                            <div class="flex items-center gap-2">
+                                                <span>{{ option.nome | titlecase }}</span>
+                                            </div>
+                                        </ng-template>
+                                    </p-multiselect>
+                                </ng-template>
+                            </p-columnFilter>
+                        </div>
+                    </div>
+                </th>
+
+                <th class="text-center!" pSortableColumn="valor" style="width: 20%">
+                    <div class="flex items-center justify-center gap-2">
+                        Valor
+                        <p-sortIcon field="valor" />
+                    </div>
+                </th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-receita>
+            <tr>
+                <td class="text-center!">{{ receita.dataReceita | date: 'dd/MM/yyyy' }}</td>
+                <td>
+                    <div class="flex items-center">
+                        <div
+                            class="rounded-lg w-8 h-8 md:rounded-2xl md:w-10 md:h-10 flex justify-center items-center mr-2"
+                            [style.background-color]="receita.categoria.cor"
+                        >
+                            <i
+                                [ngClass]="[
+                                    'pi',
+                                    receita.categoria.icone,
+                                    'text-lg!',
+                                    'lg:text-2xl!',
+                                ]"
+                                [style.color]="'white'"
+                            ></i>
+                        </div>
+                        <p class="truncate">{{ receita.descricao }}</p>
+                    </div>
+                </td>
+                <td class="text-center!">
+                    <p-tag
+                        [value]="receita.categoria.nome"
+                        [style]="{ 'background-color': receita.categoria.cor, color: '#FFFFFF' }"
+                    />
+                </td>
+                <td class="text-center!">
+                    <p-tag
+                        [value]="receita.formaPagamento.nome"
+                        [ngClass]="receita.corFormaPagamento"
+                    />
+                </td>
+                <td class="text-center!">
+                    <p-tag
+                        icon="pi pi-circle-on"
+                        [value]="receita.status.nome | titlecase"
+                        [ngClass]="[
+                            ...receita.corStatus.split(' '),
+                            'inline-flex',
+                            'items-center',
+                            'justify-center',
+                            'gap-1.5',
+                        ]"
+                    />
+                </td>
+                <td class="text-center!">{{ receita.valor | currency: 'BRL' }}</td>
+                <td>
+                    <div class="flex gap-3">
+                        <button class="cursor-pointer" (click)="emitirReceitaEditar(receita.id)">
+                            <i class="pi pi-pen-to-square text-azul"></i>
+                        </button>
+                        <button
+                            class="cursor-pointer text-vermelho"
+                            (click)="emitirReceitaDeletar(receita.id)"
+                        >
+                            <i class="pi pi-trash"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template #emptymessage>
+            <tr>
+                <td colspan="8" class="text-center py-4">
+                    <div class="flex md:justify-center">Sem registros</div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</main>

@@ -18,6 +18,25 @@
     </section>
 
     <main>
-        <app-tabela [categorias]="categorias()" (editar)="abrirForm($event)"></app-tabela>
+        <p-tabs [(value)]="abaSelecionada" (valueChange)="listar()" class="mr-3">
+            <p-tablist>
+                <p-tab [value]="abaDespesa">Despesa</p-tab>
+                <p-tab value="RECEITA">Receita</p-tab>
+            </p-tablist>
+            <p-tabpanels>
+                <p-tabpanel value="DESPESA">
+                    <app-tabela
+                        [categorias]="categorias()"
+                        (editar)="abrirForm($event)"
+                    ></app-tabela>
+                </p-tabpanel>
+                <p-tabpanel [value]="abaReceita">
+                    <app-tabela
+                        [categorias]="categorias()"
+                        (editar)="abrirForm($event)"
+                    ></app-tabela>
+                </p-tabpanel>
+            </p-tabpanels>
+        </p-tabs>
     </main>
 </div>

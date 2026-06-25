@@ -60,6 +60,7 @@ export const appConfig: ApplicationConfig = {
                 today: 'Hoje',
                 clear: 'Limpar',
                 apply: 'Aplicar',
+                selectionMessage: '{0} itens selecionados',
             },
         }),
         {
