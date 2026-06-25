@@ -1,8 +1,8 @@
+import { DatePipe, NgClass, TitleCasePipe } from '@angular/common';
 import { Component, input } from '@angular/core';
-import { ReceitaResumoMesDTO } from '../../models/resumo-mes';
 import { Carousel } from 'primeng/carousel';
-import { DatePipe, TitleCasePipe, NgClass } from '@angular/common';
 import { CardExibicaoReceitaDTO } from '../../models/card-exibicao';
+import { ReceitaResumoMesDTO } from '../../models/resumo-mes';
 
 @Component({
     selector: 'app-receita-card',
@@ -101,12 +101,17 @@ export class Card {
 
             const corVariacao =
                 config.tipo === 'saldo'
-                    ? (valor as number) >= 0
+                    ? (variacao as number) >= 0
                         ? 'text-verde'
                         : 'text-vermelho'
                     : eBoa
                       ? 'text-verde'
                       : 'text-vermelho';
+
+            const valorFormatado = new Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'BRL',
+            }).format(variacao);
 
             return {
                 titulo: config.titulo,
@@ -119,7 +124,7 @@ export class Card {
                 background: config.background,
                 corVariacao,
                 iconeVariacao: variacaoPositiva ? 'pi pi-chevron-up' : 'pi pi-chevron-down',
-                descricao: `${Math.abs(variacao ?? 0).toFixed(1)}% vs mês anterior`,
+                descricao: `${valorFormatado} ${variacaoPositiva ? 'a mais ' : 'a menos'} que o mês anterior `,
             };
         });
     }
