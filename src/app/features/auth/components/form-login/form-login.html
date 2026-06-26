@@ -22,7 +22,7 @@
             <p class="text-gray-400">Faça seu login para acessar sua conta</p>
         </div>
 
-        <form [formGroup]="form">
+        <form [formGroup]="form" (ngSubmit)="login()">
             <div class="flex flex-col gap-1 px-4">
                 <label for="email">E-mail</label>
                 <p-iconfield>
@@ -60,7 +60,7 @@
             </div>
 
             <div class="px-4 pb-4">
-                <p-button label="Entrar" class="w-full" styleClass="w-full" (click)="login()" />
+                <p-button label="Entrar" type="submit" class="w-full" styleClass="w-full" />
             </div>
         </form>
 
