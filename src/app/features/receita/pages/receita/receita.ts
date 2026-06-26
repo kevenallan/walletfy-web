@@ -1,6 +1,5 @@
 import { Component, HostListener, inject, OnInit, signal } from '@angular/core';
 import { ReceitaService } from '../../services/receita';
-import { AuthService } from '../../../auth/services/auth';
 import { ReceitaResponseDTO } from '../../models/receita-response';
 import { Card } from '../../../receita/components/card/card';
 import { Tabela } from '../../../receita/components/tabela/tabela';
@@ -35,7 +34,6 @@ export class Receita implements OnInit {
         this.isMobile = window.innerWidth < 768;
     }
 
-    private _authService = inject(AuthService);
     private _receitaService = inject(ReceitaService);
     private _confirmacaoService = inject(ConfirmacaoService);
     private _notificacaoService = inject(NotificacaoService);
