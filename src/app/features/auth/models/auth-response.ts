@@ -1,5 +1,4 @@
 export interface AuthResponseDTO {
-    id: number;
-    email: string;
+    token: string;
     nome: string;
 }

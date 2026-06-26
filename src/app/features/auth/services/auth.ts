@@ -19,7 +19,6 @@ export class AuthService {
 
     readonly usuario = this._usuario.asReadonly();
     readonly isLogado = computed(() => this._usuario() !== null);
-    readonly usuarioId = computed(() => this._usuario()?.id);
 
     salvar(usuario: AuthResponseDTO) {
         this._usuario.set(usuario);

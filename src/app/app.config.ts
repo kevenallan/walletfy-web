@@ -10,6 +10,7 @@ import localePt from '@angular/common/locales/pt';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { erroInterceptor } from './core/interceptors/erro';
+import { authInterceptor } from './core/interceptors/auth';
 
 registerLocaleData(localePt);
 
@@ -69,6 +70,6 @@ export const appConfig: ApplicationConfig = {
         },
         MessageService,
         ConfirmationService,
-        provideHttpClient(withInterceptors([erroInterceptor])),
+        provideHttpClient(withInterceptors([authInterceptor, erroInterceptor])),
     ],
 };
