@@ -1,6 +1,6 @@
 export interface CardExibicaoDTO {
     titulo: string;
-    valor: number;
+    valor: number | string;
     icone: string;
     corIcone: string;
     background: string;

@@ -1,12 +1,12 @@
+import { DatePipe, NgClass, TitleCasePipe } from '@angular/common';
 import { Component, input } from '@angular/core';
-import { NgClass, CurrencyPipe, DatePipe, TitleCasePipe } from '@angular/common';
 import { CarouselModule } from 'primeng/carousel';
-import { ResumoMesDTO } from '../../models/resumo-mes';
 import { CardExibicaoDTO } from '../../models/card-exibicao';
+import { ResumoMesDTO } from '../../models/resumo-mes';
 
 @Component({
     selector: 'app-card',
-    imports: [CarouselModule, CurrencyPipe, NgClass, DatePipe, TitleCasePipe],
+    imports: [CarouselModule, NgClass, DatePipe, TitleCasePipe],
     templateUrl: './card.html',
 })
 export class Card {
@@ -20,7 +20,7 @@ export class Card {
 
     private readonly CARDS_CONFIG = [
         {
-            titulo: 'Receita',
+            titulo: 'Total de Receita',
             campo: 'receita' as keyof ResumoMesDTO,
             campVariacao: 'variacaoReceita' as keyof ResumoMesDTO,
             icone: 'pi pi-chart-bar',
@@ -60,12 +60,15 @@ export class Card {
     getCardsDoMes(resumo: ResumoMesDTO): CardExibicaoDTO[] {
         return this.CARDS_CONFIG.map((config) => {
             const valor = resumo[config.campo] as number;
-            const variacao = config.campVariacao ? (resumo[config.campVariacao] as number) : null;
+            const variacao = resumo[config.campVariacao] as number;
 
             if (config.titulo === 'Pendentes') {
                 return {
                     titulo: config.titulo,
-                    valor,
+                    valor: new Intl.NumberFormat('pt-BR', {
+                        style: 'currency',
+                        currency: 'BRL',
+                    }).format(valor as number),
                     icone: config.icone,
                     corIcone: config.corIcone,
                     background: config.background,
@@ -78,15 +81,23 @@ export class Card {
             const variacaoPositiva = (variacao ?? 0) >= 0;
             const eBoa = config.variacaoPositivaEBoa ? variacaoPositiva : !variacaoPositiva;
 
+            const valorFormatado = new Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'BRL',
+            }).format(variacao);
+
             return {
                 titulo: config.titulo,
-                valor,
+                valor: new Intl.NumberFormat('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL',
+                }).format(valor as number),
                 icone: config.icone,
                 corIcone: config.corIcone,
                 background: config.background,
                 corVariacao: eBoa ? 'text-verde' : 'text-vermelho',
                 iconeVariacao: variacaoPositiva ? 'pi pi-chevron-up' : 'pi pi-chevron-down',
-                descricao: `${Math.abs(variacao ?? 0).toFixed(1)}% vs mês anterior`,
+                descricao: `${valorFormatado} ${variacaoPositiva ? 'a mais ' : 'a menos'} que o mês anterior `,
             };
         });
     }

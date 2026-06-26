@@ -17,7 +17,7 @@
                 <div class="flex justify-evenly flex-wrap gap-4 w-full">
                     @for (card of getCardsDoMes(resumo); track card.titulo) {
                         <div
-                            class="bg-white dark:bg-gray-800 dark:shadow-black shadow-lg rounded-lg px-3 grid grid-rows-3 items-center grid-cols-[auto_1fr_auto] py-2 w-70 h-24"
+                            class="bg-white dark:bg-gray-800 dark:shadow-black shadow-lg rounded-lg px-3 grid grid-rows-3 items-center grid-cols-[auto_1fr_auto] py-2 w-90 h-24"
                         >
                             <div
                                 [ngClass]="card.background"
@@ -31,7 +31,7 @@
                             </h3>
 
                             <p class="row-start-2 col-start-2 text-2xl font-bold">
-                                {{ card.valor | currency: 'BRL' }}
+                                {{ card.valor }}
                             </p>
 
                             <p
