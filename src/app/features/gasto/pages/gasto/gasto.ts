@@ -43,13 +43,11 @@ export class Gasto {
     }
 
     listarDatas(dataInicio: string, dataFim: string) {
-        this._gastoService
-            .listar(this._authService.usuarioId() || 0, dataInicio, dataFim)
-            .subscribe({
-                next: (response) => {
-                    this.gastos.set(response);
-                },
-            });
+        this._gastoService.listar(dataInicio, dataFim).subscribe({
+            next: (response) => {
+                this.gastos.set(response);
+            },
+        });
     }
 
     cadastrarAtualizarGasto(idGasto?: number) {
@@ -64,14 +62,12 @@ export class Gasto {
         this._confirmacaoService.abrirConfirmacao().subscribe({
             next: (confirmado: boolean) => {
                 if (confirmado) {
-                    this._gastoService
-                        .deletar(gastoId, this._authService.usuarioId() || 0)
-                        .subscribe({
-                            next: () => {
-                                this._notificacaoService.msgSucesso('Gasto deletado');
-                                this.listarDatas(primeiroDiaMes(), ultimoDiaMes());
-                            },
-                        });
+                    this._gastoService.deletar(gastoId).subscribe({
+                        next: () => {
+                            this._notificacaoService.msgSucesso('Gasto deletado');
+                            this.listarDatas(primeiroDiaMes(), ultimoDiaMes());
+                        },
+                    });
                 }
             },
         });
@@ -82,7 +78,7 @@ export class Gasto {
     }
 
     listarCardsResumo() {
-        this._gastoService.listarResumo(1).subscribe({
+        this._gastoService.listarResumo().subscribe({
             next: (response) => {
                 this.resumoMeses.set(response);
             },

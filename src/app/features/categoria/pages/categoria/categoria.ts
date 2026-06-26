@@ -20,7 +20,6 @@ import { TipoCategoria } from '../../../../core/enum/tipo-categoria';
     providers: [DialogService],
 })
 export class Categoria implements OnInit {
-    usuarioId = 1;
     categorias = signal<CategoriaDTO[]>([]);
     abaDespesa = TipoCategoria.DESPESA;
     abaReceita = TipoCategoria.RECEITA;
@@ -41,7 +40,7 @@ export class Categoria implements OnInit {
     }
 
     listar() {
-        this._categoriaService.listar(this.usuarioId, this.abaSelecionada).subscribe({
+        this._categoriaService.listar(this.abaSelecionada).subscribe({
             next: (response) => {
                 this.categorias.set(response);
             },
@@ -49,7 +48,7 @@ export class Categoria implements OnInit {
     }
 
     cadastrar(categoria: CategoriaDTO) {
-        this._categoriaService.cadastrar(this.usuarioId, categoria).subscribe({
+        this._categoriaService.cadastrar(categoria).subscribe({
             next: () => {
                 this.listar();
                 this._notificacaoService.msgSucesso('Categoria cadastrada');
@@ -58,7 +57,7 @@ export class Categoria implements OnInit {
     }
 
     atualizar(categoria: CategoriaDTO) {
-        this._categoriaService.atualizar(this.usuarioId, categoria).subscribe({
+        this._categoriaService.atualizar(categoria).subscribe({
             next: () => {
                 this.listar();
                 this._notificacaoService.msgSucesso('Categoria atualizada');

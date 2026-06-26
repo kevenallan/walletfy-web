@@ -13,39 +13,29 @@ export class ReceitaService {
     private _apiReceita = environment.apiUrl + '/receita';
     private _http = inject(HttpClient);
 
-    cadastrar(receita: ReceitaRequestDTO, usuarioId: number): Observable<ReceitaResponseDTO> {
-        return this._http.post<ReceitaResponseDTO>(`${this._apiReceita}/${usuarioId}`, receita);
+    cadastrar(receita: ReceitaRequestDTO): Observable<ReceitaResponseDTO> {
+        return this._http.post<ReceitaResponseDTO>(`${this._apiReceita}`, receita);
     }
 
-    listar(
-        usuarioId: number,
-        dataInicio: string,
-        dataFim: string,
-    ): Observable<ReceitaResponseDTO[]> {
-        return this._http.get<ReceitaResponseDTO[]>(`${this._apiReceita}/${usuarioId}`, {
+    listar(dataInicio: string, dataFim: string): Observable<ReceitaResponseDTO[]> {
+        return this._http.get<ReceitaResponseDTO[]>(`${this._apiReceita}`, {
             params: { dataInicio, dataFim },
         });
     }
-    detalhar(receitaId: number, usuarioId: number): Observable<ReceitaResponseDTO> {
-        const params = new HttpParams()
-            .set('receitaId', receitaId.toString())
-            .set('usuarioId', usuarioId.toString());
+    detalhar(receitaId: number): Observable<ReceitaResponseDTO> {
+        const params = new HttpParams().set('receitaId', receitaId.toString());
 
         return this._http.get<ReceitaResponseDTO>(`${this._apiReceita}`, { params });
     }
-    atualizar(Receita: ReceitaRequestDTO, usuarioId: number): Observable<ReceitaResponseDTO> {
-        return this._http.put<ReceitaResponseDTO>(`${this._apiReceita}/${usuarioId}`, Receita);
+    atualizar(Receita: ReceitaRequestDTO): Observable<ReceitaResponseDTO> {
+        return this._http.put<ReceitaResponseDTO>(`${this._apiReceita}`, Receita);
     }
 
-    deletar(receitaId: number, usuarioId: number): Observable<ReceitaResponseDTO> {
-        return this._http.delete<ReceitaResponseDTO>(
-            `${this._apiReceita}/${usuarioId}/${receitaId}`,
-        );
+    deletar(receitaId: number): Observable<ReceitaResponseDTO> {
+        return this._http.delete<ReceitaResponseDTO>(`${this._apiReceita}/${receitaId}`);
     }
 
-    listarResumo(usuarioId: number): Observable<ReceitaResumoMesDTO[]> {
-        const params = new HttpParams().set('usuarioId', usuarioId.toString());
-
-        return this._http.get<ReceitaResumoMesDTO[]>(`${this._apiReceita}/resumo`, { params });
+    listarResumo(): Observable<ReceitaResumoMesDTO[]> {
+        return this._http.get<ReceitaResumoMesDTO[]>(`${this._apiReceita}/resumo`);
     }
 }

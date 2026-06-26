@@ -12,16 +12,16 @@ export class CategoriaService {
     private _apiCategoria = environment.apiUrl + '/categoria';
     private _http = inject(HttpClient);
 
-    listar(usuarioId: number, tipoCategoria: TipoCategoria): Observable<CategoriaDTO[]> {
+    listar(tipoCategoria: TipoCategoria): Observable<CategoriaDTO[]> {
         const params = new HttpParams().set('tipo', tipoCategoria);
-        return this._http.get<CategoriaDTO[]>(`${this._apiCategoria}/${usuarioId}`, { params });
+        return this._http.get<CategoriaDTO[]>(`${this._apiCategoria}`, { params });
     }
 
-    cadastrar(usuarioId: number, categoria: CategoriaDTO): Observable<CategoriaDTO> {
-        return this._http.post<CategoriaDTO>(`${this._apiCategoria}/${usuarioId}`, categoria);
+    cadastrar(categoria: CategoriaDTO): Observable<CategoriaDTO> {
+        return this._http.post<CategoriaDTO>(`${this._apiCategoria}`, categoria);
     }
 
-    atualizar(usuarioId: number, categoria: CategoriaDTO): Observable<CategoriaDTO> {
-        return this._http.put<CategoriaDTO>(`${this._apiCategoria}/${usuarioId}`, categoria);
+    atualizar(categoria: CategoriaDTO): Observable<CategoriaDTO> {
+        return this._http.put<CategoriaDTO>(`${this._apiCategoria}`, categoria);
     }
 }
