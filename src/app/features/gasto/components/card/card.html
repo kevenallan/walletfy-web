@@ -14,7 +14,7 @@
                     {{ resumo.mes + '-01' | date: 'MMMM yyyy' : '' : 'pt-BR' | titlecase }}
                 </h2>
 
-                <div class="grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 w-full">
+                <div class="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4 gap-4 w-full">
                     @for (card of getCardsDoMes(resumo); track card.titulo) {
                         <div
                             class="bg-white dark:bg-gray-800 shadow-lg rounded-lg px-3 py-2 w-full md:h-24 min-w-0 grid grid-rows-3 items-center grid-cols-[auto_1fr_auto]"
@@ -38,10 +38,7 @@
                                 class="row-start-3 col-start-2 text-xs md:text-sm flex items-center"
                                 [ngClass]="card.corVariacao"
                             >
-                                <i
-                                    [ngClass]="[card.iconeVariacao, 'text-lg!', 'mr-2']"
-                                    class="hidden! md:block"
-                                ></i>
+                                <i [ngClass]="[card.iconeVariacao, 'text-lg!', 'mr-2']"></i>
                                 {{ card.descricao }}
                             </p>
                         </div>

@@ -29,6 +29,8 @@ export class Receita implements OnInit {
 
     resumoMeses = signal<ReceitaResumoMesDTO[]>([]);
 
+    verResumo = false;
+
     @HostListener('window:resize')
     onResize() {
         this.isMobile = window.innerWidth < 768;

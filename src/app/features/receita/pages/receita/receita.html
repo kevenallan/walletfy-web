@@ -2,6 +2,8 @@
     <h1 class="font-bold text-2xl mt-20 ml-5 md:mt-5 md:text-4xl">Receitas</h1>
     <p class="text-cinza ml-5 md:mt-2">Gerencie todas as suas receitas registradas.</p>
 
+    <p-button label="Ver resumo" link (click)="verResumo = !verResumo" [class.hidden]="!isMobile" />
+
     <div class="hidden md:flex md:justify-end md:mr-2 md:my-5">
         <p-button
             icon="pi pi-plus"
@@ -20,7 +22,10 @@
         />
     </div>
 
-    <app-receita-card [resumoMeses]="resumoMeses()"></app-receita-card>
+    <app-receita-card
+        [class.hidden]="!verResumo && isMobile"
+        [resumoMeses]="resumoMeses()"
+    ></app-receita-card>
 
     <app-tabela
         [receitaResponseDTO]="receitas()"
