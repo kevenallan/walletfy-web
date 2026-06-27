@@ -10,13 +10,10 @@ import { CadastroEdicaoRequestDTO } from '../models/cadastro-edicao-request';
     providedIn: 'root',
 })
 export class AuthService {
-    private readonly STORAGE_KEY = 'usuario';
     private _apiAuth = environment.apiUrl + '/auth';
-
-    private _usuario = signal<AuthResponseDTO | null>(this.carregarDoStorage());
-
     private _http = inject(HttpClient);
-
+    private readonly STORAGE_KEY = 'usuario';
+    private _usuario = signal<AuthResponseDTO | null>(this.carregarDoStorage());
     readonly usuario = this._usuario.asReadonly();
     readonly isLogado = computed(() => this._usuario() !== null);
 
@@ -33,6 +30,18 @@ export class AuthService {
     private carregarDoStorage(): AuthResponseDTO | null {
         const dados = localStorage.getItem(this.STORAGE_KEY);
         return dados ? JSON.parse(dados) : null;
+    }
+
+    tokenExpirado(): boolean {
+        const token = this._usuario()?.token;
+        if (!token) return true;
+
+        try {
+            const payload = JSON.parse(atob(token.split('.')[1]));
+            return Date.now() > payload.exp * 1000;
+        } catch {
+            return true;
+        }
     }
 
     login(loginRequest: LoginRequestDTO): Observable<AuthResponseDTO> {
