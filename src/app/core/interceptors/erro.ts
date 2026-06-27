@@ -22,8 +22,8 @@ export const erroInterceptor: HttpInterceptorFn = (req, next) => {
                     notification.msgErro(error.error?.mensagem ?? 'E-mail ou senha inválidos.');
                 } else {
                     authService.logout();
-                    notification.msgErro('Sua sessão expirou. Faça login novamente.');
                     router.navigate(['/login']);
+                    notification.msgInfo('Sua sessão expirou. Faça login novamente.');
                 }
                 return throwError(() => error);
             }

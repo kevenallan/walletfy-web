@@ -1,4 +1,4 @@
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { AuthResponseDTO } from '../models/auth-response';
 import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
@@ -14,8 +14,17 @@ export class AuthService {
     private _http = inject(HttpClient);
     private readonly STORAGE_KEY = 'usuario';
     private _usuario = signal<AuthResponseDTO | null>(this.carregarDoStorage());
+
     readonly usuario = this._usuario.asReadonly();
-    readonly isLogado = computed(() => this._usuario() !== null);
+    readonly isLogado = computed(() => this._usuario() !== null && !this.tokenExpirado());
+
+    constructor() {
+        effect(() => {
+            if (this._usuario() && this.tokenExpirado()) {
+                this.logout();
+            }
+        });
+    }
 
     salvar(usuario: AuthResponseDTO) {
         this._usuario.set(usuario);
