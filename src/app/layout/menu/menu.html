@@ -14,23 +14,48 @@
 
     <nav class="mt-8">
         <ul>
-            <li class="hover:bg-[#164F3C] cursor-pointer rounded p-2">
+            <li class="hover:bg-verde-escuro cursor-pointer rounded p-2">
                 <span class="text-white"
                     ><i class="pi pi-chart-bar text-white mr-3"></i>Dashboard</span
                 >
             </li>
-            <li class="hover:bg-[#164F3C] cursor-pointer rounded p-2" routerLink="/receita">
+
+            <li
+                class="hover:bg-verde-escuro cursor-pointer rounded p-2"
+                [class.bg-verde-escuro]="rotaAtual === 'receita'"
+                routerLink="/receita"
+                (click)="selecionarMenu('receita')"
+                (keydown.enter)="selecionarMenu('receita')"
+                (keydown.space)="selecionarMenu('receita')"
+                tabindex="0"
+            >
                 <span class="text-white"
                     ><i class="pi pi-calculator text-white mr-3"></i>Receitas</span
                 >
             </li>
-            <li class="hover:bg-[#164F3C] cursor-pointer rounded p-2" routerLink="/gasto">
+            <li
+                class="hover:bg-verde-escuro cursor-pointer rounded p-2"
+                [class.bg-verde-escuro]="rotaAtual === 'gasto'"
+                routerLink="/gasto"
+                (click)="selecionarMenu('gasto')"
+                (keydown.enter)="selecionarMenu('gasto')"
+                (keydown.space)="selecionarMenu('gasto')"
+                tabindex="1"
+            >
                 <span class="text-white"><i class="pi pi-wallet text-white mr-3"></i> Gastos</span>
             </li>
-            <li class="hover:bg-[#164F3C] cursor-pointer rounded p-2" routerLink="/categoria">
+            <li
+                class="hover:bg-verde-escuro cursor-pointer rounded p-2"
+                [class.bg-verde-escuro]="rotaAtual === 'categoria'"
+                routerLink="/categoria"
+                (click)="selecionarMenu('categoria')"
+                (keydown.enter)="selecionarMenu('categoria')"
+                (keydown.space)="selecionarMenu('categoria')"
+                tabindex="2"
+            >
                 <span class="text-white"><i class="pi pi-tag text-white mr-3"></i>Categorias</span>
             </li>
-            <li class="hover:bg-[#164F3C] cursor-pointer rounded p-2">
+            <li class="hover:bg-verde-escuro cursor-pointer rounded p-2">
                 <span class="text-white"
                     ><i class="pi pi-cog text-white mr-3"></i>Configurações</span
                 >

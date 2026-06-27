@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, output } from '@angular/core';
-import { DrawerModule } from 'primeng/drawer';
 import { RouterLink } from '@angular/router';
+import { DrawerModule } from 'primeng/drawer';
 import { AuthService } from '../../features/auth/services/auth';
 
 @Component({
@@ -14,10 +14,16 @@ export class Menu implements OnInit {
     sair = output<void>();
 
     nomeUsuario!: string;
+    rotaAtual = 'gasto';
 
     private _authService = inject(AuthService);
 
     ngOnInit(): void {
         this.nomeUsuario = this._authService.usuario()?.nome || '';
+    }
+
+    selecionarMenu(menu: string) {
+        this.rotaAtual = menu;
+        console.log(this.rotaAtual);
     }
 }
