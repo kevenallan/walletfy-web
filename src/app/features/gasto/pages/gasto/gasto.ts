@@ -12,10 +12,11 @@ import { DatasEmissao } from '../../models/datas-Emissao';
 import { ResumoMesDTO } from '../../models/resumo-mes';
 import { ConfirmacaoService } from '../../../../core/services/confirmacao';
 import { NotificacaoService } from '../../../../core/services/notificacao';
+import { AccordionModule } from 'primeng/accordion';
 
 @Component({
     selector: 'app-gasto',
-    imports: [Button, Card, Tabela],
+    imports: [Button, Card, Tabela, AccordionModule],
     templateUrl: './gasto.html',
     styleUrl: './gasto.css',
 })
@@ -30,6 +31,8 @@ export class Gasto {
     }
 
     gastos = signal<GastoDTO[]>([]);
+
+    verResumo = false;
 
     private _authService = inject(AuthService);
     private _gastoService = inject(GastoService);
