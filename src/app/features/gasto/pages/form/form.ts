@@ -100,7 +100,7 @@ export class Form implements OnInit {
     }
 
     buscarGastoPorId(id: number): Observable<GastoDTO> {
-        return this._gastoService.detalhar(id, this._authService.usuarioId() || 0).pipe(
+        return this._gastoService.detalhar(id).pipe(
             tap((response) => {
                 this.gasto = response;
             }),
@@ -131,7 +131,7 @@ export class Form implements OnInit {
 
     getCategorias(): Observable<CategoriaDTO[]> {
         return this._categoriaService
-            .listar(this._authService.usuarioId()!, TipoCategoria.DESPESA)
+            .listar(TipoCategoria.DESPESA)
             .pipe(tap((response) => this.categorias.set(response)));
     }
 
@@ -189,31 +189,29 @@ export class Form implements OnInit {
     }
 
     cadastrar(gastoRequest: GastoRequestDTO) {
-        this._gastoService
-            .cadastrar(gastoRequest, this._authService.usuarioId() || 0)
-            .subscribe(() => {
-                this._notificacaoService.msgSucesso('Gasto cadastrado');
+        this._gastoService.cadastrar(gastoRequest).subscribe(() => {
+            this._notificacaoService.msgSucesso('Gasto cadastrado');
 
-                this._confirmacaoService
-                    .abrirConfirmacao({
-                        mensagem: 'Você deseja continuar a cadastrar mais gastos?',
-                        cabecalho: 'Cadastrar gastos',
-                        severidadeBotaoAceitacao: 'success',
-                    })
-                    .subscribe({
-                        next: (confirmado) => {
-                            if (confirmado) {
-                                this.form.reset();
-                            } else {
-                                this._router.navigate(['/gasto']);
-                            }
-                        },
-                    });
-            });
+            this._confirmacaoService
+                .abrirConfirmacao({
+                    mensagem: 'Você deseja continuar a cadastrar mais gastos?',
+                    cabecalho: 'Cadastrar gastos',
+                    severidadeBotaoAceitacao: 'success',
+                })
+                .subscribe({
+                    next: (confirmado) => {
+                        if (confirmado) {
+                            this.form.reset();
+                        } else {
+                            this._router.navigate(['/gasto']);
+                        }
+                    },
+                });
+        });
     }
 
     atualizar(gastoRequest: GastoRequestDTO) {
-        this._gastoService.atualizar(gastoRequest, this._authService.usuarioId() || 0).subscribe({
+        this._gastoService.atualizar(gastoRequest).subscribe({
             next: () => {
                 this._router.navigate(['/gasto']);
                 this._notificacaoService.msgSucesso('Gasto atualizado');

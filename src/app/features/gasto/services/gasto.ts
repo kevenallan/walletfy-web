@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { GastoDTO } from '../models/gasto';
 import { GastoRequestDTO } from '../models/gasto-request';
@@ -14,35 +14,29 @@ export class GastoService {
 
     private _http = inject(HttpClient);
 
-    listar(usuarioId: number, dataInicio: string, dataFim: string): Observable<GastoDTO[]> {
-        return this._http.get<GastoDTO[]>(`${this._apiGasto}/${usuarioId}`, {
+    listar(dataInicio: string, dataFim: string): Observable<GastoDTO[]> {
+        return this._http.get<GastoDTO[]>(`${this._apiGasto}`, {
             params: { dataInicio, dataFim },
         });
     }
 
-    detalhar(gastoId: number, usuarioId: number): Observable<GastoDTO> {
-        const params = new HttpParams()
-            .set('gastoId', gastoId.toString())
-            .set('usuarioId', usuarioId.toString());
-
-        return this._http.get<GastoDTO>(`${this._apiGasto}`, { params });
+    detalhar(gastoId: number): Observable<GastoDTO> {
+        return this._http.get<GastoDTO>(`${this._apiGasto}/${gastoId}`);
     }
 
-    listarResumo(usuarioId: number): Observable<ResumoMesDTO[]> {
-        const params = new HttpParams().set('usuarioId', usuarioId.toString());
-
-        return this._http.get<ResumoMesDTO[]>(`${this._apiGasto}/resumo`, { params });
+    listarResumo(): Observable<ResumoMesDTO[]> {
+        return this._http.get<ResumoMesDTO[]>(`${this._apiGasto}/resumo`);
     }
 
-    cadastrar(gasto: GastoRequestDTO, usuarioId: number): Observable<GastoDTO> {
-        return this._http.post<GastoDTO>(`${this._apiGasto}/${usuarioId}`, gasto);
+    cadastrar(gasto: GastoRequestDTO): Observable<GastoDTO> {
+        return this._http.post<GastoDTO>(`${this._apiGasto}`, gasto);
     }
 
-    atualizar(gasto: GastoRequestDTO, usuarioId: number): Observable<GastoDTO> {
-        return this._http.put<GastoDTO>(`${this._apiGasto}/${usuarioId}`, gasto);
+    atualizar(gasto: GastoRequestDTO): Observable<GastoDTO> {
+        return this._http.put<GastoDTO>(`${this._apiGasto}`, gasto);
     }
 
-    deletar(gastoId: number, usuarioId: number): Observable<GastoDTO> {
-        return this._http.delete<GastoDTO>(`${this._apiGasto}/${usuarioId}/${gastoId}`);
+    deletar(gastoId: number): Observable<GastoDTO> {
+        return this._http.delete<GastoDTO>(`${this._apiGasto}/${gastoId}`);
     }
 }

@@ -1,6 +1,5 @@
 import { Component, HostListener, inject, OnInit, signal } from '@angular/core';
 import { ReceitaService } from '../../services/receita';
-import { AuthService } from '../../../auth/services/auth';
 import { ReceitaResponseDTO } from '../../models/receita-response';
 import { Card } from '../../../receita/components/card/card';
 import { Tabela } from '../../../receita/components/tabela/tabela';
@@ -35,7 +34,6 @@ export class Receita implements OnInit {
         this.isMobile = window.innerWidth < 768;
     }
 
-    private _authService = inject(AuthService);
     private _receitaService = inject(ReceitaService);
     private _confirmacaoService = inject(ConfirmacaoService);
     private _notificacaoService = inject(NotificacaoService);
@@ -53,11 +51,7 @@ export class Receita implements OnInit {
 
     listarDatas() {
         this._receitaService
-            .listar(
-                this._authService.usuarioId() || 0,
-                formatarData(this.dataFiltro.dataInicio),
-                formatarData(this.dataFiltro.dataFim),
-            )
+            .listar(formatarData(this.dataFiltro.dataInicio), formatarData(this.dataFiltro.dataFim))
             .subscribe({
                 next: (response) => {
                     this.receitas.set(response);
@@ -90,43 +84,37 @@ export class Receita implements OnInit {
         }
     }
     cadastrar(receitaRequest: ReceitaRequestDTO) {
-        this._receitaService
-            .cadastrar(receitaRequest, this._authService.usuarioId() || 0)
-            .subscribe(() => {
-                this._notificacaoService.msgSucesso('Receita cadastrada');
-                this.listarDatas();
-            });
+        this._receitaService.cadastrar(receitaRequest).subscribe(() => {
+            this._notificacaoService.msgSucesso('Receita cadastrada');
+            this.listarDatas();
+        });
     }
 
     atualizar(receitaRequest: ReceitaRequestDTO) {
-        this._receitaService
-            .atualizar(receitaRequest, this._authService.usuarioId() || 0)
-            .subscribe({
-                next: () => {
-                    this._notificacaoService.msgSucesso('Receita atualizada');
-                    this.listarDatas();
-                },
-            });
+        this._receitaService.atualizar(receitaRequest).subscribe({
+            next: () => {
+                this._notificacaoService.msgSucesso('Receita atualizada');
+                this.listarDatas();
+            },
+        });
     }
     deletarReceita(receitaId: number) {
         this._confirmacaoService.abrirConfirmacao().subscribe({
             next: (confirmado: boolean) => {
                 if (confirmado) {
-                    this._receitaService
-                        .deletar(receitaId, this._authService.usuarioId() || 0)
-                        .subscribe({
-                            next: () => {
-                                this._notificacaoService.msgSucesso('Receita deletada');
-                                this.listarDatas();
-                            },
-                        });
+                    this._receitaService.deletar(receitaId).subscribe({
+                        next: () => {
+                            this._notificacaoService.msgSucesso('Receita deletada');
+                            this.listarDatas();
+                        },
+                    });
                 }
             },
         });
     }
 
     listarCardsResumo() {
-        this._receitaService.listarResumo(1).subscribe({
+        this._receitaService.listarResumo().subscribe({
             next: (response) => {
                 this.resumoMeses.set(response);
             },

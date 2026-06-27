@@ -98,7 +98,7 @@ export class Form implements OnInit {
     }
 
     buscarReceitaPorId(id: number): Observable<ReceitaResponseDTO> {
-        return this._receitaService.detalhar(id, this._authService.usuarioId() || 0).pipe(
+        return this._receitaService.detalhar(id).pipe(
             tap((response) => {
                 this.receita = response;
             }),
@@ -128,7 +128,7 @@ export class Form implements OnInit {
 
     getCategorias(): Observable<CategoriaDTO[]> {
         return this._categoriaService
-            .listar(this._authService.usuarioId()!, TipoCategoria.RECEITA)
+            .listar(TipoCategoria.RECEITA)
             .pipe(tap((response) => this.categorias.set(response)));
     }
 

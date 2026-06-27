@@ -1,42 +1,35 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { NotificacaoService } from '../services/notificacao';
-import { catchError, tap, throwError } from 'rxjs';
+import { catchError, throwError } from 'rxjs';
 import { Router } from '@angular/router';
-
-// const METHODS_COM_SUCESSO = ['POST', 'PUT', 'PATCH', 'DELETE'];
+import { AuthService } from '../../features/auth/services/auth';
 
 export const erroInterceptor: HttpInterceptorFn = (req, next) => {
     const notification = inject(NotificacaoService);
     const router = inject(Router);
+    const authService = inject(AuthService);
 
     return next(req).pipe(
-        tap(() => {
-            // if (event.type === HttpEventType.Response && METHODS_COM_SUCESSO.includes(req.method)) {
-            //     const customMessage = req.context.get(SUCCESS_MESSAGE);
-            //     notification.success(customMessage ?? 'Operação realizada com sucesso!');
-            // }
-            // console.log(event);
-        }),
         catchError((error: HttpErrorResponse) => {
-            const msg = getErrorMessage(error);
-
-            if (msg.includes('conectar ao servidor')) {
-                router.navigate(['/login']);
+            if (error.status === 0) {
+                notification.msgErro('Não foi possível conectar ao servidor.');
+                return throwError(() => error);
             }
 
-            notification.msgErro(msg);
+            if (error.status === 401) {
+                if (req.url.includes('/auth')) {
+                    notification.msgErro(error.error?.mensagem ?? 'E-mail ou senha inválidos.');
+                } else {
+                    authService.logout();
+                    router.navigate(['/login']);
+                    notification.msgInfo('Sua sessão expirou. Faça login novamente.');
+                }
+                return throwError(() => error);
+            }
+
+            notification.msgErro(error.error?.mensagem ?? 'Erro inesperado.');
             return throwError(() => error);
         }),
     );
 };
-
-function getErrorMessage(error: HttpErrorResponse): string {
-    if (error.status === 0) {
-        return 'Não foi possível conectar ao servidor.';
-    }
-
-    console.log(error);
-
-    return error.error.mensagem;
-}

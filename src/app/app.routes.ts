@@ -2,6 +2,8 @@ import { Routes } from '@angular/router';
 import { Login } from './features/auth/pages/login/login';
 import { Main } from './layout/main/main';
 import { Cadastro } from './features/auth/pages/cadastro/cadastro';
+import { authGuard } from './core/guards/auth-guard';
+import { noAuthGuard } from './core/guards/no-auth-guard';
 
 export const routes: Routes = [
     {
@@ -11,14 +13,18 @@ export const routes: Routes = [
     },
     {
         path: 'login',
+        canActivate: [noAuthGuard],
         component: Login,
     },
     {
         path: 'cadastro',
+        canActivate: [noAuthGuard],
         component: Cadastro,
     },
     {
         path: '',
+        canActivate: [authGuard],
+        canActivateChild: [authGuard],
         component: Main,
         children: [
             { path: '', redirectTo: 'categoria', pathMatch: 'full' },
