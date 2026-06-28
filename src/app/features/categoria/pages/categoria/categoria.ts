@@ -12,6 +12,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { Button } from 'primeng/button';
 import { TabsModule } from 'primeng/tabs';
 import { TipoCategoria } from '../../../../core/enum/tipo-categoria';
+import { ConfirmacaoService } from '../../../../core/services/confirmacao';
 @Component({
     selector: 'app-categoria',
     imports: [TableModule, CardInformacoes, Tabela, Button, TabsModule],
@@ -33,6 +34,7 @@ export class Categoria implements OnInit {
 
     private _dialogService = inject(DialogService);
     private _categoriaService = inject(CategoriaService);
+    private _confirmacaoService = inject(ConfirmacaoService);
     private _notificacaoService = inject(NotificacaoService);
 
     ngOnInit(): void {
@@ -66,10 +68,11 @@ export class Categoria implements OnInit {
     }
 
     abrirForm(categoria?: CategoriaDTO) {
+        const isMobile = window.innerWidth <= 768;
         const ref = this._dialogService.open(Form, {
             header: categoria ? 'Editar Categoria' : 'Nova Categoria',
-            width: '480px',
-            height: '480px',
+            width: '550px',
+            height: isMobile ? '570px' : '510px',
             breakpoints: { '768px': '90vw', '480px': '100vw' },
             closable: true,
             closeOnEscape: true,
@@ -88,5 +91,20 @@ export class Categoria implements OnInit {
                 }
             });
         }
+    }
+
+    deletar(categoriaId: number) {
+        this._confirmacaoService.abrirConfirmacao().subscribe({
+            next: (confirmado: boolean) => {
+                if (confirmado) {
+                    this._categoriaService.deletar(categoriaId).subscribe({
+                        next: () => {
+                            this._notificacaoService.msgSucesso('Categoria deletada');
+                            this.listar();
+                        },
+                    });
+                }
+            },
+        });
     }
 }
