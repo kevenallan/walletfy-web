@@ -24,6 +24,5 @@ export class Menu implements OnInit {
 
     selecionarMenu(menu: string) {
         this.rotaAtual = menu;
-        console.log(this.rotaAtual);
     }
 }
