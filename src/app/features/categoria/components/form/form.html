@@ -1,5 +1,5 @@
 <div class="flex flex-col justify-between h-full">
-    <div class="flex flex-col gap-3">
+    <div class="flex flex-col gap-5">
         <div>
             <label for="nome">Categoria</label>
             <input
@@ -12,40 +12,128 @@
                 (ngModelChange)="nome.set($event)"
             />
         </div>
-        <div>
-            <label for="icone">Icone</label>
-            <div class="">
-                <p-select
-                    [options]="icons"
-                    optionLabel="label"
-                    [ngModel]="icone()"
-                    (ngModelChange)="icone.set($event)"
-                >
-                    <ng-template let-item pTemplate="selectedItem">
-                        <div class="flex items-center gap-2">
-                            <i [class]="item?.value"></i>
-                            <span>{{ item?.label }}</span>
-                        </div>
-                    </ng-template>
 
-                    <ng-template let-item pTemplate="item">
-                        <div class="flex items-center gap-2">
-                            <i [class]="item.value"></i>
-                            <span>{{ item.label }}</span>
-                        </div>
-                    </ng-template>
-                </p-select>
+        <div class="flex flex-col gap-3 md:gap-7 md:flex-row">
+            <div>
+                <label for="icone">Icone</label>
+                <div class="w-1/2 md:w-60">
+                    <p-select
+                        class="w-full"
+                        [options]="icons"
+                        optionLabel="label"
+                        [ngModel]="icone()"
+                        (ngModelChange)="icone.set($event)"
+                    >
+                        <ng-template let-item pTemplate="selectedItem">
+                            <div class="flex items-center gap-2">
+                                <i [class]="item?.value"></i>
+                                <span>{{ item?.label }}</span>
+                            </div>
+                        </ng-template>
+
+                        <ng-template let-item pTemplate="item">
+                            <div class="flex items-center gap-2">
+                                <i [class]="item.value"></i>
+                                <span>{{ item.label }}</span>
+                            </div>
+                        </ng-template>
+                    </p-select>
+                </div>
             </div>
-        </div>
-        <div>
-            <label for="cor">Cor</label>
+
             <div class="">
-                <p-colorpicker [ngModel]="cor()" (ngModelChange)="cor.set($event)" format="hex" />
+                <label for="cor">Cor</label>
+                <div class="flex">
+                    <div class="flex gap-2">
+                        @for (cor of coresPadrao; track cor) {
+                            <div
+                                class="w-7 h-7 rounded-lg cursor-pointer border-2"
+                                [style.background-color]="cor"
+                                [class.border-white]="corSelecionada() !== cor"
+                                (click)="selecionarCor(cor)"
+                                (keydown)="selecionarCor(cor)"
+                                tabindex="0"
+                            ></div>
+                        }
+                    </div>
+
+                    <div class="relative ml-2 flex items-center">
+                        @if (!exibirColorPicker) {
+                            <div
+                                class="w-7 h-7 rounded-lg border-2 border-dashed border-gray-400 flex items-center justify-center cursor-pointer"
+                                (keydown)="(null)"
+                                (click)="exibicaoColorPicker()"
+                                tabindex="0"
+                            >
+                                <i class="pi pi-plus text-gray-400 text-xs"></i>
+                            </div>
+                        }
+                        @if (exibirColorPicker) {
+                            <p-colorpicker
+                                #cp
+                                [ngModel]="cor()"
+                                (ngModelChange)="cor.set($event)"
+                                format="hex"
+                                appendTo="body"
+                                class="border border-black rounded-lg"
+                            />
+                        }
+                    </div>
+                </div>
             </div>
         </div>
+
         <div class="flex flex-col">
-            <label for="ativo">Ativo</label>
-            <p-toggleswitch [ngModel]="ativo()" (ngModelChange)="ativo.set($event)" />
+            <label for="ativo">Status</label>
+            <div class="flex gap-2">
+                <p-toggleswitch [ngModel]="ativo()" (ngModelChange)="ativo.set($event)" />
+                <span>{{ ativo() ? 'Ativo' : 'Inativo' }}</span>
+            </div>
+        </div>
+        <div class="flex flex-col gap-1">
+            <div class=""><span>Tipo de Categoria</span></div>
+            <div class="flex gap-2">
+                <div class="flex items-center border border-cinza-claro rounded-lg pl-3 p-1 w-full">
+                    <p-radiobutton
+                        name="tipoCategoria"
+                        value="DESPESA"
+                        inputId="despesa"
+                        [ngModel]="tipo()"
+                        (ngModelChange)="tipo.set($event)"
+                        [style]="{
+                            '--p-radiobutton-checked-background': '#dc2626',
+                            '--p-radiobutton-checked-border-color': '#dc2626',
+                            '--p-radiobutton-checked-hover-background': '#dc2626',
+                        }"
+                    />
+                    <div class="flex flex-col">
+                        <label for="despesa" class="ml-2 text-vermelho font-semibold"
+                            >Despesa</label
+                        >
+                        <span class="text-xs md:text-sm text-cinza ml-2"
+                            >Categorias do tipo despesa<br />
+                            reduzem seu saldo</span
+                        >
+                    </div>
+                </div>
+
+                <div class="flex items-center border border-cinza-claro rounded-lg pl-3 p-1 w-full">
+                    <p-radiobutton
+                        name="tipoCategoria"
+                        value="RECEITA"
+                        inputId="receita"
+                        [ngModel]="tipo()"
+                        (ngModelChange)="tipo.set($event)"
+                    />
+                    <div class="flex flex-col">
+                        <label for="receita" class="ml-2 text-verde font-semibold">Receita</label>
+                        <span class="text-xs md:text-sm text-cinza ml-2"
+                            >Categorias do tipo receita<br />
+                            aumentam seu saldo</span
+                        >
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

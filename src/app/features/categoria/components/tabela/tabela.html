@@ -48,7 +48,10 @@
             <tr>
                 <td class="text-center!">{{ categoria.nome }}</td>
                 <td class="text-center!">
-                    <div class="mx-auto rounded-lg w-8 h-8 md:rounded-2xl md:w-10 md:h-10 flex justify-center items-center" [style.background-color]="categoria.cor">
+                    <div
+                        class="mx-auto rounded-lg w-8 h-8 md:rounded-2xl md:w-10 md:h-10 flex justify-center items-center"
+                        [style.background-color]="categoria.cor"
+                    >
                         <i
                             [ngClass]="['pi', categoria.icone, 'text-lg!', 'lg:text-2xl!']"
                             [style.color]="'white'"
@@ -59,10 +62,18 @@
                     <div class="w-5 h-5 mx-auto" [style.background-color]="categoria.cor"></div>
                 </td>
                 <td class="text-center!">{{ categoria.ativo ? 'Sim' : 'Não' }}</td>
-                <td class="text-center!">
-                    <button class="cursor-pointer" (click)="editar.emit(categoria)">
-                        <i class="pi pi-pen-to-square text-azul"></i>
-                    </button>
+                <td>
+                    <div class="flex justify-center gap-3">
+                        <button class="cursor-pointer" (click)="editar.emit(categoria)">
+                            <i class="pi pi-pen-to-square text-azul"></i>
+                        </button>
+                        <button
+                            class="cursor-pointer text-vermelho"
+                            (click)="deletar.emit(categoria.id)"
+                        >
+                            <i class="pi pi-trash"></i>
+                        </button>
+                    </div>
                 </td>
             </tr>
         </ng-template>

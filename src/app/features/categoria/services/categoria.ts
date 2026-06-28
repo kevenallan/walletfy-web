@@ -24,4 +24,8 @@ export class CategoriaService {
     atualizar(categoria: CategoriaDTO): Observable<CategoriaDTO> {
         return this._http.put<CategoriaDTO>(`${this._apiCategoria}`, categoria);
     }
+
+    deletar(categoriaId: number): Observable<void> {
+        return this._http.delete<void>(`${this._apiCategoria}/${categoriaId}`);
+    }
 }

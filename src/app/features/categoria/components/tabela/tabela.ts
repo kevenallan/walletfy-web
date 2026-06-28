@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, input, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, input, output, Output } from '@angular/core';
 
 import { TableModule } from 'primeng/table';
 import { CategoriaDTO } from '../../models/categoria';
@@ -27,6 +27,7 @@ import { InputTextModule } from 'primeng/inputtext';
 export class Tabela {
     categorias = input<CategoriaDTO[]>([]);
     @Output() editar = new EventEmitter<CategoriaDTO>();
+    deletar = output<number>();
 
     isMobile = window.innerWidth < 768;
     tableSize: 'small' | 'large' | undefined = this.isMobile ? 'small' : undefined;
