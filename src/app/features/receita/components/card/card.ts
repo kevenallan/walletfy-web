@@ -68,15 +68,18 @@ export class Card {
             const variacao = resumo[config.campoVariacao] as number;
 
             if (config.tipo === 'categoria') {
+                const temCategoria = valor != null;
                 return {
                     titulo: config.titulo,
-                    valor: valor as string,
+                    valor: temCategoria ? (valor as string) : 'Nenhuma categoria',
                     icone: config.icone,
                     corIcone: config.corIcone,
                     background: config.background,
                     corVariacao: 'text-cinza',
                     iconeVariacao: 'pi pi-chart-pie',
-                    descricao: `${valor} representa ${variacao}% da sua renda`,
+                    descricao: temCategoria
+                    ? `${valor} representa ${variacao}% da sua renda`
+                    : 'Nenhuma receita registrada neste mês',
                 };
             }
 

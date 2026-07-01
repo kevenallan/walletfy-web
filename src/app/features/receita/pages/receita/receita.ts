@@ -89,6 +89,7 @@ export class Receita implements OnInit {
         this._receitaService.cadastrar(receitaRequest).subscribe(() => {
             this._notificacaoService.msgSucesso('Receita cadastrada');
             this.listarDatas();
+            this.listarCardsResumo();
         });
     }
 
@@ -97,6 +98,7 @@ export class Receita implements OnInit {
             next: () => {
                 this._notificacaoService.msgSucesso('Receita atualizada');
                 this.listarDatas();
+                this.listarCardsResumo();
             },
         });
     }
@@ -108,6 +110,7 @@ export class Receita implements OnInit {
                         next: () => {
                             this._notificacaoService.msgSucesso('Receita deletada');
                             this.listarDatas();
+                            this.listarCardsResumo();
                         },
                     });
                 }
