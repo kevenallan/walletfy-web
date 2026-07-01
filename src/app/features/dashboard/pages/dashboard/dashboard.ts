@@ -2,7 +2,8 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { Tabela } from '../../components/tabela/tabela';
 import { DashboardService } from '../../services/dashboard';
 import { ResumoAnualResponseDTO } from '../../models/resumo-anual';
-import { Grafico } from "../../components/grafico/grafico";
+import { Grafico } from '../../components/grafico/grafico';
+import { GraficoMesDTO } from '../../models/grafico-mes';
 
 @Component({
     selector: 'app-dashboard',
@@ -12,6 +13,8 @@ import { Grafico } from "../../components/grafico/grafico";
 })
 export class Dashboard implements OnInit {
     resumoAnualResponseDTO = signal<ResumoAnualResponseDTO[]>([]);
+    dadosReceitas: GraficoMesDTO[] = [];
+    dadosDespesas: GraficoMesDTO[] = [];
 
     private _dashBoardService = inject(DashboardService);
 
@@ -22,9 +25,9 @@ export class Dashboard implements OnInit {
     listar(ano: number) {
         this._dashBoardService.listar(ano).subscribe({
             next: (response) => {
-                console.log(response);
-
                 this.resumoAnualResponseDTO.set(response);
+                this.dadosReceitas = response.map((r) => ({ mes: r.mes, total: r.totalReceitas }));
+                this.dadosDespesas = response.map((r) => ({ mes: r.mes, total: r.totalGastos }));
             },
         });
     }
