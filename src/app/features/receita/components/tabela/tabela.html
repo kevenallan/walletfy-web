@@ -6,8 +6,6 @@
         [rows]="5"
         [rowsPerPageOptions]="[5, 10, 20]"
         [globalFilterFields]="['descricao', 'categoria.nome', 'formaPagamento.nome', 'status.nome']"
-        showGridlines
-        stripedRows
         [size]="'small'"
         [sortField]="'dataReceita'"
         [sortOrder]="1"
@@ -256,7 +254,9 @@
                         ]"
                     />
                 </td>
-                <td class="text-center!">{{ receita.valor | currency: 'BRL' }}</td>
+                <td class="text-center! text-verde font-bold">
+                    {{ receita.valor | currency: 'BRL' }}
+                </td>
                 <td>
                     <div class="flex gap-3">
                         <button class="cursor-pointer" (click)="emitirReceitaEditar(receita.id)">

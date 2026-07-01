@@ -33,10 +33,10 @@
         <ng-template #body let-resumo>
             <tr>
                 <td class="text-center!">{{ resumo.mes | titlecase }}</td>
-                <td class="text-center! text-verde">
+                <td class="text-center! text-verde font-bold">
                     {{ resumo.totalReceitas | currency: 'BRL' }}
                 </td>
-                <td class="text-center! text-vermelho">
+                <td class="text-center! text-vermelho font-bold">
                     {{ resumo.totalGastos | currency: 'BRL' }}
                 </td>
                 <td class="text-center!">{{ resumo.saldo | currency: 'BRL' }}</td>

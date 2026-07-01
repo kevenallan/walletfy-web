@@ -6,8 +6,6 @@
         [rows]="5"
         [rowsPerPageOptions]="[5, 10, 20]"
         [globalFilterFields]="['descricao', 'categoria.nome', 'formaPagamento.nome', 'status.nome']"
-        showGridlines
-        stripedRows
         [size]="'small'"
         [sortField]="'dataGasto'"
         [sortOrder]="1"
@@ -262,7 +260,7 @@
                         ]"
                     />
                 </td>
-                <td class="text-center!">{{ gasto.valor | currency: 'BRL' }}</td>
+                <td class="text-center! text-vermelho font-bold">{{ gasto.valor | currency: 'BRL' }}</td>
                 <td class="text-center!">{{ gasto.dataVencimento | date: 'dd/MM/yyyy' }}</td>
                 <td>
                     <div class="flex gap-3">
