@@ -17,7 +17,7 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4 gap-4 w-full">
                     @for (card of getCardsDoMes(resumo); track card.titulo) {
                         <div
-                            class="bg-white dark:bg-gray-800 shadow-lg rounded-lg px-3 py-2 w-full md:h-24 min-w-0 grid grid-rows-3 items-center grid-cols-[auto_1fr_auto]"
+                            class="bg-white dark:bg-gray-800 shadow-lg rounded-lg px-3 py-2 w-full md:h-25 min-w-0 grid grid-rows-3 items-center grid-cols-[auto_1fr_auto]"
                         >
                             <div
                                 [ngClass]="card.background"
@@ -30,15 +30,21 @@
                                 {{ card.titulo }}
                             </h3>
 
-                            <p class="row-start-2 col-start-2 text-lg md:text-2xl font-bold">
-                                {{ card.valor }}
-                            </p>
+                            @if (!card.titulo.includes('Renda')) {
+                                <p class="row-start-2 col-start-2 text-lg md:text-2xl font-bold">
+                                    {{ card.valor }}
+                                </p>
+                            } @else {
+                                <p class="row-start-2 col-start-2 text-lg md:text-xl font-bold">
+                                    {{ card.valor }}
+                                </p>
+                            }
 
                             <p
-                                class="row-start-3 col-start-2 text-xs md:text-sm flex items-center"
+                                class="row-start-3 col-start-2 text-xs md:text-sm flex items-center lg:mt-2"
                                 [ngClass]="card.corVariacao"
                             >
-                                <i [ngClass]="[card.iconeVariacao, 'text-lg!', 'mr-2']"></i>
+                                <i [ngClass]="[card.iconeVariacao, 'text-base!', 'mr-2']"></i>
                                 {{ card.descricao }}
                             </p>
                         </div>

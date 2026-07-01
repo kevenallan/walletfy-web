@@ -69,6 +69,7 @@ export class Gasto {
                         next: () => {
                             this._notificacaoService.msgSucesso('Gasto deletado');
                             this.listarDatas(primeiroDiaMes(), ultimoDiaMes());
+                            this.listarCardsResumo();
                         },
                     });
                 }
