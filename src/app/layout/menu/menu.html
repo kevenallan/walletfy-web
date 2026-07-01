@@ -14,7 +14,15 @@
 
     <nav class="mt-8">
         <ul>
-            <li class="hover:bg-verde-escuro cursor-pointer rounded p-2">
+            <li
+                class="hover:bg-verde-escuro cursor-pointer rounded p-2"
+                routerLink="/dashboard"
+                [class.bg-verde-escuro]="rotaAtual === 'dashboard'"
+                (click)="selecionarMenu('dashboard')"
+                (keydown.enter)="selecionarMenu('dashboard')"
+                (keydown.space)="selecionarMenu('dashboard')"
+                tabindex="0"
+            >
                 <span class="text-white"
                     ><i class="pi pi-chart-bar text-white mr-3"></i>Dashboard</span
                 >
@@ -27,7 +35,7 @@
                 (click)="selecionarMenu('receita')"
                 (keydown.enter)="selecionarMenu('receita')"
                 (keydown.space)="selecionarMenu('receita')"
-                tabindex="0"
+                tabindex="1"
             >
                 <span class="text-white"
                     ><i class="pi pi-calculator text-white mr-3"></i>Receitas</span
@@ -40,7 +48,7 @@
                 (click)="selecionarMenu('gasto')"
                 (keydown.enter)="selecionarMenu('gasto')"
                 (keydown.space)="selecionarMenu('gasto')"
-                tabindex="1"
+                tabindex="2"
             >
                 <span class="text-white"><i class="pi pi-wallet text-white mr-3"></i> Gastos</span>
             </li>
@@ -51,7 +59,7 @@
                 (click)="selecionarMenu('categoria')"
                 (keydown.enter)="selecionarMenu('categoria')"
                 (keydown.space)="selecionarMenu('categoria')"
-                tabindex="2"
+                tabindex="3"
             >
                 <span class="text-white"><i class="pi pi-tag text-white mr-3"></i>Categorias</span>
             </li>

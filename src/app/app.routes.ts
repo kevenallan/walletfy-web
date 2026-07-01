@@ -29,6 +29,18 @@ export const routes: Routes = [
         children: [
             { path: '', redirectTo: 'categoria', pathMatch: 'full' },
             {
+                path: 'dashboard',
+                children: [
+                    {
+                        path: '',
+                        loadComponent: () =>
+                            import('./features/dashboard/pages/dashboard/dashboard').then(
+                                (c) => c.Dashboard,
+                            ),
+                    },
+                ],
+            },
+            {
                 path: 'receita',
                 children: [
                     {

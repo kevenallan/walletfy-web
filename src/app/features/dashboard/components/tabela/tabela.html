@@ -1,0 +1,79 @@
+<section class="mr-3">
+    <p-table
+        [value]="resumoAnual()"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        size="small"
+        [scrollable]="true"
+        scrollHeight="50vh"
+    >
+        <ng-template #caption>
+            <div class="">
+                <p-datepicker
+                    showIcon
+                    iconDisplay="input"
+                    [ngModel]="data()"
+                    (ngModelChange)="data.set($event)"
+                    view="year"
+                    dateFormat="yy"
+                    class="w-25"
+                />
+            </div>
+        </ng-template>
+        <ng-template #header>
+            <tr>
+                <th class="text-center!">Mês</th>
+                <th class="text-center!">Total de Receitas (R$)</th>
+                <th class="text-center!">Total de Gastos (R$)</th>
+                <th class="text-center!">Saldo (R$)</th>
+                <th class="text-center!">Categoria Mais Utilizada</th>
+                <th class="text-center!">Total Gasto na Categoria (R$)</th>
+                <th class="text-center!">Categoria com Maior Gasto</th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-resumo>
+            <tr>
+                <td class="text-center!">{{ resumo.mes | titlecase }}</td>
+                <td class="text-center!">{{ resumo.totalReceitas | currency: 'BRL' }}</td>
+                <td class="text-center!">{{ resumo.totalGastos | currency: 'BRL' }}</td>
+                <td class="text-center!">{{ resumo.saldo | currency: 'BRL' }}</td>
+                <td class="flex items-center">
+                    <div
+                        class="rounded-lg w-8 h-8 md:rounded-2xl md:w-10 md:h-10 flex justify-center items-center mr-2"
+                        [style.background-color]="resumo.corCategoriaMaisUtilizada"
+                    >
+                        <i
+                            [ngClass]="[
+                                'pi',
+                                resumo.iconeCategoriaMaisUtilizada || '',
+                                'text-lg!',
+                                'lg:text-2xl!',
+                            ]"
+                            [style.color]="'white'"
+                        ></i>
+                    </div>
+                    {{ resumo.categoriaMaisUtilizada }}
+                    {{ resumo.totalCategoriaMaisUtilizada | currency: 'BRL' }}
+                </td>
+                <td class="text-center!">{{ resumo.totalGastoGategoria | currency: 'BRL' }}</td>
+                <td class="flex items-center">
+                    <div
+                        class="rounded-lg w-8 h-8 md:rounded-2xl md:w-10 md:h-10 flex justify-center items-center mr-2"
+                        [style.background-color]="resumo.corCategoriaMaiorGasto"
+                    >
+                        <i
+                            [ngClass]="[
+                                'pi',
+                                resumo.iconeCategoriaMaiorGasto || '',
+                                'text-lg!',
+                                'lg:text-2xl!',
+                            ]"
+                            [style.color]="'white'"
+                        ></i>
+                    </div>
+                    {{ resumo.categoriaMaiorGasto }}
+                    {{ resumo.totalCategoriaMaiorGasto | currency: 'BRL' }}
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</section>
