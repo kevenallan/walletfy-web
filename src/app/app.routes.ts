@@ -27,7 +27,19 @@ export const routes: Routes = [
         canActivateChild: [authGuard],
         component: Main,
         children: [
-            { path: '', redirectTo: 'categoria', pathMatch: 'full' },
+            { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+            {
+                path: 'dashboard',
+                children: [
+                    {
+                        path: '',
+                        loadComponent: () =>
+                            import('./features/dashboard/pages/dashboard/dashboard').then(
+                                (c) => c.Dashboard,
+                            ),
+                    },
+                ],
+            },
             {
                 path: 'receita',
                 children: [

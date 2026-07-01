@@ -32,7 +32,7 @@ export class Login {
         this._authService.login(loginRequest).subscribe({
             next: (response) => {
                 this._authService.salvar(response);
-                this._router.navigate(['/gasto']);
+                this._router.navigate(['/dashboard']);
             },
         });
     }
