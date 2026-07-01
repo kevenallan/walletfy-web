@@ -1,10 +1,10 @@
-<section class="mr-3">
+<section class="mx-3 md:ml-0">
     <p-table
         [value]="resumoAnual()"
         [tableStyle]="{ 'min-width': '50rem' }"
         size="small"
         [scrollable]="true"
-        scrollHeight="50vh"
+        scrollHeight="45vh"
     >
         <ng-template #caption>
             <div class="">
@@ -12,7 +12,7 @@
                     showIcon
                     iconDisplay="input"
                     [ngModel]="data()"
-                    (ngModelChange)="data.set($event)"
+                    (ngModelChange)="data.set($event); dataOutput.emit(data().getFullYear())"
                     view="year"
                     dateFormat="yy"
                     class="w-25"
