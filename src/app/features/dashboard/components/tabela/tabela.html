@@ -32,16 +32,16 @@
         </ng-template>
         <ng-template #body let-resumo>
             <tr>
-                <td class="text-center!">{{ resumo.mes | titlecase }}</td>
+                <td class="text-center! font-bold">{{ resumo.mes | titlecase }}</td>
                 <td class="text-center! text-verde font-bold">
                     {{ resumo.totalReceitas | currency: 'BRL' }}
                 </td>
                 <td class="text-center! text-vermelho font-bold">
                     {{ resumo.totalGastos | currency: 'BRL' }}
                 </td>
-                <td class="text-center!">{{ resumo.saldo | currency: 'BRL' }}</td>
+                <td class="text-center! font-bold">{{ resumo.saldo | currency: 'BRL' }}</td>
                 <td>
-                    <div class="flex items-center">
+                    <div class="flex items-center font-bold">
                         <div
                             class="rounded-lg w-8 h-8 md:rounded-2xl md:w-10 md:h-10 flex justify-center items-center mr-2"
                             [style.background-color]="resumo.corCategoriaMaisUtilizada"
@@ -59,7 +59,9 @@
                         {{ resumo.categoriaMaisUtilizada }}
                     </div>
                 </td>
-                <td class="text-center!">{{ resumo.totalGastoGategoria | currency: 'BRL' }}</td>
+                <td class="text-center! font-bold">
+                    {{ resumo.totalGastoGategoria | currency: 'BRL' }}
+                </td>
                 <td>
                     <div class="flex items-center">
                         <div
@@ -77,10 +79,10 @@
                             ></i>
                         </div>
                         <div class="flex flex-col">
-                            <span>
+                            <span class="font-bold">
                                 {{ resumo.categoriaMaiorGasto }}
                             </span>
-                            <span>
+                            <span class="font-bold">
                                 {{ resumo.totalCategoriaMaiorGasto | currency: 'BRL' }}
                             </span>
                         </div>
