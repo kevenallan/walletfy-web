@@ -13,6 +13,7 @@ import { Button } from 'primeng/button';
 import { TabsModule } from 'primeng/tabs';
 import { TipoCategoria } from '../../../../core/enum/tipo-categoria';
 import { ConfirmacaoService } from '../../../../core/services/confirmacao';
+import { CategoriaResumoResponseDTO } from '../../models/resumo';
 @Component({
     selector: 'app-categoria',
     imports: [TableModule, CardInformacoes, Tabela, Button, TabsModule],
@@ -22,6 +23,7 @@ import { ConfirmacaoService } from '../../../../core/services/confirmacao';
 })
 export class Categoria implements OnInit {
     categorias = signal<CategoriaDTO[]>([]);
+    resumoCards = signal<CategoriaResumoResponseDTO | null>(null);
     abaDespesa = TipoCategoria.DESPESA;
     abaReceita = TipoCategoria.RECEITA;
     abaSelecionada: TipoCategoria = TipoCategoria.DESPESA;
@@ -39,6 +41,7 @@ export class Categoria implements OnInit {
 
     ngOnInit(): void {
         this.listar();
+        this.listarResumo();
     }
 
     listar() {
@@ -53,6 +56,7 @@ export class Categoria implements OnInit {
         this._categoriaService.cadastrar(categoria).subscribe({
             next: () => {
                 this.listar();
+                this.listarResumo();
                 this._notificacaoService.msgSucesso('Categoria cadastrada');
             },
         });
@@ -62,6 +66,7 @@ export class Categoria implements OnInit {
         this._categoriaService.atualizar(categoria).subscribe({
             next: () => {
                 this.listar();
+                this.listarResumo();
                 this._notificacaoService.msgSucesso('Categoria atualizada');
             },
         });
@@ -97,13 +102,22 @@ export class Categoria implements OnInit {
         this._confirmacaoService.abrirConfirmacao().subscribe({
             next: (confirmado: boolean) => {
                 if (confirmado) {
-                    this._categoriaService.deletar(categoriaId).subscribe({
+                    this._categoriaService.deletar(categoriaId, this.abaSelecionada).subscribe({
                         next: () => {
                             this._notificacaoService.msgSucesso('Categoria deletada');
                             this.listar();
+                            this.listarResumo();
                         },
                     });
                 }
+            },
+        });
+    }
+
+    listarResumo() {
+        this._categoriaService.listarResumo(this.abaSelecionada).subscribe({
+            next: (response) => {
+                this.resumoCards.set(response);
             },
         });
     }

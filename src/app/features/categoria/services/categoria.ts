@@ -4,6 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CategoriaDTO } from '../models/categoria';
 import { TipoCategoria } from '../../../core/enum/tipo-categoria';
+import { CategoriaResumoResponseDTO } from '../models/resumo';
 
 @Injectable({
     providedIn: 'root',
@@ -25,7 +26,15 @@ export class CategoriaService {
         return this._http.put<CategoriaDTO>(`${this._apiCategoria}`, categoria);
     }
 
-    deletar(categoriaId: number): Observable<void> {
-        return this._http.delete<void>(`${this._apiCategoria}/${categoriaId}`);
+    deletar(categoriaId: number, tipo: TipoCategoria): Observable<void> {
+        const params = new HttpParams().set('tipo', tipo);
+        return this._http.delete<void>(`${this._apiCategoria}/${categoriaId}`, { params });
+    }
+
+    listarResumo(tipo: TipoCategoria): Observable<CategoriaResumoResponseDTO> {
+        const params = new HttpParams().set('tipo', tipo);
+        return this._http.get<CategoriaResumoResponseDTO>(`${this._apiCategoria}/resumo`, {
+            params,
+        });
     }
 }
