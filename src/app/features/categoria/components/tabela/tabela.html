@@ -7,6 +7,9 @@
         [rowsPerPageOptions]="[5, 10, 20]"
         [globalFilterFields]="['nome']"
         [size]="tableSize"
+        [totalRecords]="categorias().length"
+        [showCurrentPageReport]="!isMobile"
+        currentPageReportTemplate="Exibindo {first} a {last} de {totalRecords} registros"
     >
         <ng-template #caption>
             <div class="flex">
