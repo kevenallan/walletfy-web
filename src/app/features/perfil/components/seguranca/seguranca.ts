@@ -27,22 +27,14 @@ export class Seguranca {
     configurarFormulario(): void {
         this.form = new FormBuilder().group(
             {
-                senhaAtual: [null, [Validators.required]],
+                senhaAtual: [null],
                 senhaNova: [
                     null,
-                    [
-                        Validators.required,
-                        Validators.minLength(8),
-                        Validators.pattern(/^(?=.*[a-zA-Z])(?=.*[0-9]).*$/),
-                    ],
+                    [Validators.minLength(8), Validators.pattern(/^(?=.*[a-zA-Z])(?=.*[0-9]).*$/)],
                 ],
                 senhaNovaConfirmacao: [
                     null,
-                    [
-                        Validators.required,
-                        Validators.minLength(8),
-                        Validators.pattern(/^(?=.*[a-zA-Z])(?=.*[0-9]).*$/),
-                    ],
+                    [Validators.minLength(8), Validators.pattern(/^(?=.*[a-zA-Z])(?=.*[0-9]).*$/)],
                 ],
             },
             {
@@ -61,6 +53,8 @@ export class Seguranca {
     }
 
     getFormValue(): Partial<FormSegurancaDTO> | null {
+        this.verificarObrigatoriedadeSenhas();
+
         this.form.markAllAsTouched();
         this.form.markAllAsDirty();
         this.form.updateValueAndValidity();
@@ -70,5 +64,21 @@ export class Seguranca {
         }
 
         return this.form.value;
+    }
+
+    private verificarObrigatoriedadeSenhas(): void {
+        const senhaAtual = this.form.get('senhaAtual')?.value;
+        const senhaNova = this.form.get('senhaNova')?.value;
+        const senhaConfirmada = this.form.get('senhaNovaConfirmacao')?.value;
+
+        if (senhaAtual || senhaNova || senhaConfirmada) {
+            const campos = ['senhaAtual', 'senhaNova', 'senhaNovaConfirmacao'];
+
+            campos.forEach((campo) => {
+                const control = this.form.get(campo);
+                control?.addValidators(Validators.required);
+                control?.updateValueAndValidity();
+            });
+        }
     }
 }

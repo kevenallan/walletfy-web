@@ -1,7 +1,9 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
+import { Button } from 'primeng/button';
 import { InformacoesPessoais } from '../../components/informacoes-pessoais/informacoes-pessoais';
 import { Seguranca } from '../../components/seguranca/seguranca';
-import { Button } from 'primeng/button';
+import { FormDTO } from '../../models/form';
+import { PerfilService } from '../../services/perfil';
 
 @Component({
     selector: 'app-editar',
@@ -13,16 +15,28 @@ export class Editar {
     @ViewChild(InformacoesPessoais) formInfoPessoais!: InformacoesPessoais;
     @ViewChild(Seguranca) formSeguranca!: Seguranca;
 
+    private _perfilService = inject(PerfilService);
+
     salvar(): void {
         const dadosPessoais = this.formInfoPessoais.getFormValue();
         const dadosSenha = this.formSeguranca.getFormValue();
 
-        console.log(dadosPessoais, dadosSenha);
-
         if (!dadosPessoais || !dadosSenha) return;
 
-        console.log('chegou para chamar o service');
+        const usuarioForm: FormDTO = {
+            nome: dadosPessoais.nome || '',
+            email: dadosPessoais.email || '',
+            senhaAntiga: dadosSenha.senhaAtual || '',
+            senhaNova: dadosSenha.senhaNova || '',
+            dataNascimento: dadosPessoais.dataNascimento,
+            telefone: dadosPessoais.telefone,
+            foto: dadosPessoais.foto,
+        };
 
-        // chama o service com os dados
+        this._perfilService.atualizarUsuario(usuarioForm).subscribe({
+            next: (response) => {
+                console.log(response);
+            },
+        });
     }
 }
