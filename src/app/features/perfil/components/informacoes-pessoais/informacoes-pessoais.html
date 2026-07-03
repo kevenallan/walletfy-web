@@ -12,11 +12,55 @@
         <div class="p-5 grid grid-cols-2 md:grid-cols-3 gap-2">
             <div class="col-span-2 md:col-span-1 row-span-2 flex flex-col items-center">
                 <p class="text-base">Foto de perfil</p>
-                <div
-                    class="bg-green-100 rounded-full w-12 h-12 md:w-24 md:h-24 flex justify-center items-center"
+
+                <p-fileupload
+                    name="foto[]"
+                    [multiple]="false"
+                    accept="image/*"
+                    maxFileSize="2000000"
+                    (onSelect)="onSelectedFiles($event)"
+                    styleClass="!bg-transparent !border-none !shadow-none "
                 >
-                    <i class="pi pi-user text-green-600 text-lg md:text-4xl!"></i>
-                </div>
+                    <ng-template
+                        #header
+                        let-files
+                        let-chooseCallback="chooseCallback"
+                        let-clearCallback="clearCallback"
+                        let-uploadCallback="uploadCallback"
+                    >
+                        <div class="static">
+                            <button
+                                class="bg-green-100 rounded-full w-16 h-16 md:w-24 md:h-24 flex justify-center items-center overflow-hidden cursor-pointer relative mt-2"
+                                (click)="choose($event, chooseCallback)"
+                            >
+                                <!-- SEM foto selecionada: mostra ícone padrão -->
+                                @if (!files || files.length === 0) {
+                                    <i
+                                        class="pi pi-user-edit text-green-600 text-3xl! md:text-4xl!"
+                                    ></i>
+                                }
+
+                                <!-- COM foto selecionada: mostra a preview da imagem -->
+                                @if (files && files.length > 0) {
+                                    <img
+                                        [src]="getPreviewUrl(files[0])"
+                                        alt="Preview"
+                                        class="w-full h-full object-cover rounded-full"
+                                    />
+                                }
+                            </button>
+                            <p-button
+                                icon="pi pi-plus"
+                                aria-label="Add"
+                                [rounded]="true"
+                                styleClass="w-5! h-5! md:w-6! md:h-6! relative bottom-4 left-10 md:bottom-5 md:left-15"
+                                (click)="choose($event, chooseCallback)"
+                            />
+                        </div>
+                    </ng-template>
+
+                    <ng-template #content> </ng-template>
+                </p-fileupload>
                 <p class="text-sm">JPG, PNG ou GIF. Máx: 2MB.</p>
             </div>
 
@@ -58,17 +102,15 @@
 
             <div>
                 <label for="dataNascimento">Data de Nascimento</label>
-                <p-iconfield>
-                    <p-inputicon class="pi pi-envelope" />
-                    <p-datepicker
-                        [iconDisplay]="'input'"
-                        [showIcon]="true"
-                        dateFormat="dd/mm/yy"
-                        inputId="dataNascimento"
-                        placeholder="dd/mm/aaaa"
-                        class="w-full"
-                    />
-                </p-iconfield>
+
+                <p-datepicker
+                    [iconDisplay]="'input'"
+                    [showIcon]="true"
+                    dateFormat="dd/mm/yy"
+                    inputId="dataNascimento"
+                    placeholder="dd/mm/aaaa"
+                    class="w-full"
+                />
             </div>
 
             <!-- <div>
