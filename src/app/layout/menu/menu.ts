@@ -27,4 +27,9 @@ export class Menu implements OnInit {
     selecionarMenu(menu: string) {
         this.rotaAtual = menu;
     }
+
+    editarPerfil() {
+        this.rotaAtual = '';
+        this._router.navigate(['perfil/editar']);
+    }
 }

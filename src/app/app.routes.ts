@@ -84,6 +84,16 @@ export const routes: Routes = [
                     },
                 ],
             },
+            {
+                path: 'perfil',
+                children: [
+                    {
+                        path: 'editar',
+                        loadComponent: () =>
+                            import('./features/perfil/pages/editar/editar').then((c) => c.Editar),
+                    },
+                ],
+            },
         ],
     },
     {

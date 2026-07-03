@@ -85,7 +85,9 @@
             </div>
             <div>
                 <p class="text-branco">{{ nomeUsuario }}</p>
-                <p class="text-cinza text-xs md:text-sm cursor-pointer">Ver perfil</p>
+                <button (click)="editarPerfil()">
+                    <p class="text-cinza text-xs md:text-sm cursor-pointer">Ver perfil</p>
+                </button>
             </div>
         </div>
         <div class="flex-1 h-px bg-cinza w-full my-3"></div>
