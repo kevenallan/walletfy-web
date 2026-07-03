@@ -45,10 +45,10 @@
                     <p-button
                         icon="pi pi-search"
                         [label]="isMobile ? '' : 'Filtrar'"
-                        styleClass="bg-[#013729]! border-[#013729]! hover:!bg-green-600 dark:bg-green-600! hover:bg-green-400! ml-2"
+                        styleClass="bg-verde-escuro! border-verde-escuro! hover:!bg-verde-escuro dark:bg-verde-escuro! hover:bg-verde-claro! ml-2"
                         (click)="emitirBuscar()"
                     />
-                    <p class="row-start-3 col-span-4 text-red-500">{{ msgErroData }}</p>
+                    <p class="row-start-3 col-span-4 text-vermelho">{{ msgErroData }}</p>
                 </div>
                 <div class="w-full my-2 lg:my-0 lg:w-fit lg:ml-auto">
                     <p-iconfield iconPosition="left" class="w-full md:w-auto">
@@ -260,7 +260,9 @@
                         ]"
                     />
                 </td>
-                <td class="text-center! text-vermelho font-bold">{{ gasto.valor | currency: 'BRL' }}</td>
+                <td class="text-center! text-vermelho font-bold">
+                    {{ gasto.valor | currency: 'BRL' }}
+                </td>
                 <td class="text-center!">{{ gasto.dataVencimento | date: 'dd/MM/yyyy' }}</td>
                 <td>
                     <div class="flex gap-3">

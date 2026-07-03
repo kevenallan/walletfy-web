@@ -1,6 +1,6 @@
 <div class="flex flex-col h-full">
     <h1 class="font-bold text-2xl mt-20 ml-5 md:mt-5 md:text-4xl">Gastos</h1>
-    <p class="text-cinza ml-5 md:mt-2">Gerencie todos os seus gastos registrados.</p>
+    <p class="text-cinza-escuro ml-5 md:mt-2">Gerencie todos os seus gastos registrados.</p>
 
     <p-button label="Ver resumo" link (click)="verResumo = !verResumo" [class.hidden]="!isMobile" />
 
@@ -8,7 +8,7 @@
         <p-button
             icon="pi pi-plus"
             [label]="isMobile ? '' : 'Novo Gasto'"
-            styleClass="bg-[#013729]! border-[#013729]! hover:!bg-green-600 dark:bg-green-600! hover:bg-green-400!"
+            styleClass="bg-verde-escuro! border-verde-escuro! hover:!bg-verde-escuro dark:bg-verde-escuro! hover:bg-verde-claro!"
             (click)="cadastrarAtualizarGasto()"
         />
     </div>
@@ -17,7 +17,7 @@
         <p-button
             icon="pi pi-plus"
             size="large"
-            styleClass="bg-[#013729]! border-[#013729]! hover:!bg-green-600 dark:bg-green-600! hover:bg-green-400!"
+            styleClass="bg-verde-escuro! border-verde-escuro! hover:!bg-verde-escuro dark:bg-verde-escuro! hover:bg-verde-claro!"
             (click)="cadastrarAtualizarGasto()"
         />
     </div>

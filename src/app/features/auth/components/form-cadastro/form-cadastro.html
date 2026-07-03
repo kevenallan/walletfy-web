@@ -4,12 +4,12 @@
     >
         <div class="flex flex-col items-center justify-center gap-3">
             <div
-                class="flex justify-center items-center bg-green-100 rounded-full w-12 h-12 md:w-17 md:h-17"
+                class="flex justify-center items-center bg-verde-claro rounded-full w-12 h-12 md:w-17 md:h-17"
             >
                 <i class="pi pi-user-plus text-verde text-2xl! md:text-4xl!"></i>
             </div>
             <h2 class="hidden md:block font-bold text-base md:text-2xl!">Criar sua conta</h2>
-            <p class="hidden md:block text-gray-400">É rápido, fácil e gratuito!</p>
+            <p class="hidden md:block text-cinza">É rápido, fácil e gratuito!</p>
         </div>
 
         <form class="text-sm md:text-base" [formGroup]="form">
@@ -86,7 +86,7 @@
 
             @if (form.hasError('senhasDiferentes') && form.get('senhaConfirmada')?.touched) {
                 <div class="w-fit px-4 mt-1">
-                    <p class="text-red-500">
+                    <p class="text-vermelho">
                         A confirmação da senha deve ser igual à senha informada.
                     </p>
                 </div>
@@ -146,9 +146,9 @@
         </form>
 
         <div class="flex items-center gap-2 px-2">
-            <div class="flex-1 h-px bg-gray-300"></div>
-            <span class="text-sm text-gray-400">ou</span>
-            <div class="flex-1 h-px bg-gray-300"></div>
+            <div class="flex-1 h-px bg-cinza"></div>
+            <span class="text-sm text-cinza">ou</span>
+            <div class="flex-1 h-px bg-cinza"></div>
         </div>
 
         <div class="px-2 py-3">
@@ -169,7 +169,7 @@
         </div>
 
         <div class="flex items-center justify-center gap-2 px-4">
-            <p class="text-center text-sm md:text-base text-gray-500">
+            <p class="text-center text-sm md:text-base text-cinza-escuro">
                 Já tem uma conta? <a href="/login" class="text-verde">Fazer login</a>
             </p>
         </div>
