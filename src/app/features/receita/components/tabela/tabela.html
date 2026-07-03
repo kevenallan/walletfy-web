@@ -46,9 +46,9 @@
                         (click)="emitirBuscar()"
                         icon="pi pi-search"
                         [label]="isMobile ? '' : 'Filtrar'"
-                        styleClass="bg-[#013729]! border-[#013729]! hover:!bg-green-600 dark:bg-green-600! hover:bg-green-400! ml-2"
+                        styleClass="bg-verde-escuro! border-verde-escuro! hover:!bg-verde dark:bg-verde! hover:bg-verde-claro! ml-2"
                     />
-                    <p class="row-start-3 col-span-4 text-red-500">{{ msgErroData }}</p>
+                    <p class="row-start-3 col-span-4 text-vermelho">{{ msgErroData }}</p>
                 </div>
                 <div class="w-full my-2 lg:my-0 lg:w-fit lg:ml-auto">
                     <p-iconfield iconPosition="left" class="w-full md:w-auto">
@@ -204,7 +204,7 @@
                         <p-sortIcon field="valor" />
                     </div>
                 </th>
-                <th></th>
+                <th class="text-center!" style="width: 15%">Ações</th>
             </tr>
         </ng-template>
         <ng-template #body let-receita>
@@ -258,15 +258,18 @@
                     {{ receita.valor | currency: 'BRL' }}
                 </td>
                 <td>
-                    <div class="flex gap-3">
-                        <button class="cursor-pointer" (click)="emitirReceitaEditar(receita.id)">
-                            <i class="pi pi-pen-to-square text-azul"></i>
+                    <div class="flex justify-center gap-3">
+                        <button
+                            class="group cursor-pointer h-10 w-10 bg-branco-puro border border-cinza-claro hover:bg-azul rounded-lg shadow-md"
+                            (click)="emitirReceitaEditar(receita.id)"
+                        >
+                            <i class="pi pi-pen-to-square text-azul group-hover:text-branco!"></i>
                         </button>
                         <button
-                            class="cursor-pointer text-vermelho"
+                            class="group cursor-pointer h-10 w-10 bg-branco-puro border border-cinza-claro hover:bg-vermelho rounded-lg shadow-md"
                             (click)="emitirReceitaDeletar(receita.id)"
                         >
-                            <i class="pi pi-trash"></i>
+                            <i class="pi pi-trash text-vermelho group-hover:text-branco!"></i>
                         </button>
                     </div>
                 </td>

@@ -4,26 +4,36 @@
 
 @variant dark (&:where(.dark-mode, .dark-mode *));
 
-/* CARD */
 @theme {
-    --color-azul: #155dfc;
-    --color-azul-escuro: #155dfc;
-    --color-azul-claro: #dbeafe;
+    --color-branco-puro: #ffffff;
+    --color-branco: #fafafa;
+    --color-preto: #121212;
+    --color-background-claro: #f5f5f5;
+    --color-background-escuro: #292929;
 
-    --color-vermelho: #dc2626;
-    --color-vermelho-claro: #ffe2e2;
+    --color-azul: #155dfc;
+    --color-azul-suave: #dbeafe;
+    --color-azul-claro: #4079f7;
+    --color-azul-escuro: #155dfc;
+
+    --color-vermelho: #fb2c37;
+    --color-vermelho-suave: #ffe2e2;
+    --color-vermelho-claro: #ff3838;
     --color-vermelho-escuro: #991b1b;
 
     --color-verde: #16a34a;
-    --color-verde-claro: #dcfce7;
-    --color-verde-escuro: #164f3c;
+    --color-verde-suave: #dcfce7;
+    --color-verde-claro: #05df72;
+    --color-verde-escuro: #013729;
+    --color-verde-profundo:;
 
     --color-amarelo: #facc15;
     --color-amarelo-claro: #fef9c2;
     --color-amarelo-escuro: #eab308;
 
-    --color-cinza: #6b7280;
-    --color-cinza-claro: #d1d5dc;
+    --color-cinza: #9ca3af;
+    --color-cinza-claro: #f3f4f6;
+    --color-cinza-escuro: #6a7282;
 
     --color-roxo: #9333ea;
     --color-roxo-claro: #f3e8ff;

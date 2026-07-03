@@ -25,7 +25,7 @@ export class Card {
             campVariacao: 'variacaoReceita' as keyof ResumoMesDTO,
             icone: 'pi pi-chart-bar',
             corIcone: 'text-azul-escuro',
-            background: 'bg-azul-claro',
+            background: 'bg-azul-suave',
             variacaoPositivaEBoa: true,
         },
         {
@@ -34,7 +34,7 @@ export class Card {
             campVariacao: 'variacaoDespesas' as keyof ResumoMesDTO,
             icone: 'pi pi-arrow-down',
             corIcone: 'text-vermelho',
-            background: 'bg-vermelho-claro',
+            background: 'bg-vermelho-suave',
             variacaoPositivaEBoa: false,
         },
         {
@@ -42,8 +42,8 @@ export class Card {
             campo: 'saldo' as keyof ResumoMesDTO,
             campVariacao: 'variacaoSaldo' as keyof ResumoMesDTO,
             icone: 'pi pi-wallet',
-            corIcone: 'text-verde-escuro',
-            background: 'bg-verde-claro',
+            corIcone: 'text-verde',
+            background: 'bg-verde-suave',
             variacaoPositivaEBoa: true,
         },
         {

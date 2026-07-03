@@ -1,5 +1,5 @@
 <div
-    class="bg-[#013729] h-[95vh] w-40 md:w-64 p-4 shadow-lg rounded-lg m-3 flex flex-col text-xs md:text-base"
+    class="bg-verde-escuro h-[95vh] w-40 md:w-64 p-4 shadow-lg rounded-lg m-3 flex flex-col text-xs md:text-base"
 >
     <div class="flex flex-row items-center justify-start">
         <figure>
@@ -9,90 +9,94 @@
                 class="w-8 h-8 md:w-10 md:h-10 object-contain"
             />
         </figure>
-        <h1 class="text-lg md:text-3xl text-green-600 font-bold pl-2">Walletfy</h1>
+        <h1 class="text-lg md:text-3xl text-verde font-bold pl-2">Walletfy</h1>
     </div>
 
     <nav class="mt-8">
         <ul>
             <li
-                class="hover:bg-verde-escuro cursor-pointer rounded p-2"
+                class="hover:bg-verde cursor-pointer rounded p-2"
                 routerLink="/dashboard"
-                [class.bg-verde-escuro]="rotaAtual === 'dashboard'"
+                [class.bg-verde]="rotaAtual === 'dashboard'"
                 (click)="selecionarMenu('dashboard')"
                 (keydown.enter)="selecionarMenu('dashboard')"
                 (keydown.space)="selecionarMenu('dashboard')"
                 tabindex="0"
             >
-                <span class="text-white"
-                    ><i class="pi pi-chart-bar text-white mr-3"></i>Dashboard</span
+                <span class="text-branco"
+                    ><i class="pi pi-chart-bar text-branco mr-3"></i>Dashboard</span
                 >
             </li>
 
             <li
-                class="hover:bg-verde-escuro cursor-pointer rounded p-2"
-                [class.bg-verde-escuro]="rotaAtual === 'receita'"
+                class="hover:bg-verde cursor-pointer rounded p-2"
+                [class.bg-verde]="rotaAtual === 'receita'"
                 routerLink="/receita"
                 (click)="selecionarMenu('receita')"
                 (keydown.enter)="selecionarMenu('receita')"
                 (keydown.space)="selecionarMenu('receita')"
                 tabindex="1"
             >
-                <span class="text-white"
-                    ><i class="pi pi-calculator text-white mr-3"></i>Receitas</span
+                <span class="text-branco"
+                    ><i class="pi pi-calculator text-branco mr-3"></i>Receitas</span
                 >
             </li>
             <li
-                class="hover:bg-verde-escuro cursor-pointer rounded p-2"
-                [class.bg-verde-escuro]="rotaAtual === 'gasto'"
+                class="hover:bg-verde cursor-pointer rounded p-2"
+                [class.bg-verde]="rotaAtual === 'gasto'"
                 routerLink="/gasto"
                 (click)="selecionarMenu('gasto')"
                 (keydown.enter)="selecionarMenu('gasto')"
                 (keydown.space)="selecionarMenu('gasto')"
                 tabindex="2"
             >
-                <span class="text-white"><i class="pi pi-wallet text-white mr-3"></i> Gastos</span>
+                <span class="text-branco"
+                    ><i class="pi pi-wallet text-branco mr-3"></i> Gastos</span
+                >
             </li>
             <li
-                class="hover:bg-verde-escuro cursor-pointer rounded p-2"
-                [class.bg-verde-escuro]="rotaAtual === 'categoria'"
+                class="hover:bg-verde cursor-pointer rounded p-2"
+                [class.bg-verde]="rotaAtual === 'categoria'"
                 routerLink="/categoria"
                 (click)="selecionarMenu('categoria')"
                 (keydown.enter)="selecionarMenu('categoria')"
                 (keydown.space)="selecionarMenu('categoria')"
                 tabindex="3"
             >
-                <span class="text-white"><i class="pi pi-tag text-white mr-3"></i>Categorias</span>
+                <span class="text-branco"
+                    ><i class="pi pi-tag text-branco mr-3"></i>Categorias</span
+                >
             </li>
-            <li class="hover:bg-verde-escuro cursor-pointer rounded p-2">
-                <span class="text-white"
-                    ><i class="pi pi-cog text-white mr-3"></i>Configurações</span
+            <li class="hover:bg-verde cursor-pointer rounded p-2">
+                <span class="text-branco"
+                    ><i class="pi pi-cog text-branco mr-3"></i>Configurações</span
                 >
             </li>
         </ul>
     </nav>
 
     <footer class="mt-auto mb-5">
-        <div class="flex-1 h-px bg-gray-500 w-full my-3"></div>
+        <div class="flex-1 h-px bg-cinza w-full my-3"></div>
         <div class="flex items-center gap-3">
             <div
-                class="bg-green-100 rounded-full w-8 h-8 md:w-12 md:h-12 flex justify-center items-center"
+                class="bg-verde-suave rounded-full w-8 h-8 md:w-12 md:h-12 flex justify-center items-center"
             >
-                <i class="pi pi-user text-green-600 text-lg md:text-2xl!"></i>
+                <i class="pi pi-user text-verde text-lg md:text-2xl!"></i>
             </div>
             <div>
-                <p class="text-white">{{ nomeUsuario }}</p>
-                <p class="text-gray-400 text-xs md:text-sm cursor-pointer">Ver perfil</p>
+                <p class="text-branco">{{ nomeUsuario }}</p>
+                <p class="text-cinza text-xs md:text-sm cursor-pointer">Ver perfil</p>
             </div>
         </div>
-        <div class="flex-1 h-px bg-gray-500 w-full my-3"></div>
+        <div class="flex-1 h-px bg-cinza w-full my-3"></div>
 
-        <div class="mt-5 hover:bg-[#164F3C] rounded p-2">
+        <div class="mt-5 hover:bg-verde rounded p-2">
             <button
-                class="text-white flex items-center cursor-pointer w-full text-left"
+                class="text-branco flex items-center cursor-pointer w-full text-left"
                 (click)="sair.emit()"
                 type="button"
             >
-                <i class="pi pi-sign-out text-white mr-3"></i>Sair
+                <i class="pi pi-sign-out text-branco mr-3"></i>Sair
             </button>
         </div>
     </footer>
