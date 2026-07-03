@@ -2,6 +2,6 @@ export interface UsuarioResponseDTO {
     nome?: string;
     email?: string;
     telefone?: string;
-    dataNascimento?: Date;
+    dataNascimento?: string;
     foto?: string;
 }

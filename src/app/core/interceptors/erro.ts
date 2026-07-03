@@ -1,13 +1,12 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { NotificacaoService } from '../services/notificacao';
 import { catchError, throwError } from 'rxjs';
-import { Router } from '@angular/router';
 import { AuthService } from '../../features/auth/services/auth';
+import { NotificacaoService } from '../services/notificacao';
 
 export const erroInterceptor: HttpInterceptorFn = (req, next) => {
     const notification = inject(NotificacaoService);
-    const router = inject(Router);
+
     const authService = inject(AuthService);
 
     return next(req).pipe(
@@ -22,7 +21,6 @@ export const erroInterceptor: HttpInterceptorFn = (req, next) => {
                     notification.msgErro(error.error?.mensagem ?? 'E-mail ou senha inválidos.');
                 } else {
                     authService.logout();
-                    router.navigate(['/login']);
                     notification.msgInfo('Sua sessão expirou. Faça login novamente.');
                 }
                 return throwError(() => error);

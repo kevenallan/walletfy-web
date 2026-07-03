@@ -1,14 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, effect, input } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Button } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
 import { FileSelectEvent, FileUploadModule } from 'primeng/fileupload';
 import { InputTextModule } from 'primeng/inputtext';
-import { Button } from 'primeng/button';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormInformacoesPessoaisDTO } from '../../models/form-informacoes-pessoais';
+import { UsuarioResponseDTO } from '../../models/usuario-response';
+import { InputMaskModule } from 'primeng/inputmask';
 
 @Component({
     selector: 'app-informacoes-pessoais',
-    imports: [InputTextModule, DatePickerModule, FileUploadModule, Button, ReactiveFormsModule],
+    imports: [
+        InputTextModule,
+        DatePickerModule,
+        FileUploadModule,
+        Button,
+        ReactiveFormsModule,
+        InputMaskModule,
+    ],
     templateUrl: './informacoes-pessoais.html',
     styleUrl: './informacoes-pessoais.css',
 })
@@ -20,8 +29,17 @@ export class InformacoesPessoais {
 
     form!: FormGroup;
 
+    dadosInfo = input<UsuarioResponseDTO | null>({});
+
     constructor() {
         this.configurarFormulario();
+
+        effect(() => {
+            const dados = this.dadosInfo();
+            if (dados) {
+                this._preencherDados(dados);
+            }
+        });
     }
 
     configurarFormulario(): void {
@@ -33,6 +51,30 @@ export class InformacoesPessoais {
             foto: [null as File | null],
         });
     }
+
+    private _preencherDados(dados: UsuarioResponseDTO) {
+        this.form.patchValue({
+            nome: dados.nome,
+            email: dados.email,
+            telefone: dados.telefone,
+            dataNascimento: dados.dataNascimento ? new Date(dados.dataNascimento) : null,
+        });
+    }
+
+    // private _formatarTelefone(telefone: string | undefined): string | null {
+    //     if (!telefone) return null;
+
+    //     const numeros = telefone.replace(/\D/g, '');
+
+    //     if (numeros.length === 11) {
+    //         return numeros.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+    //     }
+    //     if (numeros.length === 10) {
+    //         return numeros.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
+    //     }
+
+    //     return telefone;
+    // }
 
     choose(event: MouseEvent, chooseCallback: () => void): void {
         chooseCallback();

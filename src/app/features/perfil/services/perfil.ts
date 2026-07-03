@@ -16,4 +16,12 @@ export class PerfilService {
     atualizarUsuario(usuarioForm: FormDTO): Observable<UsuarioResponseDTO> {
         return this._http.put<UsuarioResponseDTO>(`${this._apiUsuario}`, usuarioForm);
     }
+
+    detalharUsuario(): Observable<UsuarioResponseDTO> {
+        return this._http.get<UsuarioResponseDTO>(`${this._apiUsuario}`);
+    }
+
+    deletarUsuario(): Observable<void> {
+        return this._http.delete<void>(`${this._apiUsuario}`);
+    }
 }

@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, output } from '@angular/core';
+import { Component, effect, inject, OnInit, output } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { DrawerModule } from 'primeng/drawer';
 import { AuthService } from '../../features/auth/services/auth';
@@ -19,8 +19,13 @@ export class Menu implements OnInit {
 
     private _authService = inject(AuthService);
 
+    constructor() {
+        effect(() => {
+            this.nomeUsuario = this._authService.usuario()?.nome || '';
+        });
+    }
+
     ngOnInit(): void {
-        this.nomeUsuario = this._authService.usuario()?.nome || '';
         this.rotaAtual = this._router.url.replace('/', '');
     }
 

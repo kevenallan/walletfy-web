@@ -28,6 +28,5 @@ export class Sidebar {
 
     sair() {
         this._authService.logout();
-        this._router.navigate(['']);
     }
 }
