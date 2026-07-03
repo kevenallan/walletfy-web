@@ -1,33 +1,31 @@
 <div class="flex flex-col h-full">
-    <h1 class="font-bold text-2xl mt-20 ml-5 md:mt-5 md:text-4xl">Perfil</h1>
-    <p class="text-cinza ml-5 md:mt-2">Atualize suas informações pessoais.</p>
+    <h1 class="font-bold text-2xl md:text-4xl">Perfil</h1>
+    <p class="text-cinza md:mt-2">Atualize suas informações pessoais.</p>
 
     <app-informacoes-pessoais [dadosInfo]="dadosInfoPessoais()"></app-informacoes-pessoais>
 
     <app-seguranca></app-seguranca>
 
     <footer>
-        <div class="flex justify-end gap-3 py-3 px-2 md:mr-3">
+        <div class="flex justify-end gap-3 py-3">
             <p-button
                 icon="pi pi-trash"
                 label="Excluir conta"
-                severity="danger"
-                styleClass="bg-vermelho!"
+                styleClass="bg-vermelho! border-vermelho! hover:bg-vermelho-claro!"
                 (click)="excluirConta()"
             />
 
             <p-button
                 icon="pi pi-times"
                 label="Cancelar"
-                severity="secondary"
-                styleClass="bg-cinza-claro!"
+                styleClass="bg-cinza-escuro! border-cinza-escuro! dark:bg-cinza-escuro! hover:bg-cinza!"
                 (click)="cancelar()"
             />
 
             <p-button
                 icon="pi pi-save"
                 label="Salvar"
-                styleClass="bg-[#013729]! border-[#013729]! hover:!bg-green-600 dark:bg-green-600! hover:bg-green-400!"
+                styleClass="bg-verde-escuro! border-verde-escuro! dark:bg-verde! hover:bg-verde-claro! w-28"
                 (click)="salvar()"
             />
         </div>

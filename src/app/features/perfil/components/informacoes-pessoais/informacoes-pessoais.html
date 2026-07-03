@@ -1,13 +1,13 @@
 <main>
     <div
-        class="bg-white dark:bg-gray-800 dark:shadow-black shadow-lg gap-3 rounded-lg mt-3 md:mt-8 mx-2 md:mx-5"
+        class="bg-branco-puro dark:bg-preto dark:shadow-preto shadow-lg gap-3 rounded-lg mt-3 md:mt-8"
     >
         <div class="flex items-center">
             <i class="pi pi-user-edit pl-3 pt-2 text-lg md:text-2xl!"></i>
             <p class="text-base md:text-lg font-semibold pl-2 pt-2">Informações pessoais</p>
         </div>
 
-        <div class="flex-1 h-px bg-gray-300 mt-2"></div>
+        <div class="flex-1 h-px bg-cinza-claro mt-2"></div>
 
         <form [formGroup]="form">
             <div class="p-5 grid grid-cols-2 md:grid-cols-3 gap-2">
@@ -31,13 +31,13 @@
                         >
                             <div class="static">
                                 <button
-                                    class="bg-green-100 rounded-full w-16 h-16 md:w-24 md:h-24 flex justify-center items-center overflow-hidden cursor-pointer relative mt-2"
+                                    class="bg-verde-suave rounded-full w-16 h-16 md:w-24 md:h-24 flex justify-center items-center overflow-hidden cursor-pointer relative mt-2"
                                     (click)="choose($event, chooseCallback)"
                                 >
                                     <!-- SEM foto selecionada: mostra ícone padrão -->
                                     @if (!files || files.length === 0) {
                                         <i
-                                            class="pi pi-user-edit text-green-600 text-3xl! md:text-4xl!"
+                                            class="pi pi-user-edit text-verde text-3xl! md:text-4xl!"
                                         ></i>
                                     }
 

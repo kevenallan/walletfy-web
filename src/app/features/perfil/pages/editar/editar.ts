@@ -8,6 +8,7 @@ import { UsuarioResponseDTO } from '../../models/usuario-response';
 import { NotificacaoService } from '../../../../core/services/notificacao';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../auth/services/auth';
+import { ConfirmacaoService } from '../../../../core/services/confirmacao';
 
 @Component({
     selector: 'app-editar',
@@ -25,6 +26,7 @@ export class Editar {
     private _notificacaoService = inject(NotificacaoService);
     private _router = inject(Router);
     private _authService = inject(AuthService);
+    private _confirmacaoService = inject(ConfirmacaoService);
 
     constructor() {
         this.detalhar();
@@ -68,12 +70,22 @@ export class Editar {
     }
 
     excluirConta() {
-        // TODO: Modal de confirmação
-
-        this._perfilService.deletarUsuario().subscribe({
-            next: () => {
-                this._authService.logout();
-            },
-        });
+        this._confirmacaoService
+            .abrirConfirmacao({
+                mensagem: 'Você tem certeza que deseja excluir a sua conta?',
+                cabecalho: 'Excluir conta',
+                severidadeBotaoAceitacao: 'danger',
+            })
+            .subscribe({
+                next: (confirmado) => {
+                    if (confirmado) {
+                        this._perfilService.deletarUsuario().subscribe({
+                            next: () => {
+                                this._authService.logout();
+                            },
+                        });
+                    }
+                },
+            });
     }
 }
