@@ -11,7 +11,7 @@
 </div>
 
 <main class="md:mt-8 p-3">
-    <div class="bg-white dark:bg-gray-800 dark:shadow-black shadow-lg gap-3 rounded-lg">
+    <div class="bg-branco-puro dark:bg-preto dark:shadow-black shadow-lg gap-3 rounded-lg">
         <form [formGroup]="form">
             <div class="grid grid-cols-2 p-2 gap-2 md:grid-cols-3">
                 <div class="col-span-2 md:col-span-1">
@@ -137,7 +137,7 @@
             <p-button
                 icon="pi pi-arrow-left"
                 label="Voltar"
-                severity="secondary"
+                styleClass="bg-cinza-escuro! border-cinza-escuro! dark:bg-cinza-escuro! hover:bg-cinza! w-24"
                 (click)="voltar()"
             />
 
@@ -145,7 +145,7 @@
                 icon="pi pi-save"
                 label="Salvar"
                 (click)="salvar()"
-                styleClass="bg-verde-escuro! border-verde-escuro! hover:!bg-verde-escuro dark:bg-verde-escuro! hover:bg-verde-claro!"
+                styleClass="bg-verde-escuro! border-verde-escuro! dark:bg-verde! hover:bg-verde-claro! w-24"
             />
         </div>
     </div>

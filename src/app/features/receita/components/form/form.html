@@ -113,13 +113,13 @@
                 <p-button
                     label="Cancelar"
                     icon="pi pi-times"
-                    styleClass="bg-vermelho-escuro! border-vermelho! hover:!bg-vermelho dark:bg-vermelho! hover:bg-vermelho!"
+                    styleClass="bg-cinza-escuro! border-cinza-escuro! dark:bg-cinza-escuro! hover:bg-cinza! w-28"
                     (click)="cancelar()"
                 />
                 <p-button
-                    [label]="isEdit ? 'Atualizar' : 'Cadastrar'"
+                    [label]="'Salvar'"
                     icon="pi pi-save"
-                    styleClass="bg-verde-escuro! border-verde-escuro! hover:!bg-verde-escuro dark:bg-verde-escuro! hover:bg-verde-claro!"
+                    styleClass="bg-verde-escuro! border-verde-escuro! dark:bg-verde! hover:bg-verde-claro! w-28"
                     (click)="salvar()"
                 />
             </div>

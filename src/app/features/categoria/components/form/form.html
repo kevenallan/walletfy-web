@@ -141,13 +141,13 @@
         <p-button
             label="Cancelar"
             icon="pi pi-times"
-            styleClass="bg-red-800! border-red-300! hover:!bg-red-400 dark:bg-red-300! hover:bg-red-400!"
+            styleClass="bg-cinza-escuro! border-cinza-escuro! dark:bg-cinza-escuro! hover:bg-cinza! w-28"
             (click)="cancelar()"
         />
         <p-button
-            [label]="categoria ? 'Atualizar' : 'Cadastrar'"
+            [label]="'Salvar'"
             icon="pi pi-save"
-            styleClass="bg-[#013729]! border-[#013729]! hover:!bg-green-600 dark:bg-green-600! hover:bg-green-400!"
+            styleClass="bg-verde-escuro! border-verde-escuro! dark:bg-verde! hover:bg-verde-claro! w-28"
             (click)="salvar()"
         />
     </div>

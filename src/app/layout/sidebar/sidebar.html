@@ -1,9 +1,9 @@
 <div class="flex md:hidden">
     <button
-        class="md:hidden fixed top-4 left-4 z-50 w-10 h-10 bg-[#013729] pt-0.5 rounded-lg shadow-lg"
+        class="md:hidden fixed top-4 left-4 z-50 w-10 h-10 bg-verde-escuro pt-0.5 rounded-lg shadow-lg"
         (click)="visible = true"
     >
-        <i class="pi pi-bars text-white"></i>
+        <i class="pi pi-bars text-branco"></i>
     </button>
 
     <div class="flex flex-row items-center justify-start fixed top-5 left-18 z-50">
@@ -14,7 +14,7 @@
                 class="w-8 h-8 md:w-10 md:h-10 object-contain"
             />
         </figure>
-        <h1 class="text-lg md:text-3xl text-green-600 font-bold pl-2">Walletfy</h1>
+        <h1 class="text-lg md:text-3xl text-verde font-bold pl-2">Walletfy</h1>
     </div>
 </div>
 
@@ -28,7 +28,7 @@
     [closable]="true"
     position="left"
     class="md:hidden"
-    styleClass=" !bg-[#013729] !w-64"
+    styleClass=" !bg-verde-escuro !w-64"
 >
     <app-menu-mobile (sair)="sair()"></app-menu-mobile>
 </p-drawer>

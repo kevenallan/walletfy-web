@@ -45,7 +45,7 @@
                     <p-button
                         icon="pi pi-search"
                         [label]="isMobile ? '' : 'Filtrar'"
-                        styleClass="bg-verde-escuro! border-verde-escuro! hover:!bg-verde-escuro dark:bg-verde-escuro! hover:bg-verde-claro! ml-2"
+                        styleClass="bg-verde-escuro! border-verde-escuro! hover:!bg-verde dark:bg-verde! hover:bg-verde-claro! ml-2"
                         (click)="emitirBuscar()"
                     />
                     <p class="row-start-3 col-span-4 text-vermelho">{{ msgErroData }}</p>
@@ -210,7 +210,7 @@
                         <p-sortIcon field="vencimento" />
                     </div>
                 </th>
-                <th></th>
+                <th class="text-center!" style="width: 15%">Ações</th>
             </tr>
         </ng-template>
         <ng-template #body let-gasto>
@@ -265,15 +265,18 @@
                 </td>
                 <td class="text-center!">{{ gasto.dataVencimento | date: 'dd/MM/yyyy' }}</td>
                 <td>
-                    <div class="flex gap-3">
-                        <button class="cursor-pointer" (click)="emitirGastoEditar(gasto.id)">
-                            <i class="pi pi-pen-to-square text-azul"></i>
+                    <div class="flex justify-center gap-3">
+                        <button
+                            class="group cursor-pointer h-10 w-10 bg-branco-puro border border-cinza-claro hover:bg-azul rounded-lg shadow-md"
+                            (click)="emitirGastoEditar(gasto.id)"
+                        >
+                            <i class="pi pi-pen-to-square text-azul group-hover:text-branco!"></i>
                         </button>
                         <button
-                            class="cursor-pointer text-vermelho"
+                            class="group cursor-pointer h-10 w-10 bg-branco-puro border border-cinza-claro hover:bg-vermelho rounded-lg shadow-md"
                             (click)="emitirGastoDeletar(gasto.id)"
                         >
-                            <i class="pi pi-trash"></i>
+                            <i class="pi pi-trash text-vermelho group-hover:text-branco!"></i>
                         </button>
                     </div>
                 </td>

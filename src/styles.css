@@ -5,11 +5,19 @@
 @variant dark (&:where(.dark-mode, .dark-mode *));
 
 @theme {
+    --color-branco-puro: #ffffff;
+    --color-branco: #fafafa;
+    --color-preto: #121212;
+    --color-background-claro: #f5f5f5;
+    --color-background-escuro: #292929;
+
     --color-azul: #155dfc;
+    --color-azul-suave: #dbeafe;
+    --color-azul-claro: #4079f7;
     --color-azul-escuro: #155dfc;
-    --color-azul-claro: #dbeafe;
 
     --color-vermelho: #fb2c37;
+    --color-vermelho-suave: #ffe2e2;
     --color-vermelho-claro: #ff3838;
     --color-vermelho-escuro: #991b1b;
 
