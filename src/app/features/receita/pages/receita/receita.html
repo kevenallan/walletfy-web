@@ -1,13 +1,13 @@
 <div class="flex flex-col h-full">
-    <h1 class="font-bold text-2xl mt-20 ml-5 md:mt-5 md:text-4xl">Receitas</h1>
-    <p class="text-cinza-escuro ml-5 md:mt-2">Gerencie todas as suas receitas registradas.</p>
+    <h1 class="font-bold text-2xl md:text-4xl">Receitas</h1>
+    <p class="text-cinza-escuro md:mt-2">Gerencie todas as suas receitas registradas.</p>
 
     <p-button label="Ver resumo" link (click)="verResumo = !verResumo" [class.hidden]="!isMobile" />
 
-    <div class="hidden md:flex md:justify-end md:mr-2 md:my-5">
+    <div class="hidden md:flex md:justify-end md:my-5">
         <p-button
             icon="pi pi-plus"
-            [label]="isMobile ? '' : 'Nova Receita'"
+            [label]="'Nova Receita'"
             styleClass="bg-verde-escuro! border-verde-escuro! hover:!bg-verde dark:bg-verde! hover:bg-verde-claro!"
             (click)="abrirForm()"
         />

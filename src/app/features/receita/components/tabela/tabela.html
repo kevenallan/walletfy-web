@@ -1,4 +1,4 @@
-<main class="shadow-lg md:mr-3">
+<main class="shadow-lg">
     <p-table
         #dt2
         [value]="receitas()"
@@ -28,7 +28,7 @@
                         dateFormat="dd/mm/yy"
                         inputId="dataInicio"
                         placeholder="dd/mm/aaaa"
-                        inputStyleClass="min-w-35"
+                        inputStyleClass="min-w-32"
                     />
                     <p class="mx-2 text-center">a</p>
                     <p-datepicker
@@ -40,7 +40,7 @@
                         dateFormat="dd/mm/yy"
                         inputId="dataFim"
                         placeholder="dd/mm/aaaa"
-                        inputStyleClass="min-w-35"
+                        inputStyleClass="min-w-32"
                     />
                     <p-button
                         (click)="emitirBuscar()"
