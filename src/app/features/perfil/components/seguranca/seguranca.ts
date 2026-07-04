@@ -22,6 +22,10 @@ export class Seguranca {
 
     constructor() {
         this.configurarFormulario();
+
+        this.form.valueChanges.subscribe(() => {
+            this.verificarObrigatoriedadeSenhas();
+        });
     }
 
     configurarFormulario(): void {
@@ -30,11 +34,17 @@ export class Seguranca {
                 senhaAtual: [null],
                 senhaNova: [
                     null,
-                    [Validators.minLength(8), Validators.pattern(/^(?=.*[a-zA-Z])(?=.*[0-9]).*$/)],
+                    [
+                        Validators.minLength(8),
+                        Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/),
+                    ],
                 ],
                 senhaNovaConfirmacao: [
                     null,
-                    [Validators.minLength(8), Validators.pattern(/^(?=.*[a-zA-Z])(?=.*[0-9]).*$/)],
+                    [
+                        Validators.minLength(8),
+                        Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/),
+                    ],
                 ],
             },
             {
@@ -67,18 +77,27 @@ export class Seguranca {
     }
 
     private verificarObrigatoriedadeSenhas(): void {
-        const senhaAtual = this.form.get('senhaAtual')?.value;
-        const senhaNova = this.form.get('senhaNova')?.value;
-        const senhaConfirmada = this.form.get('senhaNovaConfirmacao')?.value;
+        const campos = [
+            this.form.get('senhaAtual'),
+            this.form.get('senhaNova'),
+            this.form.get('senhaNovaConfirmacao'),
+        ];
 
-        if (senhaAtual || senhaNova || senhaConfirmada) {
-            const campos = ['senhaAtual', 'senhaNova', 'senhaNovaConfirmacao'];
+        const algumPreenchido = campos.some((c) => !!c?.value);
 
-            campos.forEach((campo) => {
-                const control = this.form.get(campo);
-                control?.addValidators(Validators.required);
-                control?.updateValueAndValidity();
-            });
-        }
+        campos.forEach((control) => {
+            if (!control) return;
+
+            if (algumPreenchido) {
+                control.addValidators(Validators.required);
+            } else {
+                control.removeValidators(Validators.required);
+
+                control.markAsPristine();
+                control.markAsUntouched();
+            }
+
+            control.updateValueAndValidity({ emitEvent: false });
+        });
     }
 }

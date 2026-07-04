@@ -31,8 +31,9 @@
                         >
                             <div class="static">
                                 <button
-                                    class="bg-verde-suave rounded-full w-16 h-16 md:w-24 md:h-24 flex justify-center items-center overflow-hidden cursor-pointer relative mt-2"
+                                    class="bg-verde-suave rounded-full w-16 h-16 md:w-24 md:h-24 flex justify-center items-center overflow-hidden cursor-not-allowed relative mt-2"
                                     (click)="choose($event, chooseCallback)"
+                                    [disabled]="true"
                                 >
                                     <!-- SEM foto selecionada: mostra ícone padrão -->
                                     @if (!files || files.length === 0) {
@@ -56,6 +57,7 @@
                                     [rounded]="true"
                                     styleClass="w-5! h-5! md:w-6! md:h-6! relative bottom-4 left-10 md:bottom-5 md:left-15"
                                     (click)="choose($event, chooseCallback)"
+                                    [disabled]="true"
                                 />
                             </div>
                         </ng-template>
@@ -99,6 +101,8 @@
                         class="w-full"
                         type="text"
                         pInputText
+                        mask="(00) 00000-0000"
+                        [dropSpecialCharacters]="true"
                         placeholder="Digite seu telefone"
                         formControlName="telefone"
                     />

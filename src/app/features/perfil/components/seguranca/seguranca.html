@@ -55,7 +55,9 @@
                     />
 
                     @if (form.get('senhaNova')?.hasError('pattern')) {
-                        <small class="text-vermelho">A senha deve incluir letras e números.</small>
+                        <small class="text-vermelho"
+                            >A senha deve incluir letras, números e caracteres especiais.</small
+                        >
                     }
                 </div>
 
@@ -81,10 +83,6 @@
                             <br />
                         </small>
                     }
-
-                    @if (form.get('senhaNovaConfirmacao')?.hasError('pattern')) {
-                        <small class="text-vermelho">A senha deve incluir letras e números.</small>
-                    }
                 </div>
 
                 <div class="flex mt-2 items-center md:col-span-3">
@@ -94,7 +92,8 @@
                         <i class="pi pi-lock text-verde text-sm! md:text-base!"></i>
                     </div>
                     <p class="ml-2 text-xs md:text-sm">
-                        A senha deve ter pelo menos 8 caracteres, incluindo letras e números.
+                        A senha deve ter pelo menos 8 caracteres, incluindo letras e números e
+                        caracteres especiais.
                     </p>
                 </div>
             </div>

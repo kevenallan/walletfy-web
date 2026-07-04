@@ -64,6 +64,12 @@
                             inputStyleClass="w-full"
                         />
                     </p-iconfield>
+
+                    @if (form.get('senha')?.hasError('pattern')) {
+                        <small class="text-vermelho"
+                            >A senha deve incluir letras, números e caracteres especiais.</small
+                        >
+                    }
                 </div>
 
                 <div class="flex flex-col gap-1 md:px-2 mt-1 md:w-full">

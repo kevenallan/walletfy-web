@@ -11,6 +11,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { erroInterceptor } from './core/interceptors/erro';
 import { authInterceptor } from './core/interceptors/auth';
+import { provideEnvironmentNgxMask } from 'ngx-mask';
 
 registerLocaleData(localePt);
 
@@ -71,5 +72,6 @@ export const appConfig: ApplicationConfig = {
         MessageService,
         ConfirmationService,
         provideHttpClient(withInterceptors([authInterceptor, erroInterceptor])),
+        provideEnvironmentNgxMask(),
     ],
 };
