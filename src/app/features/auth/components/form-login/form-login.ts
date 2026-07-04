@@ -32,7 +32,7 @@ export class FormLogin {
     configurarFormulario() {
         this.form = new FormBuilder().group({
             email: ['', [Validators.required, Validators.email]],
-            senha: ['', [Validators.required, Validators.minLength(3)]],
+            senha: ['', [Validators.required]],
         });
     }
 

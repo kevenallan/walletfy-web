@@ -56,8 +56,22 @@ export class FormCadastro implements OnInit {
             {
                 nome: [null, [Validators.required]],
                 email: [null, [Validators.required, Validators.email]],
-                senha: [null, [Validators.required]],
-                senhaConfirmada: [null, [Validators.required]],
+                senha: [
+                    null,
+                    [
+                        Validators.required,
+                        Validators.minLength(8),
+                        Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/),
+                    ],
+                ],
+                senhaConfirmada: [
+                    null,
+                    [
+                        Validators.required,
+                        Validators.minLength(8),
+                        Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/),
+                    ],
+                ],
                 termosAceitacao: [null, [Validators.required]],
             },
             {

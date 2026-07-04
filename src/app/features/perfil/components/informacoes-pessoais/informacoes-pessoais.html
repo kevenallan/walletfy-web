@@ -1,0 +1,139 @@
+<main>
+    <div
+        class="bg-branco-puro dark:bg-preto dark:shadow-preto shadow-lg gap-3 rounded-lg mt-3 md:mt-8"
+    >
+        <div class="flex items-center">
+            <i class="pi pi-user-edit pl-3 pt-2 text-lg md:text-2xl!"></i>
+            <p class="text-base md:text-lg font-semibold pl-2 pt-2">Informações pessoais</p>
+        </div>
+
+        <div class="flex-1 h-px bg-cinza-claro mt-2"></div>
+
+        <form [formGroup]="form">
+            <div class="p-5 grid grid-cols-2 md:grid-cols-3 gap-2">
+                <div class="col-span-2 md:col-span-1 row-span-2 flex flex-col items-center">
+                    <p class="text-base">Foto de perfil</p>
+
+                    <p-fileupload
+                        name="foto[]"
+                        [multiple]="false"
+                        accept="image/*"
+                        maxFileSize="2000000"
+                        (onSelect)="onSelectedFiles($event)"
+                        styleClass="!bg-transparent !border-none !shadow-none"
+                    >
+                        <ng-template
+                            #header
+                            let-files
+                            let-chooseCallback="chooseCallback"
+                            let-clearCallback="clearCallback"
+                            let-uploadCallback="uploadCallback"
+                        >
+                            <div class="static">
+                                <button
+                                    class="bg-verde-suave rounded-full w-16 h-16 md:w-24 md:h-24 flex justify-center items-center overflow-hidden cursor-not-allowed relative mt-2"
+                                    (click)="choose($event, chooseCallback)"
+                                    [disabled]="true"
+                                >
+                                    <!-- SEM foto selecionada: mostra ícone padrão -->
+                                    @if (!files || files.length === 0) {
+                                        <i
+                                            class="pi pi-user-edit text-verde text-3xl! md:text-4xl!"
+                                        ></i>
+                                    }
+
+                                    <!-- COM foto selecionada: mostra a preview da imagem -->
+                                    @if (files && files.length > 0) {
+                                        <img
+                                            [src]="getPreviewUrl(files[0])"
+                                            alt="Preview"
+                                            class="w-full h-full object-cover rounded-full"
+                                        />
+                                    }
+                                </button>
+                                <p-button
+                                    icon="pi pi-plus"
+                                    aria-label="Add"
+                                    [rounded]="true"
+                                    styleClass="w-5! h-5! md:w-6! md:h-6! relative bottom-4 left-10 md:bottom-5 md:left-15"
+                                    (click)="choose($event, chooseCallback)"
+                                    [disabled]="true"
+                                />
+                            </div>
+                        </ng-template>
+
+                        <ng-template #content> </ng-template>
+                    </p-fileupload>
+                    <p class="text-sm">JPG, PNG ou GIF. Máx: 2MB.</p>
+                </div>
+
+                <div>
+                    <label for="nome">Nome completo</label>
+
+                    <input
+                        id="nome"
+                        class="w-full"
+                        type="text"
+                        pInputText
+                        placeholder="Digite seu nome completo"
+                        formControlName="nome"
+                    />
+                </div>
+
+                <div>
+                    <label for="email">E-mail</label>
+
+                    <input
+                        id="email"
+                        class="w-full"
+                        type="text"
+                        pInputText
+                        placeholder="seu@email.com"
+                        formControlName="email"
+                    />
+                </div>
+
+                <div>
+                    <label for="telefone">Telefone</label>
+
+                    <input
+                        id="telefone"
+                        class="w-full"
+                        type="text"
+                        pInputText
+                        mask="(00) 00000-0000"
+                        [dropSpecialCharacters]="true"
+                        placeholder="Digite seu telefone"
+                        formControlName="telefone"
+                    />
+                </div>
+
+                <div>
+                    <label for="dataNascimento">Data de Nascimento</label>
+
+                    <p-datepicker
+                        [iconDisplay]="'input'"
+                        [showIcon]="true"
+                        dateFormat="dd/mm/yy"
+                        inputId="dataNascimento"
+                        placeholder="dd/mm/aaaa"
+                        class="w-full"
+                        formControlName="dataNascimento"
+                    />
+                </div>
+
+                <!-- <div>
+                <label for="cpf">CPF</label>
+
+                <input
+                    id="cpf"
+                    class="w-full"
+                    type="text"
+                    pInputText
+                    placeholder="Digite seu CPF"
+                />
+            </div> -->
+            </div>
+        </form>
+    </div>
+</main>

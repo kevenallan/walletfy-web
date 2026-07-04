@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { LoginRequestDTO } from '../models/login-request';
 import { Observable } from 'rxjs';
 import { CadastroEdicaoRequestDTO } from '../models/cadastro-edicao-request';
+import { Router } from '@angular/router';
 
 @Injectable({
     providedIn: 'root',
@@ -12,6 +13,7 @@ import { CadastroEdicaoRequestDTO } from '../models/cadastro-edicao-request';
 export class AuthService {
     private _apiAuth = environment.apiUrl + '/auth';
     private _http = inject(HttpClient);
+    private _router = inject(Router);
     private readonly STORAGE_KEY = 'usuario';
     private _usuario = signal<AuthResponseDTO | null>(this.carregarDoStorage());
 
@@ -34,6 +36,7 @@ export class AuthService {
     logout() {
         this._usuario.set(null);
         localStorage.removeItem(this.STORAGE_KEY);
+        this._router.navigate(['/login']);
     }
 
     private carregarDoStorage(): AuthResponseDTO | null {
@@ -59,5 +62,14 @@ export class AuthService {
 
     cadastrar(cadastrarRequest: CadastroEdicaoRequestDTO): Observable<AuthResponseDTO> {
         return this._http.post<AuthResponseDTO>(`${this._apiAuth}/cadastrar`, cadastrarRequest);
+    }
+
+    atualizarNomeUsuario(nome: string) {
+        const usuario = this.carregarDoStorage();
+
+        if (usuario) {
+            usuario.nome = nome;
+            this.salvar(usuario);
+        }
     }
 }

@@ -17,11 +17,8 @@
             <li
                 class="hover:bg-verde cursor-pointer rounded p-2"
                 routerLink="/dashboard"
-                [class.bg-verde]="rotaAtual === 'dashboard'"
-                (click)="selecionarMenu('dashboard')"
-                (keydown.enter)="selecionarMenu('dashboard')"
-                (keydown.space)="selecionarMenu('dashboard')"
-                tabindex="0"
+                routerLinkActive="bg-verde"
+                [routerLinkActiveOptions]="{ exact: true }"
             >
                 <span class="text-branco"
                     ><i class="pi pi-chart-bar text-branco mr-3"></i>Dashboard</span
@@ -30,12 +27,9 @@
 
             <li
                 class="hover:bg-verde cursor-pointer rounded p-2"
-                [class.bg-verde]="rotaAtual === 'receita'"
                 routerLink="/receita"
-                (click)="selecionarMenu('receita')"
-                (keydown.enter)="selecionarMenu('receita')"
-                (keydown.space)="selecionarMenu('receita')"
-                tabindex="1"
+                routerLinkActive="bg-verde"
+                [routerLinkActiveOptions]="{ exact: true }"
             >
                 <span class="text-branco"
                     ><i class="pi pi-calculator text-branco mr-3"></i>Receitas</span
@@ -43,12 +37,9 @@
             </li>
             <li
                 class="hover:bg-verde cursor-pointer rounded p-2"
-                [class.bg-verde]="rotaAtual === 'gasto'"
                 routerLink="/gasto"
-                (click)="selecionarMenu('gasto')"
-                (keydown.enter)="selecionarMenu('gasto')"
-                (keydown.space)="selecionarMenu('gasto')"
-                tabindex="2"
+                routerLinkActive="bg-verde"
+                [routerLinkActiveOptions]="{ exact: true }"
             >
                 <span class="text-branco"
                     ><i class="pi pi-wallet text-branco mr-3"></i> Gastos</span
@@ -56,12 +47,9 @@
             </li>
             <li
                 class="hover:bg-verde cursor-pointer rounded p-2"
-                [class.bg-verde]="rotaAtual === 'categoria'"
                 routerLink="/categoria"
-                (click)="selecionarMenu('categoria')"
-                (keydown.enter)="selecionarMenu('categoria')"
-                (keydown.space)="selecionarMenu('categoria')"
-                tabindex="3"
+                routerLinkActive="bg-verde"
+                [routerLinkActiveOptions]="{ exact: true }"
             >
                 <span class="text-branco"
                     ><i class="pi pi-tag text-branco mr-3"></i>Categorias</span
@@ -85,7 +73,9 @@
             </div>
             <div>
                 <p class="text-branco">{{ nomeUsuario }}</p>
-                <p class="text-cinza text-xs md:text-sm cursor-pointer">Ver perfil</p>
+                <button (click)="editarPerfil()">
+                    <p class="text-cinza text-xs md:text-sm cursor-pointer">Ver perfil</p>
+                </button>
             </div>
         </div>
         <div class="flex-1 h-px bg-cinza w-full my-3"></div>
