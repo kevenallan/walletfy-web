@@ -27,6 +27,17 @@
 
             <li
                 class="hover:bg-verde cursor-pointer rounded p-2"
+                routerLink="/contas"
+                routerLinkActive="bg-verde"
+                [routerLinkActiveOptions]="{ exact: true }"
+            >
+                <span class="text-branco"
+                    ><i class="pi pi-building-columns text-branco mr-3"></i>Contas</span
+                >
+            </li>
+
+            <li
+                class="hover:bg-verde cursor-pointer rounded p-2"
                 routerLink="/receita"
                 routerLinkActive="bg-verde"
                 [routerLinkActiveOptions]="{ exact: true }"

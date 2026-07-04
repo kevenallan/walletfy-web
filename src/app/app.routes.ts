@@ -41,6 +41,16 @@ export const routes: Routes = [
                 ],
             },
             {
+                path: 'contas',
+                children: [
+                    {
+                        path: '',
+                        loadComponent: () =>
+                            import('./features/conta/pages/conta/conta').then((c) => c.Conta),
+                    },
+                ],
+            },
+            {
                 path: 'receita',
                 children: [
                     {
