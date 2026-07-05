@@ -1,0 +1,91 @@
+<div class="flex flex-col justify-between h-full">
+    <div class="grid gap-2">
+        <div class="flex flex-col">
+            <label for="nome">Conta</label>
+            <input
+                id="nome"
+                class=""
+                type="text"
+                pInputText
+                placeholder="Nome da conta"
+                [ngModel]="nome()"
+                (ngModelChange)="nome.set($event)"
+            />
+        </div>
+
+        <div class="">
+            <div>
+                <label for="icone">Tipo da Conta</label>
+                <div class="w-1/2 md:w-60">
+                    <p-select
+                        class="w-full"
+                        [options]="tipoContaOptions"
+                        optionLabel="label"
+                        optionValue="value"
+                        placeholder="Selecione o tipo"
+                        [ngModel]="tipo()"
+                        (ngModelChange)="tipo.set($event)"
+                    >
+                    </p-select>
+                </div>
+            </div>
+        </div>
+
+        @if (possuiBanco.includes(tipo())) {
+            <div class="">
+                <div>
+                    <label for="icone">Banco</label>
+                    <div class="w-1/2 md:w-60">
+                        <p-select
+                            class="w-full"
+                            [options]="bancos()"
+                            optionLabel="nome"
+                            placeholder="Selecione um banco"
+                            [ngModel]="banco()"
+                            (ngModelChange)="banco.set($event)"
+                        >
+                        </p-select>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div class="flex flex-col">
+            <label for="valor">Saldo Inicial</label>
+            <p-inputnumber
+                id="valor"
+                [ngModel]="saldoInicial()"
+                (ngModelChange)="saldoInicial.set($event)"
+                mode="currency"
+                currency="BRL"
+                locale="pt-BR"
+                class=""
+                placeholder="R$ 1000,00"
+            />
+        </div>
+        @if (isEdicao()) {
+            <div class="flex flex-col">
+                <label for="ativo">Status</label>
+                <div class="flex gap-2">
+                    <p-toggleswitch [ngModel]="ativo()" (ngModelChange)="ativo.set($event)" />
+                    <span>{{ ativo() ? 'Ativo' : 'Inativo' }}</span>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="flex justify-end gap-3">
+        <p-button
+            label="Cancelar"
+            icon="pi pi-times"
+            styleClass="bg-cinza-escuro! border-cinza-escuro! dark:bg-cinza-escuro! hover:bg-cinza! w-28"
+            (click)="cancelar()"
+        />
+        <p-button
+            [label]="'Salvar'"
+            icon="pi pi-save"
+            styleClass="bg-verde-escuro! border-verde-escuro! dark:bg-verde! hover:bg-verde-claro! w-28"
+            (click)="salvar()"
+        />
+    </div>
+</div>
