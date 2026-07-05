@@ -19,7 +19,7 @@ import { ContaRequestDTO } from '../../models/conta-request';
     styleUrl: './form.css',
 })
 export class Form implements OnInit {
-    readonly possuiBanco = [TipoConta.CORRENTE, TipoConta.POUPANCA, null];
+    readonly possuiBanco = [TipoConta.CORRENTE, TipoConta.POUPANCA];
     private _ref = inject(DynamicDialogRef);
     private _config = inject(DynamicDialogConfig);
     readonly conta = (this._config.data?.conta as ContaResponseDTO | null) ?? null;
@@ -37,6 +37,11 @@ export class Form implements OnInit {
 
     private _bancoService = inject(BancoService);
 
+    exibirSelectBanco = computed(() => {
+        const tipo = this.tipo();
+        return !!tipo && this.possuiBanco.includes(tipo);
+    });
+
     ngOnInit(): void {
         this.getBancos();
     }
@@ -53,9 +58,11 @@ export class Form implements OnInit {
             nome: this.nome(),
             tipo: this.tipo() as TipoConta,
             saldoInicial: this.saldoInicial() || 0,
-            bancoId: this.banco() ? this.banco().id : undefined,
+            bancoId: this.exibirSelectBanco() && this.banco() ? this.banco().id : undefined,
         };
-        console.log(resultado);
+        if (this.isEdicao()) {
+            resultado.id = this.conta?.id;
+        }
 
         this._ref.close(resultado);
     }

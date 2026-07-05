@@ -18,4 +18,12 @@ export class ContaService {
     listar(): Observable<ContaResponseDTO[]> {
         return this._http.get<ContaResponseDTO[]>(`${this._apiConta}`);
     }
+
+    atualizar(contaDTO: ContaRequestDTO): Observable<ContaRequestDTO> {
+        return this._http.put<ContaRequestDTO>(`${this._apiConta}`, contaDTO);
+    }
+
+    deletar(contaId: number): Observable<void> {
+        return this._http.delete<void>(`${this._apiConta}/${contaId}`);
+    }
 }

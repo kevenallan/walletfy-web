@@ -20,6 +20,7 @@ export class Tabela {
         this.contas().map((conta) => ({
             ...conta,
             tipoLabel: TIPO_CONTA_LABEL[conta.tipo],
+            imagemConta: this.imagemConta(conta),
         })),
     );
     deletar = output<number>();
@@ -30,5 +31,30 @@ export class Tabela {
     onResize() {
         this.isMobile = window.innerWidth < 768;
         this.tableSize = this.isMobile ? 'small' : undefined;
+    }
+    imagemConta(conta: ContaResponseDTO) {
+        const path = '/icons/bancos/';
+        let imagem: string;
+        const extensao = '.png';
+        switch (conta.tipo) {
+            case 'CORRENTE':
+            case 'POUPANCA':
+                imagem = conta.banco.icone;
+                break;
+            case 'CARTEIRA':
+                imagem = 'carteira';
+                break;
+            case 'VALE_REFEICAO':
+                imagem = 'vr';
+                break;
+            case 'VALE_ALIMENTACAO':
+                imagem = 'va';
+                break;
+            default:
+                imagem = 'carteira';
+                break;
+        }
+
+        return path + imagem + extensao;
     }
 }

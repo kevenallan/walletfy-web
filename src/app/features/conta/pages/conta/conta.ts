@@ -2,13 +2,13 @@ import { Component, HostListener, inject, OnInit, signal } from '@angular/core';
 import { Button } from 'primeng/button';
 import { Card } from '../../components/card/card';
 import { Tabela } from '../../components/tabela/tabela';
-import { TipoConta } from '../../../../core/enum/tipo-conta';
 import { ContaResponseDTO } from '../../models/conta-response';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Form } from '../../components/form/form';
 import { ContaService } from '../../services/conta';
 import { ContaRequestDTO } from '../../models/conta-request';
 import { NotificacaoService } from '../../../../core/services/notificacao';
+import { ConfirmacaoService } from '../../../../core/services/confirmacao';
 
 @Component({
     selector: 'app-conta',
@@ -18,112 +18,7 @@ import { NotificacaoService } from '../../../../core/services/notificacao';
     providers: [DialogService],
 })
 export class Conta implements OnInit {
-    contaResponseDTO = signal<ContaResponseDTO[]>([
-        {
-            id: 1,
-            nome: 'Nubank',
-            tipo: TipoConta.CORRENTE,
-            saldo: 1000,
-            ativo: true,
-            banco: {
-                id: 1,
-                nome: 'Nubank',
-                icone: 'nubank',
-                cor: '#8A05BE',
-            },
-        },
-        {
-            id: 1,
-            nome: 'bb',
-            tipo: TipoConta.CORRENTE,
-            saldo: 1000,
-            ativo: true,
-            banco: {
-                id: 1,
-                nome: 'bb',
-                icone: 'bb',
-                cor: '#8A05BE',
-            },
-        },
-        {
-            id: 1,
-            nome: 'bradesco',
-            tipo: TipoConta.CORRENTE,
-            saldo: 1000,
-            ativo: true,
-            banco: {
-                id: 1,
-                nome: 'bradesco',
-                icone: 'bradesco',
-                cor: '#8A05BE',
-            },
-        },
-        {
-            id: 1,
-            nome: 'c6',
-            tipo: TipoConta.CORRENTE,
-            saldo: 1000,
-            ativo: true,
-            banco: {
-                id: 1,
-                nome: 'c6',
-                icone: 'c6',
-                cor: '#8A05BE',
-            },
-        },
-        {
-            id: 1,
-            nome: 'caixa',
-            tipo: TipoConta.CORRENTE,
-            saldo: 1000,
-            ativo: true,
-            banco: {
-                id: 1,
-                nome: 'caixa',
-                icone: 'caixa',
-                cor: '#8A05BE',
-            },
-        },
-        {
-            id: 1,
-            nome: 'inter',
-            tipo: TipoConta.CORRENTE,
-            saldo: 1000,
-            ativo: true,
-            banco: {
-                id: 1,
-                nome: 'inter',
-                icone: 'inter',
-                cor: '#8A05BE',
-            },
-        },
-        {
-            id: 1,
-            nome: 'itau',
-            tipo: TipoConta.CORRENTE,
-            saldo: 1000,
-            ativo: true,
-            banco: {
-                id: 1,
-                nome: 'itau',
-                icone: 'itau',
-                cor: '#8A05BE',
-            },
-        },
-        {
-            id: 1,
-            nome: 'santander',
-            tipo: TipoConta.CORRENTE,
-            saldo: 1000,
-            ativo: true,
-            banco: {
-                id: 1,
-                nome: 'santander',
-                icone: 'santander',
-                cor: '#8A05BE',
-            },
-        },
-    ]);
+    contaResponseDTO = signal<ContaResponseDTO[]>([]);
     isMobile = window.innerWidth < 768;
 
     @HostListener('window:resize')
@@ -134,6 +29,7 @@ export class Conta implements OnInit {
     private _dialogService = inject(DialogService);
     private _contaService = inject(ContaService);
     private _noitificacaoService = inject(NotificacaoService);
+    private _confirmacaoService = inject(ConfirmacaoService);
 
     ngOnInit(): void {
         this.listar();
@@ -164,7 +60,7 @@ export class Conta implements OnInit {
             ref.onClose.subscribe((resultado: ContaRequestDTO) => {
                 if (resultado) {
                     if (resultado.id) {
-                        // this.atualizar(resultado);
+                        this.atualizar(resultado);
                     } else {
                         this.cadastrar(resultado);
                     }
@@ -178,6 +74,29 @@ export class Conta implements OnInit {
             next: () => {
                 this._noitificacaoService.msgSucesso('Conta cadastrada');
                 this.listar();
+            },
+        });
+    }
+
+    atualizar(contaDTO: ContaRequestDTO) {
+        this._contaService.atualizar(contaDTO).subscribe({
+            next: () => {
+                this._noitificacaoService.msgSucesso('Conta atualizada');
+                this.listar();
+            },
+        });
+    }
+    deletar(contaId: number) {
+        this._confirmacaoService.abrirConfirmacao().subscribe({
+            next: (confirmacao) => {
+                if (confirmacao) {
+                    this._contaService.deletar(contaId).subscribe({
+                        next: () => {
+                            this._noitificacaoService.msgSucesso('Conta deletada');
+                            this.listar();
+                        },
+                    });
+                }
             },
         });
     }
