@@ -5,5 +5,5 @@ export interface ContaRequestDTO {
     nome: string;
     tipo: TipoConta;
     saldoInicial: number;
-    bancoId: number;
+    bancoId?: number;
 }

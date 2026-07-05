@@ -33,7 +33,7 @@ export class Form implements OnInit {
         value: tipo,
     }));
     saldoInicial = signal<number | null>(null);
-    tipo = signal<TipoConta | null>(null);
+    tipo = signal<TipoConta | null>(this.conta?.tipo ?? null);
 
     private _bancoService = inject(BancoService);
 
@@ -53,7 +53,7 @@ export class Form implements OnInit {
             nome: this.nome(),
             tipo: this.tipo() as TipoConta,
             saldoInicial: this.saldoInicial() || 0,
-            bancoId: this.banco().id,
+            bancoId: this.banco() ? this.banco().id : undefined,
         };
         console.log(resultado);
 

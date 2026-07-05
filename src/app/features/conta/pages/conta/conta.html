@@ -27,6 +27,6 @@
     </section>
 
     <main>
-        <app-tabela [contas]="contaResponseDTO()"></app-tabela>
+        <app-tabela [contas]="contaResponseDTO()" (editar)="abrirForm($event)"></app-tabela>
     </main>
 </div>

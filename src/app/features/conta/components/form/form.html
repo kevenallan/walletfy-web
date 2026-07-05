@@ -50,19 +50,22 @@
             </div>
         }
 
-        <div class="flex flex-col">
-            <label for="valor">Saldo Inicial</label>
-            <p-inputnumber
-                id="valor"
-                [ngModel]="saldoInicial()"
-                (ngModelChange)="saldoInicial.set($event)"
-                mode="currency"
-                currency="BRL"
-                locale="pt-BR"
-                class=""
-                placeholder="R$ 1000,00"
-            />
-        </div>
+        @if (!isEdicao()) {
+            <div class="flex flex-col">
+                <label for="valor">Saldo Inicial</label>
+                <p-inputnumber
+                    id="valor"
+                    [ngModel]="saldoInicial()"
+                    (ngModelChange)="saldoInicial.set($event)"
+                    mode="currency"
+                    currency="BRL"
+                    locale="pt-BR"
+                    class=""
+                    placeholder="R$ 1000,00"
+                />
+            </div>
+        }
+
         @if (isEdicao()) {
             <div class="flex flex-col">
                 <label for="ativo">Status</label>

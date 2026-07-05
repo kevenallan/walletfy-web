@@ -23,7 +23,7 @@ export class Tabela {
         })),
     );
     deletar = output<number>();
-    editar = output<number>();
+    editar = output<ContaResponseDTO>();
     isMobile = window.innerWidth < 768;
     tableSize: 'small' | 'large' | undefined = this.isMobile ? 'small' : undefined;
     @HostListener('window:resize')
