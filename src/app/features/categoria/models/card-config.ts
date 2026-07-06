@@ -3,5 +3,6 @@ export interface CardConfig {
     valor: string;
     descricao: string;
     icone: string;
+    corIcone: string;
     corFundo: string;
 }

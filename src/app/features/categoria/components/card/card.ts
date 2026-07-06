@@ -22,6 +22,7 @@ export class CardInformacoes {
                 valor: `${r.totalCategorias}`,
                 descricao: 'Categorias cadastradas no sistema',
                 icone: 'pi-tag',
+                corIcone: 'white',
                 corFundo: '#3B82F6',
             },
             {
@@ -29,6 +30,7 @@ export class CardInformacoes {
                 valor: `${r.categoriasAtivas}`,
                 descricao: 'Categorias em uso no momento',
                 icone: 'pi-check-circle',
+                corIcone: 'white',
                 corFundo: '#22C55E',
             },
             {
@@ -38,6 +40,7 @@ export class CardInformacoes {
                     ? `Aparece em ${r.qtdMaisUtilizada} lançamentos`
                     : 'Nenhum lançamento registrado',
                 icone: r.iconeMaisUtilizada ?? 'pi-star',
+                corIcone: 'white',
                 corFundo: r.corMaisUtilizada ?? '#EAB308',
             },
             {
@@ -47,6 +50,7 @@ export class CardInformacoes {
                     ? `Aparece em ${r.qtdMenosUtilizada} lançamentos`
                     : 'Nenhum lançamento registrado',
                 icone: r.iconeMenosUtilizada ?? 'pi-wallet',
+                corIcone: 'white',
                 corFundo: r.corMenosUtilizada ?? '#F97316',
             },
         ];

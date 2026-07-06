@@ -5,9 +5,9 @@
         >
             <div
                 class="row-span-3 rounded-full w-13 h-13 flex justify-center items-center mr-2"
-                [style.background-color]="card.corFundo"
+                [ngClass]="card.corFundo"
             >
-                <i [ngClass]="['pi', card.icone, 'text-2xl!']" [style.color]="card.corIcone"></i>
+                <i [ngClass]="['pi', card.icone, 'text-2xl!', card.corIcone]"></i>
             </div>
             <h2 class="row-start-1 col-start-2 text-sm font-semibold">{{ card.titulo }}</h2>
             <p class="row-start-2 col-start-2 text-2xl font-semibold truncate">

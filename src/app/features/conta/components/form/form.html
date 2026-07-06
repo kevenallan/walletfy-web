@@ -1,0 +1,78 @@
+<div class="flex flex-col justify-between h-full">
+    <div class="grid grid-cols-2 gap-4">
+        <div class="col-span-2 flex flex-col">
+            <label for="nome">Conta</label>
+            <input
+                id="nome"
+                class=""
+                type="text"
+                pInputText
+                placeholder="Nome da conta"
+                [ngModel]="nome()"
+                (ngModelChange)="nome.set($event)"
+            />
+        </div>
+
+        <div class="col-span-2 md:col-span-1">
+            <label for="icone">Tipo da Conta</label>
+            <p-select
+                class="w-full"
+                [options]="tipoContaOptions"
+                optionLabel="label"
+                optionValue="value"
+                placeholder="Selecione o tipo"
+                [ngModel]="tipo()"
+                (ngModelChange)="tipo.set($event)"
+                appendTo="body"
+            >
+            </p-select>
+        </div>
+
+        <div class="col-span-2 md:col-span-1">
+            <label for="icone">Banco</label>
+            <div class="">
+                <p-select
+                    class="w-full"
+                    [options]="bancos()"
+                    optionLabel="nome"
+                    placeholder="Selecione um banco"
+                    [ngModel]="banco()"
+                    (ngModelChange)="banco.set($event)"
+                    [disabled]="!exibirSelectBanco()"
+                    appendTo="body"
+                >
+                </p-select>
+            </div>
+        </div>
+
+        @if (!isEdicao()) {
+            <div class="col-span-2 flex flex-col">
+                <label for="valor">Saldo Inicial</label>
+                <p-inputnumber
+                    id="valor"
+                    [ngModel]="saldoInicial()"
+                    (ngModelChange)="saldoInicial.set($event)"
+                    mode="currency"
+                    currency="BRL"
+                    locale="pt-BR"
+                    placeholder="R$ 1000,00"
+                />
+            </div>
+        }
+    </div>
+
+    <div class="flex justify-end gap-3 pt-5">
+        <p-button
+            label="Cancelar"
+            icon="pi pi-times"
+            styleClass="bg-cinza-escuro! border-cinza-escuro! dark:bg-cinza-escuro! hover:bg-cinza! w-28"
+            (click)="cancelar()"
+        />
+        <p-button
+            [label]="'Salvar'"
+            icon="pi pi-save"
+            styleClass="bg-verde-escuro! border-verde-escuro! dark:bg-verde! hover:bg-verde-claro! w-28"
+            (click)="salvar()"
+        />
+    </div>
+</div>
