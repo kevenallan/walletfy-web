@@ -23,7 +23,7 @@
     </div>
 
     <section>
-        <app-card [class.hidden]="!verResumo && isMobile" />
+        <app-card [class.hidden]="!verResumo && isMobile" [resumo]="resumo()" />
     </section>
 
     <main>

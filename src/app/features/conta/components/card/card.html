@@ -1,1 +1,19 @@
-<p>card works!</p>
+<div class="hidden lg:flex justify-evenly flex-wrap lg:gap-4 md:my-5 md:mb-10">
+    @for (card of cards(); track card.titulo) {
+        <div
+            class="bg-branco-puro dark:bg-preto dark:shadow-preto shadow-lg rounded-lg px-3 grid grid-rows-3 items-center grid-cols-[auto_1fr_auto] py-2 w-75 h-24"
+        >
+            <div
+                class="row-span-3 rounded-full w-13 h-13 flex justify-center items-center mr-2"
+                [ngClass]="card.corFundo"
+            >
+                <i [ngClass]="['pi', card.icone, 'text-2xl!', card.corIcone]"></i>
+            </div>
+            <h2 class="row-start-1 col-start-2 text-sm font-semibold">{{ card.titulo }}</h2>
+            <p class="row-start-2 col-start-2 text-2xl font-semibold truncate">
+                {{ card.valor }}
+            </p>
+            <p class="row-start-3 col-start-2 text-sm text-cinza-escuro">{{ card.descricao }}</p>
+        </div>
+    }
+</div>

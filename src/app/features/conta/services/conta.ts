@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ContaResponseDTO } from '../models/conta-response';
 import { ContaRequestDTO } from '../models/conta-request';
+import { ContaResumoResponseDTO } from '../models/conta-resumo-response';
 
 @Injectable({
     providedIn: 'root',
@@ -15,8 +16,13 @@ export class ContaService {
     cadastrar(contaDTO: ContaRequestDTO): Observable<ContaResponseDTO> {
         return this._http.post<ContaResponseDTO>(`${this._apiConta}`, contaDTO);
     }
+
     listar(): Observable<ContaResponseDTO[]> {
         return this._http.get<ContaResponseDTO[]>(`${this._apiConta}`);
+    }
+
+    getResumo(): Observable<ContaResumoResponseDTO> {
+        return this._http.get<ContaResumoResponseDTO>(`${this._apiConta}/resumo`);
     }
 
     atualizar(contaDTO: ContaRequestDTO): Observable<ContaRequestDTO> {

@@ -9,6 +9,7 @@ import { ContaService } from '../../services/conta';
 import { ContaRequestDTO } from '../../models/conta-request';
 import { NotificacaoService } from '../../../../core/services/notificacao';
 import { ConfirmacaoService } from '../../../../core/services/confirmacao';
+import { ContaResumoResponseDTO } from '../../models/conta-resumo-response';
 
 @Component({
     selector: 'app-conta',
@@ -26,19 +27,31 @@ export class Conta implements OnInit {
         this.isMobile = window.innerWidth < 768;
     }
     verResumo = false;
+
+    resumo = signal<ContaResumoResponseDTO | null>(null);
+
     private _dialogService = inject(DialogService);
     private _contaService = inject(ContaService);
-    private _noitificacaoService = inject(NotificacaoService);
+    private _notificacaoService = inject(NotificacaoService);
     private _confirmacaoService = inject(ConfirmacaoService);
 
     ngOnInit(): void {
         this.listar();
+        this.getResumo();
     }
 
     listar() {
         this._contaService.listar().subscribe({
             next: (response) => {
                 this.contaResponseDTO.set(response);
+            },
+        });
+    }
+
+    getResumo() {
+        this._contaService.getResumo().subscribe({
+            next: (response) => {
+                this.resumo.set(response);
             },
         });
     }
@@ -72,7 +85,7 @@ export class Conta implements OnInit {
     cadastrar(contaDTO: ContaRequestDTO) {
         this._contaService.cadastrar(contaDTO).subscribe({
             next: () => {
-                this._noitificacaoService.msgSucesso('Conta cadastrada');
+                this._notificacaoService.msgSucesso('Conta cadastrada');
                 this.listar();
             },
         });
@@ -81,18 +94,19 @@ export class Conta implements OnInit {
     atualizar(contaDTO: ContaRequestDTO) {
         this._contaService.atualizar(contaDTO).subscribe({
             next: () => {
-                this._noitificacaoService.msgSucesso('Conta atualizada');
+                this._notificacaoService.msgSucesso('Conta atualizada');
                 this.listar();
             },
         });
     }
+
     deletar(contaId: number) {
         this._confirmacaoService.abrirConfirmacao().subscribe({
             next: (confirmacao) => {
                 if (confirmacao) {
                     this._contaService.deletar(contaId).subscribe({
                         next: () => {
-                            this._noitificacaoService.msgSucesso('Conta deletada');
+                            this._notificacaoService.msgSucesso('Conta deletada');
                             this.listar();
                         },
                     });
