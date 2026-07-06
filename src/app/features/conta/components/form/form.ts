@@ -1,20 +1,19 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Button } from 'primeng/button';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { ContaResponseDTO } from '../../models/conta-response';
-import { FormsModule } from '@angular/forms';
+import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
-import { ToggleSwitch } from 'primeng/toggleswitch';
 import { Select } from 'primeng/select';
 import { TIPO_CONTA_LABEL, TipoConta } from '../../../../core/enum/tipo-conta';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { BancoService } from '../../../banco/services/banco';
 import { Banco } from '../../../banco/models/banco';
+import { BancoService } from '../../../banco/services/banco';
 import { ContaRequestDTO } from '../../models/conta-request';
+import { ContaResponseDTO } from '../../models/conta-response';
 
 @Component({
     selector: 'app-form',
-    imports: [Button, FormsModule, InputTextModule, ToggleSwitch, Select, InputNumberModule],
+    imports: [Button, FormsModule, InputTextModule, Select, InputNumberModule],
     templateUrl: './form.html',
     styleUrl: './form.css',
 })

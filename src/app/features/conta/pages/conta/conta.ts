@@ -57,11 +57,10 @@ export class Conta implements OnInit {
     }
 
     abrirForm(conta?: ContaResponseDTO) {
-        const isMobile = window.innerWidth <= 768;
+        // const isMobile = window.innerWidth <= 768;
         const ref = this._dialogService.open(Form, {
             header: conta ? 'Editar Conta' : 'Nova Conta',
             width: '550px',
-            height: isMobile ? '570px' : '510px',
             breakpoints: { '768px': '90vw', '480px': '100vw' },
             closable: true,
             closeOnEscape: true,
