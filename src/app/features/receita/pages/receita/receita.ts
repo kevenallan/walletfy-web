@@ -65,7 +65,6 @@ export class Receita implements OnInit {
         const ref = this._dialogService.open(Form, {
             header: receitaId ? 'Editar Receita' : 'Nova Receita',
             width: '650px',
-            height: '600px',
             breakpoints: { '768px': '90vw', '480px': '100vw' },
             closable: true,
             closeOnEscape: true,
