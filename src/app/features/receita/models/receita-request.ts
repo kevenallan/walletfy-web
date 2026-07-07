@@ -3,6 +3,7 @@ export interface ReceitaRequestDTO {
     categoriaId: number;
     formaPagamentoId: number;
     statusId: number;
+    contaId?: number;
     descricao: string;
     valor: number;
     dataReceita: string;

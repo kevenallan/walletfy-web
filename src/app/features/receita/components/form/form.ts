@@ -21,6 +21,8 @@ import { StatusReceitaDTO } from '../../models/status-receita';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { TitleCasePipe } from '@angular/common';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { ContaResponseDTO } from '../../../conta/models/conta-response';
+import { ContaService } from '../../../conta/services/conta';
 
 @Component({
     selector: 'app-form',
@@ -42,14 +44,16 @@ export class Form implements OnInit {
     isEdit = false;
 
     categorias = signal<CategoriaDTO[]>([]);
-    formaPagamento = signal<FormaPagamentoDTO[]>([]);
-    statusReceita = signal<StatusReceitaDTO[]>([]);
+    formaPagamentos = signal<FormaPagamentoDTO[]>([]);
+    statusReceitas = signal<StatusReceitaDTO[]>([]);
+    contas = signal<ContaResponseDTO[]>([]);
     form!: FormGroup;
 
     private _authService = inject(AuthService);
     private _categoriaService = inject(CategoriaService);
     private _formaPagamentoService = inject(FormaPagamentoService);
     private _statusReceitaService = inject(StatusReceitaService);
+    private _contaService = inject(ContaService);
     private _receitaService = inject(ReceitaService);
     private _confirmacaoService = inject(ConfirmacaoService);
     private _notificacaoService = inject(NotificacaoService);
@@ -61,12 +65,13 @@ export class Form implements OnInit {
 
     configurarFormulario() {
         this.form = new FormBuilder().group({
-            descricao: [null, [Validators.required]],
-            valor: [null, [Validators.required]],
-            categoria: [null, [Validators.required]],
-            formaPagamento: [null, [Validators.required]],
-            status: [null, [Validators.required]],
-            dataReceita: [null, [Validators.required]],
+            descricao: [null, Validators.required],
+            valor: [null, Validators.required],
+            categoria: [null, Validators.required],
+            formaPagamento: [null, Validators.required],
+            status: [null, Validators.required],
+            conta: [null],
+            dataReceita: [null, Validators.required],
         });
     }
 
@@ -86,6 +91,7 @@ export class Form implements OnInit {
                             categorias: this.getCategorias(),
                             formasPagamento: this.getFormaPagamento(),
                             statusReceita: this.getStatusReceita(),
+                            contas: this.getContas(),
                         }),
                     ),
                 )
@@ -94,6 +100,7 @@ export class Form implements OnInit {
             this.getCategorias().subscribe();
             this.getFormaPagamento().subscribe();
             this.getStatusReceita().subscribe();
+            this.getContas().subscribe();
         }
     }
 
@@ -112,6 +119,7 @@ export class Form implements OnInit {
             categoria: receita.categoria.id,
             formaPagamento: receita.formaPagamento.id,
             status: receita.status.id,
+            conta: receita.conta ? receita.conta.id : null,
             dataReceita: this.stringParaDate(receita.dataReceita),
         });
     }
@@ -135,26 +143,24 @@ export class Form implements OnInit {
     getFormaPagamento(): Observable<FormaPagamentoDTO[]> {
         return this._formaPagamentoService
             .listar()
-            .pipe(tap((response) => this.formaPagamento.set(response)));
+            .pipe(tap((response) => this.formaPagamentos.set(response)));
     }
 
     getStatusReceita(): Observable<StatusReceitaDTO[]> {
         return this._statusReceitaService.listar().pipe(
             tap((response) => {
-                this.statusReceita.set(response);
-                // this.setarStatus();
+                this.statusReceitas.set(response);
             }),
         );
     }
 
-    // setarStatus() {
-    //     if (this.receita) {
-    //         this.form.patchValue({ status: this.receita.status.id });
-    //     } else {
-    //         const statusRecebido = this.statusReceita().find((s) => s.nome === 'RECEBIDO') ?? null;
-    //         this.form.patchValue({ status: statusRecebido?.id });
-    //     }
-    // }
+    getContas(): Observable<ContaResponseDTO[]> {
+        return this._contaService.listar().pipe(
+            tap((response) => {
+                this.contas.set(response);
+            }),
+        );
+    }
 
     salvar() {
         this.form.markAllAsTouched();
@@ -171,6 +177,7 @@ export class Form implements OnInit {
             categoriaId: form.categoria,
             formaPagamentoId: form.formaPagamento,
             statusId: form.status,
+            contaId: form.conta,
             descricao: form.descricao,
             valor: form.valor,
             dataReceita: form.dataReceita,
