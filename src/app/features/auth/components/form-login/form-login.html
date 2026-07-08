@@ -1,4 +1,4 @@
-<main class="w-full md:max-w-4xl">
+<main class="w-full max-w-2xl">
     <div class="bg-white dark:bg-preto dark:shadow-preto rounded-2xl shadow-lg md:gap-4 p-8 w-full">
         <div class="flex flex-col items-center justify-center gap-3">
             <div class="flex justify-center items-center bg-green-100 rounded-full w-17 h-17">
@@ -66,7 +66,10 @@
             <div class="flex-1 h-px bg-cinza"></div>
         </div>
         <div class="px-4 mb-2">
-            <p-button styleClass="w-full" [outlined]="true" severity="secondary">
+            <p-button
+                styleClass="w-full bg-branco! border-cinza! text-cinza-escuro! "
+                [outlined]="true"
+            >
                 <ng-template #content>
                     <div class="flex items-center justify-center gap-2 w-full">
                         <img
