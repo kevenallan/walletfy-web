@@ -1,12 +1,21 @@
-<div class="grid grid-cols-1 min-h-screen md:grid-cols-[1fr_1fr] p-5">
-    <app-cabecalho class="md:col-span-2"></app-cabecalho>
+<div
+    class="relative overflow-hidden grid grid-cols-1 min-h-screen lg:grid-cols-[1fr_1fr] 2xl:grid-cols-[auto_1fr] lg:px-20 lg:pt-5 2xl:px-35 2xl:pt-5"
+>
+    <app-cabecalho class="lg:col-span-2"></app-cabecalho>
 
-    <app-resumo class="hidden md:flex md:w-full"></app-resumo>
+    <app-resumo class="hidden lg:flex lg:w-full"></app-resumo>
 
     <app-form-cadastro
         (formOutput)="cadastrar($event)"
-        class="flex justify-center w-full md:ml-2"
+        class="w-full flex justify-center lg:justify-center 2xl:justify-end"
     ></app-form-cadastro>
 
-    <app-rodape class="hidden md:flex md:items-center md:col-span-2 md:w-full"></app-rodape>
+    <app-rodape class="hidden lg:flex lg:items-center lg:col-span-2 lg:w-full"></app-rodape>
+
+    <img
+        src="images/grafico-relatorio.png"
+        class="absolute -right-50 -bottom-25 h-150 object-contain opacity-30 -z-10"
+        alt=""
+        aria-hidden="true"
+    />
 </div>

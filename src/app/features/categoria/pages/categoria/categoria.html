@@ -27,7 +27,7 @@
     </section>
 
     <main>
-        <p-tabs [(value)]="abaSelecionada" (valueChange)="listar(); listarResumo()">
+        <p-tabs [(value)]="abaSelecionada" (valueChange)="listar(); listarResumo()" class="rounded-lg overflow-hidden">
             <p-tablist>
                 <p-tab [value]="abaDespesa">Despesa</p-tab>
                 <p-tab value="RECEITA">Receita</p-tab>
