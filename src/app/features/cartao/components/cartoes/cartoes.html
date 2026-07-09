@@ -1,0 +1,69 @@
+<section class="shadow-lg rounded-lg p-5">
+    <h2 class="font-bold text-lg">Meus Catões</h2>
+    <div class="flex flex-wrap gap-2">
+        <!-- @FOR -->
+        <!-- CARTAO -->
+        <div class="shrink-0 shadow-lg bg-roxo text-branco p-3 rounded-lg w-69.75 md:w-100">
+            <div class="flex justify-between">
+                <h3 class="font-semibold text-lg">Nubank</h3>
+                <i class="pi pi-credit-card" aria-hidden="true"></i>
+            </div>
+            <p class="text-cinza-claro">Fatura atual</p>
+            <h3 class="text-2xl font-bold">R$ 2.500,00</h3>
+            <span class="text-cinza-claro">Limite disponível R$ 2.500,00</span>
+            <div class="w-full">
+                <p-progressbar
+                    [value]="50"
+                    [pt]="{
+                        root: { class: 'bg-cinza!' },
+                        value: { class: 'bg-branco!' },
+                        label: { class: 'text-preto! text-xs font-semibold' },
+                    }"
+                />
+            </div>
+            <div class="flex-1 h-px bg-cinza w-full my-3"></div>
+            <div class="flex justify-between">
+                <span class="text-cinza-claro">Fecha dia 15</span>
+                <span class="text-cinza-claro">Vence dia 25</span>
+            </div>
+        </div>
+
+        <div class="shrink-0 shadow-lg bg-[#EC0000] text-branco p-3 rounded-lg w-69.75 md:w-100">
+            <div class="flex justify-between">
+                <h3 class="font-semibold text-lg">Santander</h3>
+                <!-- <i class="pi pi-credit-card" aria-hidden="true"></i> -->
+                <img
+                    [src]="'/icons/bancos/santander.png'"
+                    [alt]="''"
+                    class="border border-cinza w-10 h-10 rounded-lg"
+                />
+            </div>
+            <p class="text-cinza-claro">Fatura atual</p>
+            <h3 class="text-2xl font-bold">R$ 500,00</h3>
+            <span class="text-cinza-claro">Limite disponível R$ 2000,00</span>
+            <div class="w-full">
+                <p-progressbar
+                    [value]="25"
+                    [pt]="{
+                        root: { class: 'bg-cinza!' },
+                        value: { class: 'bg-branco!' },
+                        label: { class: 'text-preto! text-xs font-semibold' },
+                    }"
+                />
+            </div>
+            <div class="flex-1 h-px bg-cinza w-full my-3"></div>
+            <div class="flex justify-between">
+                <span class="text-cinza-claro">Fecha dia 15</span>
+                <span class="text-cinza-claro">Vence dia 25</span>
+            </div>
+        </div>
+        <!-- } -->
+        <div class="shrink-0 border border-dotted rounded-lg w-69.75 md:w-100 h-50">
+            <button class="w-full h-full cursor-pointer">
+                <i class="pi pi-plus"></i>
+                <p>Adicionar cartão</p>
+            </button>
+            <div class="flex flex-col justify-center items-center"></div>
+        </div>
+    </div>
+</section>

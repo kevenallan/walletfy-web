@@ -41,12 +41,22 @@ export const routes: Routes = [
                 ],
             },
             {
-                path: 'contas',
+                path: 'conta',
                 children: [
                     {
                         path: '',
                         loadComponent: () =>
                             import('./features/conta/pages/conta/conta').then((c) => c.Conta),
+                    },
+                ],
+            },
+            {
+                path: 'cartao',
+                children: [
+                    {
+                        path: '',
+                        loadComponent: () =>
+                            import('./features/cartao/pages/cartao/cartao').then((c) => c.Cartao),
                     },
                 ],
             },
